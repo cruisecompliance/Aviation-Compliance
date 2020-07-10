@@ -27,7 +27,8 @@ $ git clone git@gitlab.lifelabs.xyz:compliance-app/webapp.git
 **Change access rights**  
 
 ```bash
-$ chmod -R 755 /storage$ chmod -R 755 /bootstrap/cache
+$ chmod -R 755 storage
+$ chmod -R 755 bootstrap/cache
 ```
 
 **Create database and write parameters in .env file**  
