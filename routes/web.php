@@ -20,3 +20,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Requirements
+Route::namespace('Admin')->middleware('auth')->group(function () {
+    //Route::resource('/admin/requirements', 'RequirementController')->names('admin.requirements');
+    Route::get('/admin/requirements', 'RequirementController@index')->name('admin.requirements.index');
+    Route::get('/admin/requirements/create', 'RequirementController@create')->name('admin.requirements.create');
+    Route::post('/admin/requirements/store', 'RequirementController@store')->name('admin.requirements.store');
+    Route::get('/admin/requirements/show/{version}', 'RequirementController@show')->name('admin.requirements.show');
+
+});
