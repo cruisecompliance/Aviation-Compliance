@@ -31,6 +31,11 @@ $ chmod -R 755 storage
 $ chmod -R 755 bootstrap/cache
 ```
 
+**Create the public link to storage**
+```bash
+php artisan storage:link
+```
+
 **Create database and write parameters in .env file**  
 
     DB_DATABASE=  
@@ -52,4 +57,8 @@ $ chmod -R 755 bootstrap/cache
 ```bash
 $ php artisan migrate --seed
 ```   
+ 
+**Demo User**
+login: demo@gmail.com 
+password: demo
  

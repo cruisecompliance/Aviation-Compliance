@@ -6,10 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Requirement;
 use App\Models\RequirementVersions as Version;
 use Illuminate\Http\Request;
-//use Illuminate\Support\Facades\Storage;
-
-use Rap2hpoutre\FastExcel\FastExcel;
-
 use App\Imports\RequirementsImport;
 use Maatwebsite\Excel\Facades\Excel;
 
