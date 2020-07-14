@@ -24,8 +24,8 @@ class RequirementRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|min:6',
-            'description' => 'nullable|string|min:6',
+            'title' => 'required|string|min:4',
+            'description' => 'nullable|string|min:4',
             'user_file' => 'required|file|mimes:xlsx'
         ];
     }

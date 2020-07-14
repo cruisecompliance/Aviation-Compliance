@@ -69,22 +69,30 @@ class RequirementController extends Controller
 //        $path = "../public/storage/file.xlsx";
         $path = "../public/storage/".$file_name;
 
-        // get file data
-        $array = (new RequirementsImport)->toArray($path);
-//        $array = Excel::import(new RequirementsImport, $path, $version->id);
+        // import requirements data
+        // $array = Excel::import(new RequirementsImport, $path);
 
-        // save file data
-        foreach ($array[0] as $item)
+        // get file data
+         $array = (new RequirementsImport)->toArray($path);
+
+        // save file data (where array[key] is a sheet)
+        foreach ($array[1] as $item)
         {
-            $requirement[] = RequirementsData::create([
-                'rule_section' => $item[0],
-                'rule_group' => $item[1],
-                'rule_reference' => $item[2],
-                'rule_title' => $item[3],
-                'rule_manual_reference' => $item[4],
-                'rule_chapter' => $item[5],
-                'version_id' => $version->id
-            ]);
+            if (!empty($item[0]) && !empty($item[1])) {
+
+                if (!empty($item[2])){
+                    $requirement[] = RequirementsData::create([
+                        'rule_section' => $item[0],
+                        'rule_group' => $item[1],
+                        'rule_reference' => $item[2],
+                        'rule_title' => $item[3],
+                        'rule_manual_reference' => $item[4],
+                        'rule_chapter' => $item[5],
+                        'version_id' => $version->id
+                    ]);
+                }
+
+            }
         }
         //<
 
