@@ -39,7 +39,6 @@
                                 <table class="table table-sm table-bordered">
                                     <thead>
                                     <tr>
-                                        <th scope="col">ID</th>
                                         <th scope="col">Sec #</th>
                                         <th scope="col">IR/AMC/GM</th>
                                         <th scope="col">Rule reference</th>
@@ -51,7 +50,6 @@
                                     <tbody>
                                     @foreach($requirements as $requirement)
                                         <tr>
-                                            <th scope="row">{{ $requirement->rule_id }}</th>
                                             <td>{{ $requirement->rule_section }}</td>
                                             <td>{{ $requirement->rule_group }}</td>
                                             <td>{{ $requirement->rule_reference }}</td>

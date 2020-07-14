@@ -16,7 +16,6 @@ class CreateRequirementsTable extends Migration
         // TODO: lenght and type
         Schema::create('requirements', function (Blueprint $table) {
             $table->id();
-            $table->integer('rule_id')->nullable()->unsigned();
             $table->integer('rule_section')->nullable()->unsigned();
             $table->string('rule_group')->nullable();
             $table->string('rule_reference')->nullable();
