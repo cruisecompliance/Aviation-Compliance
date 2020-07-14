@@ -21,7 +21,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/home'; // ToDo - change this link when user functionality implemented
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -30,7 +30,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // ResourceController
+        Route::pattern('requirement', '[0-9]+');
 
         parent::boot();
     }

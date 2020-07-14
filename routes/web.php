@@ -19,14 +19,21 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// TODO: delete this route
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Requirements
-Route::namespace('Admin')->middleware('auth')->group(function () {
+/**
+ * Admin panel
+ */
+Route::namespace('Admin')->prefix('admin')->middleware('auth')->group(function () {
+
+    /**
+     * Requirements
+     */
     //Route::resource('/admin/requirements', 'RequirementController')->names('admin.requirements');
-    Route::get('/admin/requirements', 'RequirementController@index')->name('admin.requirements.index');
-    Route::get('/admin/requirements/create', 'RequirementController@create')->name('admin.requirements.create');
-    Route::post('/admin/requirements/store', 'RequirementController@store')->name('admin.requirements.store');
-    Route::get('/admin/requirements/show/{version}', 'RequirementController@show')->name('admin.requirements.show');
+    Route::get('/requirements', 'RequirementController@index')->name('admin.requirements.index');
+    Route::get('/requirements/create', 'RequirementController@create')->name('admin.requirements.create');
+    Route::post('/requirements/store', 'RequirementController@store')->name('admin.requirements.store');
+    Route::get('/requirements/show/{requirement}', 'RequirementController@show')->name('admin.requirements.show');
 
 });

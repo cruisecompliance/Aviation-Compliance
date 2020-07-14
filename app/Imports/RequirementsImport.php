@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\Requirement;
+use App\Models\RequirementsData;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithStartRow;
@@ -18,7 +18,7 @@ class RequirementsImport implements ToModel, WithStartRow
     */
     public function model(array $row)
     {
-        return new Requirement([
+        return new RequirementsData([
             'rule_section' => $row[0],
             'rule_group' => $row[1],
             'rule_reference' => $row[2],

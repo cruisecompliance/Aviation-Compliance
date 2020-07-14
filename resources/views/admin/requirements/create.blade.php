@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     @if (session('status'))
         <!-- alert -->
         <div class="bg-light">
@@ -44,15 +45,30 @@
                                 <label>Title
                                     <small>*</small>
                                 </label>
-                                <input type="text" class="form-control" name="title" placeholder="">
+                                <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" placeholder="">
+                                @error('title')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea class="form-control" name="description" rows="3" placeholder=""></textarea>
+                                <textarea class="form-control @error('description') is-invalid @enderror" name="description" rows="3" placeholder="">{{ old('description') }}</textarea>
+                                @error('description')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label>.xlsx file to import</label>
-                                <input type="file" class="form-control-file" name="user_file">
+                                <input type="file" class="form-control-file @error('user_file') is-invalid @enderror" name="user_file">
+                                @error('user_file')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>

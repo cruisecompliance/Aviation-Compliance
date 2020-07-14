@@ -13,20 +13,13 @@ class CreateRequirementsTable extends Migration
      */
     public function up()
     {
-        // TODO: lenght and type
         Schema::create('requirements', function (Blueprint $table) {
             $table->id();
-            $table->integer('rule_section')->nullable()->unsigned();
-            $table->string('rule_group')->nullable();
-            $table->string('rule_reference')->nullable();
-            $table->string('rule_title')->nullable();
-            $table->string('rule_manual_reference')->nullable();
-            $table->string('rule_chapter')->nullable();
+            $table->string('title');
+            $table->string('description')->nullable();
+            $table->string('file_name');
+            $table->string('file_path');
             $table->timestamps();
-
-            $table->foreignId('version_id');
-            $table->foreign('version_id')->references('id')->on('requirement_versions')->onDelete('cascade');
-
         });
     }
 

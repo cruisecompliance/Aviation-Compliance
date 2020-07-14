@@ -7,22 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Requirement extends Model
 {
     protected $fillable = [
-        'rule_section',
-        'rule_group',
-        'rule_reference',
-        'rule_title',
-        'rule_manual_reference',
-        'rule_chapter',
+        'title',
+        'description',
+        'file_name',
+        'file_path',
         'version_id',
     ];
 
     /**
-     * Get the version record associated with the requirement.
+     *  Get the requirement for the requirement version.
      */
-    public function version()
+    public function requirements()
     {
-        return $this->hasOne(RequirementVersions::class);
+        return $this->hasMany(RequirementsData::class);
     }
-
-
 }

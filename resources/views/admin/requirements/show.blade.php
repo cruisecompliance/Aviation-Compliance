@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="container-fluid">
         {{--    <div class="container">--}}
         <div class="row justify-content-center">
@@ -10,7 +11,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.requirements.index') }}">Requirements</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"> {{ $version->title }}</li>
+                        <li class="breadcrumb-item active" aria-current="page"> {{ $requirement->title }}</li>
                     </ol>
                 </nav>
             </div>
@@ -20,11 +21,11 @@
             <div class="col-md-12 mb-3">
                 <div class="card">
                     <div class="card-body">
-                        <p><span class="font-weight-bold">Title: </span>{{ $version->title }}</p>
-                        <p><span class="font-weight-bold">Description:</span> {{ $version->description }}</p>
-                        <p><span class="font-weight-bold">Version:</span> {{ $version->id }}</p>
-                        <p><span class="font-weight-bold">File:</span> <a href="/storage/{{ $version->file_name }}">{{ $version->file_name }}</a></p>
-                        <p><span class="font-weight-bold>">Date:</span> {{ $version->created_at->format('d.m.Y H:i:s') }}</p>
+                        <p><span class="font-weight-bold">Title: </span>{{ $requirement->title }}</p>
+                        <p><span class="font-weight-bold">Description:</span> {{ $requirement->description }}</p>
+                        <p><span class="font-weight-bold">Version:</span> {{ $requirement->id }}</p>
+                        <p><span class="font-weight-bold">File:</span> <a href="/storage/{{ $requirement->file_name }}">{{ $requirement->file_name }}</a></p>
+                        <p><span class="font-weight-bold>">Date:</span> {{ $requirement->created_at->format('d.m.Y H:i:s') }}</p>
                     </div>
                 </div>
             </div>
@@ -34,7 +35,7 @@
             <div class="col-md-12 mb-3">
                 <div class="card ">
                     <div class="card-body">
-                        @if($requirements->isNotEmpty())
+                        @if($data->isNotEmpty())
                             <div class="table-responsive">
                                 <table class="table table-sm table-bordered">
                                     <thead>
@@ -48,14 +49,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($requirements as $requirement)
+                                    @foreach($data as $item)
                                         <tr>
-                                            <td>{{ $requirement->rule_section }}</td>
-                                            <td>{{ $requirement->rule_group }}</td>
-                                            <td>{{ $requirement->rule_reference }}</td>
-                                            <td>{{ $requirement->rule_title }}</td>
-                                            <td>{{ $requirement->rule_manual_reference }}</td>
-                                            <td>{{ $requirement->rule_chapter }}</td>
+                                            <td>{{ $item->rule_section }}</td>
+                                            <td>{{ $item->rule_group }}</td>
+                                            <td>{{ $item->rule_reference }}</td>
+                                            <td>{{ $item->rule_title }}</td>
+                                            <td>{{ $item->rule_manual_reference }}</td>
+                                            <td>{{ $item->rule_chapter }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>

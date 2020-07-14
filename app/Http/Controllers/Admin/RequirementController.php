@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Requirements\RequirementRequest;
+//use Illuminate\Http\Request;
 use App\Models\Requirement;
-use App\Models\RequirementVersions as Version;
-use Illuminate\Http\Request;
+use App\Models\RequirementsData;
 use App\Imports\RequirementsImport;
 use Maatwebsite\Excel\Facades\Excel;
-
 
 class RequirementController extends Controller
 {
@@ -20,15 +20,11 @@ class RequirementController extends Controller
     public function index()
     {
         // get requirement versions data
-        $versions = Version::latest()->get();
-
-        // get requirement data
-        $requirements = Requirement::all();
+        $versions = Requirement::latest()->get();
 
         // return view with data
         return view('admin.requirements.index', [
             'versions' => $versions,
-            'requirements' => $requirements,
         ]);
     }
 
@@ -49,16 +45,8 @@ class RequirementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RequirementRequest $request)
     {
-
-//        //> validate the uploaded file
-//        $validation = $request->validate([
-//            'title' => 'required|string|min:6',
-//            'description' => 'string|min:6',
-//            'user_file' => 'required|file|mimes:xlsx'
-//        ]);
-
         //> upload file
         $file = $request->file('user_file');
         $file->getClientOriginalName();
@@ -69,7 +57,7 @@ class RequirementController extends Controller
         //<
 
         //> store file info data
-        $version = Version::create([
+        $version = Requirement::create([
             'title' => $request->title,
             'description' => $request->description,
             'file_name' => $file_name,
@@ -88,7 +76,7 @@ class RequirementController extends Controller
         // save file data
         foreach ($array[0] as $item)
         {
-            $requirement[] = Requirement::create([
+            $requirement[] = RequirementsData::create([
                 'rule_section' => $item[0],
                 'rule_group' => $item[1],
                 'rule_reference' => $item[2],
@@ -100,26 +88,25 @@ class RequirementController extends Controller
         }
         //<
 
-        // redirect back with success status
-//        return redirect()->back()->with('status', 'File "'.  $file->getClientOriginalName() .'" import success.');
-        return redirect()->route('admin.requirements.index');
+        // redirect to the admin.requirements.index page with success status
+        return redirect()->route('admin.requirements.index')->with('status', 'File "'.  $file->getClientOriginalName() .'" imported success.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ $version
+     * @param  \App\Models\Requirement $requirement
      * @return \Illuminate\Http\Response
      */
-    public function show(Version $version)
+    public function show(Requirement $requirement)
     {
         // get requirement data
-        $requirements = Requirement::where('version_id', $version->id)->get();
+        $data = RequirementsData::where('version_id', $requirement->id)->get();
 
         // return view with data
         return view('admin.requirements.show', [
-            'version' => $version,
-            'requirements' => $requirements,
+            'requirement' => $requirement,
+            'data' => $data,
         ]);
     }
 
