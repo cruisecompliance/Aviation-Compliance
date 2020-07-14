@@ -52,7 +52,7 @@
                                                     <th>{{ $version->id }}</th>
                                                     <td>{{ $version->title }}</td>
                                                     <td>{{ $version->file_name }}</td>
-                                                    <td>{{ $version->created_at }}</td>
+                                                    <td>{{ $version->created_at->format('d.m.Y H:i:s') }}</td>
                                                     <td>
                                                         <a href="{{ route('admin.requirements.show', $version->id) }}"><i class="fas fa-eye"></i></a>
                                                     </td>

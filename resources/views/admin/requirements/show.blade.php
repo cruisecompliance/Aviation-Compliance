@@ -24,7 +24,7 @@
                         <p><span class="font-weight-bold">Description:</span> {{ $version->description }}</p>
                         <p><span class="font-weight-bold">Version:</span> {{ $version->id }}</p>
                         <p><span class="font-weight-bold">File:</span> <a href="/storage/{{ $version->file_name }}">{{ $version->file_name }}</a></p>
-                        <p><span class="font-weight-bold>">Date:</span> {{ $version->created_at->format('d.m.Y H:s') }}</p>
+                        <p><span class="font-weight-bold>">Date:</span> {{ $version->created_at->format('d.m.Y H:i:s') }}</p>
                     </div>
                 </div>
             </div>
