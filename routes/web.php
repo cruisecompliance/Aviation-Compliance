@@ -35,5 +35,6 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth')->group(function (
     Route::get('/requirements/create', 'RequirementController@create')->name('admin.requirements.create');
     Route::post('/requirements/store', 'RequirementController@store')->name('admin.requirements.store');
     Route::get('/requirements/show/{requirement}', 'RequirementController@show')->name('admin.requirements.show');
+    Route::get('/requirements/history/{rule_reference}', 'RequirementController@history')->name('admin.requirements.history');
 
 });

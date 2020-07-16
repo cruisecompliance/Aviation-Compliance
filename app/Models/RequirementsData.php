@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class RequirementsData extends Model
 {
+    protected $table = 'requirements_data';
+
     protected $fillable = [
         'rule_section',
         'rule_group',
@@ -21,7 +23,7 @@ class RequirementsData extends Model
      */
     public function version()
     {
-        return $this->hasOne(Requirement::class);
+        return $this->hasOne(Requirement::class, 'id', 'version_id');
     }
 
 

@@ -32,7 +32,7 @@
             </div>
             <!-- /breadcrumb -->
 
-            <!-- requirements -->
+            <!-- versions -->
             <div class="col-md-12 mb-3">
                 <div class="card">
                     <div class="card-body">
@@ -88,7 +88,48 @@
                     </div>
                 </div>
             </div>
-            <!-- requirements -->
+            <!-- versions -->
+
+            <!-- last requirements -->
+            <div class="col-md-12 mb-3">
+                <div class="card ">
+                    <div class="card-body">
+                        @if($lastRequirements->isNotEmpty())
+                            <h1>Last Requirements Version</h1>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Sec #</th>
+                                        <th scope="col">IR/AMC/GM</th>
+                                        <th scope="col">Rule reference</th>
+                                        <th scope="col">Rule title</th>
+                                        <th scope="col">AMC3 ORO.MLR.100 Manual Reference</th>
+                                        <th scope="col">AMC3 ORO.MLR.100 Chapter</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($lastRequirements as $lastRequirement)
+                                        <tr>
+                                            <td>{{ $lastRequirement->rule_section }}</td>
+                                            <td>{{ $lastRequirement->rule_group }}</td>
+                                            <td><a href="{{ route('admin.requirements.history', $lastRequirement->rule_reference) }}">{{ $lastRequirement->rule_reference }}</a></td>
+                                            <td>{{ $lastRequirement->rule_title }}</td>
+                                            <td>{{ $lastRequirement->rule_manual_reference }}</td>
+                                            <td>{{ $lastRequirement->rule_chapter }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <span>no data</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- last requirements -->
 
         </div>
     </div>
