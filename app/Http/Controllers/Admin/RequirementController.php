@@ -24,12 +24,15 @@ class RequirementController extends Controller
         $versions = Requirement::latest()->get();
 
         // get last version requirements data
-        $lastRequirements = RequirementsData::where('version_id', $versions->first()->id)->get();
+        if($versions->isNotEmpty()){
+            $lastRequirements = RequirementsData::where('version_id', $versions->first()->id)->get();
+
+        }
 
         // return view with data
         return view('admin.requirements.index', [
             'versions' => $versions,
-            'lastRequirements' => $lastRequirements,
+            'lastRequirements' => ($lastRequirements) ?? null,
         ]);
     }
 

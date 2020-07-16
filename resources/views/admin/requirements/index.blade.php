@@ -90,11 +90,11 @@
             </div>
             <!-- versions -->
 
+        @if(!empty($lastRequirements))
             <!-- last requirements -->
-            <div class="col-md-12 mb-3">
-                <div class="card ">
-                    <div class="card-body">
-                        @if($lastRequirements->isNotEmpty())
+                <div class="col-md-12 mb-3">
+                    <div class="card ">
+                        <div class="card-body">
                             <h1>Last Requirements Version</h1>
                             <div class="table-responsive">
                                 <table class="table table-sm table-bordered">
@@ -122,14 +122,11 @@
                                     </tbody>
                                 </table>
                             </div>
-                        @else
-                            <span>no data</span>
-                        @endif
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- last requirements -->
+                <!-- last requirements -->
+            @endif
 
         </div>
     </div>
