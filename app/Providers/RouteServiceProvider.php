@@ -30,8 +30,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // ResourceController
+        // Resource
         Route::pattern('requirement', '[0-9]+');
+        Route::pattern('flow', '[0-9]+');
 
         parent::boot();
     }

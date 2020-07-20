@@ -37,4 +37,15 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth')->group(function (
     Route::get('/requirements/show/{requirement}', 'RequirementController@show')->name('admin.requirements.show');
     Route::get('/requirements/history/{rule_reference}', 'RequirementController@history')->name('admin.requirements.history');
 
+    /**
+     * Flows
+     */
+    // Route::resource('/flows', 'FlowController')->names('admin.flows');
+    Route::get('/flows', 'FlowController@index')->name('admin.flows.index');
+    Route::get('/flows/create/{requirement}', 'FlowController@create')->name('admin.flows.create');
+    Route::post('/flows/store', 'FlowController@store')->name('admin.flows.store');
+    Route::get('/flows/show/{flow}', 'FlowController@show')->name('admin.flows.show');
+
+
+
 });

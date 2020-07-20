@@ -2,22 +2,6 @@
 
 @section('content')
 
-    @if (session('status'))
-        <!-- alert -->
-        <div class="bg-light">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /alert -->
-    @endif
-
         <div class="container">
 {{--    <div class="container-fluid">--}}
 
@@ -34,7 +18,7 @@
             </div>
             <!-- /breadcrumb -->
 
-            <!-- Import form -->
+            <!-- form -->
             <div class="col-md-12 mb-3">
                 <div class="card">
                     <div class="card-body">
@@ -75,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <!-- /Import form -->
+            <!-- / form -->
 
         </div>
     </div>

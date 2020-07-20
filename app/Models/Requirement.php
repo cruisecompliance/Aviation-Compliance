@@ -21,4 +21,9 @@ class Requirement extends Model
     {
         return $this->hasMany(RequirementsData::class);
     }
+
+    public function flows()
+    {
+        return $this->hasMany(Flow::class);
+    }
 }
