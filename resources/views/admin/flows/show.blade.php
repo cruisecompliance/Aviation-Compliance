@@ -325,82 +325,83 @@
     </div>
     <!-- /modal -->
 
-    <script>
-        $(document).ready(function () {
+    @push('scripts')
+        <script type="text/javascript">
+            $(document).ready(function () {
 
-            $('.editModal').click(function () {
-                var rule_reference = $(this).data('rule_reference');
-                var flow_id = $(this).data('flow_id');
+                $('.editModal').click(function () {
+                    var rule_reference = $(this).data('rule_reference');
+                    var flow_id = $(this).data('flow_id');
 
-                //    flows/show/{flow}/requirement/{rule_reference}/edit
-                var url = "{{ route('admin.flows.show', $flow->id) }}" + '/requirement/' + rule_reference + '/edit';
+                    var url = "{{ route('admin.flows.show', $flow->id) }}" + '/requirement/' + rule_reference + '/edit';
 
-                // console.log(id,flow_id, url);
+                    // console.log(id,flow_id, url);
 
-                $.ajax({
-                    type: 'get',
-                    url: url,
-                    data: {'rule_reference': rule_reference},
-                    success: function (data) {
-                        console.log(data);
-                        $('.modal-title').text('Edit - ' + data.requirement.rule_reference);
+                    $.ajax({
+                        type: 'get',
+                        url: url,
+                        data: {'rule_reference': rule_reference},
+                        success: function (data) {
+                            console.log(data);
+                            $('.modal-title').text('Edit - ' + data.requirement.rule_reference);
 
-                        $('#editModal').find('[name=rule_section]').val(data.requirement.rule_section);
+                            $('#editModal').find('[name=rule_section]').val(data.requirement.rule_section);
 
-                        // European Rule
-                        $('#editModal').find('[name=rule_group]').val(data.requirement.rule_group);
-                        $('#editModal').find('[name=rule_reference]').val(data.requirement.rule_reference);
-                        $('#editModal').find('[name=rule_title]').val(data.requirement.rule_title);
+                            // European Rule
+                            $('#editModal').find('[name=rule_group]').val(data.requirement.rule_group);
+                            $('#editModal').find('[name=rule_reference]').val(data.requirement.rule_reference);
+                            $('#editModal').find('[name=rule_title]').val(data.requirement.rule_title);
 
-                        $('#editModal').find('[name=rule_manual_reference]').val(data.requirement.rule_manual_reference);
-                        $('#editModal').find('[name=rule_chapter]').val(data.requirement.rule_chapter);
+                            $('#editModal').find('[name=rule_manual_reference]').val(data.requirement.rule_manual_reference);
+                            $('#editModal').find('[name=rule_chapter]').val(data.requirement.rule_chapter);
 
-                        // Company Structure
-                        $('#editModal').find('[name=company_manual]').val(data.requirement.pivot.company_manual);
-                        $('#editModal').find('[name=company_chapter]').val(data.requirement.pivot.company_chapter);
+                            // Company Structure
+                            $('#editModal').find('[name=company_manual]').val(data.requirement.pivot.company_manual);
+                            $('#editModal').find('[name=company_chapter]').val(data.requirement.pivot.company_chapter);
 
-                        // Audit Structure
-                        $('#editModal').find('[name=frequency]').val(data.requirement.pivot.frequency);
-                        $('#editModal').find('[name=month_quarter]').val(data.requirement.pivot.month_quarter);
-                        $('#editModal').find('[name=assigned_auditor]').val(data.requirement.pivot.assigned_auditor);
-                        $('#editModal').find('[name=assigned_auditee]').val(data.requirement.pivot.assigned_auditee);
+                            // Audit Structure
+                            $('#editModal').find('[name=frequency]').val(data.requirement.pivot.frequency);
+                            $('#editModal').find('[name=month_quarter]').val(data.requirement.pivot.month_quarter);
+                            $('#editModal').find('[name=assigned_auditor]').val(data.requirement.pivot.assigned_auditor);
+                            $('#editModal').find('[name=assigned_auditee]').val(data.requirement.pivot.assigned_auditee);
 
-                        // Auditors Input
-                        $('#editModal').find('[name=comments]').val(data.requirement.pivot.comments);
-                        $('#editModal').find('[name=finding]').val(data.requirement.pivot.finding);
-                        $('#editModal').find('[name=deviation_statement]').val(data.requirement.pivot.deviation_statement);
-                        $('#editModal').find('[name=evidence_reference]').val(data.requirement.pivot.evidence_reference);
-                        $('#editModal').find('[name=deviation_level]').val(data.requirement.pivot.deviation_level);
-                        $('#editModal').find('[name=safety_level_before_action]').val(data.requirement.pivot.safety_level_before_action);
-                        $('#editModal').find('[name=due_date]').val(data.requirement.pivot.due_date);
-                        $('#editModal').find('[name=repetitive_finding_ref_number]').val(data.requirement.pivot.repetitive_finding_ref_number);
+                            // Auditors Input
+                            $('#editModal').find('[name=comments]').val(data.requirement.pivot.comments);
+                            $('#editModal').find('[name=finding]').val(data.requirement.pivot.finding);
+                            $('#editModal').find('[name=deviation_statement]').val(data.requirement.pivot.deviation_statement);
+                            $('#editModal').find('[name=evidence_reference]').val(data.requirement.pivot.evidence_reference);
+                            $('#editModal').find('[name=deviation_level]').val(data.requirement.pivot.deviation_level);
+                            $('#editModal').find('[name=safety_level_before_action]').val(data.requirement.pivot.safety_level_before_action);
+                            $('#editModal').find('[name=due_date]').val(data.requirement.pivot.due_date);
+                            $('#editModal').find('[name=repetitive_finding_ref_number]').val(data.requirement.pivot.repetitive_finding_ref_number);
 
-                        // Auditee Input (NP)
-                        $('#editModal').find('[name=assigned_investigator]').val(data.requirement.pivot.assigned_investigator);
-                        $('#editModal').find('[name=corrections]').val(data.requirement.pivot.corrections);
-                        $('#editModal').find('[name=rootcause]').val(data.requirement.pivot.rootcause);
-                        $('#editModal').find('[name=corrective_actions_plan]').val(data.requirement.pivot.corrective_actions_plan);
-                        $('#editModal').find('[name=preventive_actions]').val(data.requirement.pivot.preventive_actions);
-                        $('#editModal').find('[name=action_implemented_evidence]').val(data.requirement.pivot.preventive_actions);
-                        $('#editModal').find('[name=safety_level_after_action]').val(data.requirement.pivot.safety_level_after_action);
-                        $('#editModal').find('[name=effectiveness_review_date]').val(data.requirement.pivot.effectiveness_review_date);
-                        $('#editModal').find('[name=response_date]').val(data.requirement.pivot.response_date);
+                            // Auditee Input (NP)
+                            $('#editModal').find('[name=assigned_investigator]').val(data.requirement.pivot.assigned_investigator);
+                            $('#editModal').find('[name=corrections]').val(data.requirement.pivot.corrections);
+                            $('#editModal').find('[name=rootcause]').val(data.requirement.pivot.rootcause);
+                            $('#editModal').find('[name=corrective_actions_plan]').val(data.requirement.pivot.corrective_actions_plan);
+                            $('#editModal').find('[name=preventive_actions]').val(data.requirement.pivot.preventive_actions);
+                            $('#editModal').find('[name=action_implemented_evidence]').val(data.requirement.pivot.preventive_actions);
+                            $('#editModal').find('[name=safety_level_after_action]').val(data.requirement.pivot.safety_level_after_action);
+                            $('#editModal').find('[name=effectiveness_review_date]').val(data.requirement.pivot.effectiveness_review_date);
+                            $('#editModal').find('[name=response_date]').val(data.requirement.pivot.response_date);
 
-                        // Dates
-                        $('#editModal').find('[name=extension_due_date]').val(data.requirement.pivot.extension_due_date);
-                        $('#editModal').find('[name=closed_date]').val(data.requirement.pivot.closed_date);
+                            // Dates
+                            $('#editModal').find('[name=extension_due_date]').val(data.requirement.pivot.extension_due_date);
+                            $('#editModal').find('[name=closed_date]').val(data.requirement.pivot.closed_date);
 
-                        // Hidden fields
-                        $('#editModal').find('[name=flow_id]').val(data.requirement.pivot.flow_id);
-                        $('#editModal').find('[name=requirement_data_id]').val(data.requirement.pivot.requirement_data_id);
+                            // Hidden fields
+                            $('#editModal').find('[name=flow_id]').val(data.requirement.pivot.flow_id);
+                            $('#editModal').find('[name=requirement_data_id]').val(data.requirement.pivot.requirement_data_id);
 
 
-                        // $('.classFormUpdate').attr('action', action);
-                    }
+                            // $('.classFormUpdate').attr('action', action);
+                        }
+                    });
                 });
-            });
 
-        });
-    </script>
+            });
+        </script>
+    @endpush
 
 @endsection
