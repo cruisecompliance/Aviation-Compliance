@@ -45,6 +45,9 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth')->group(function (
     Route::get('/flows/create/{requirement}', 'FlowController@create')->name('admin.flows.create');
     Route::post('/flows/store', 'FlowController@store')->name('admin.flows.store');
     Route::get('/flows/show/{flow}', 'FlowController@show')->name('admin.flows.show');
+    Route::post('/flows/{flow}', 'FlowController@update')->name('admin.flows.update');
+    Route::get('/flows/show/{flow}/requirement/{rule_reference}/edit', 'FlowController@ajaxGetRuleReference')->name('admin.flows.ajax_rule_reference');
+
 
 
 

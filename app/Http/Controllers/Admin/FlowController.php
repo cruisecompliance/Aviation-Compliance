@@ -99,6 +99,28 @@ class FlowController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param \App\Models\Flow $flow
+     * @return \Illuminate\Http\Response
+     */
+    public function ajaxGetRuleReference($flow_id, $rule_reference)
+    {
+        // get rule reference data
+        $data = Flow::where('id', $flow_id)->with(['requirementsData' => function($query) use($rule_reference) {
+            $query->where('rule_reference', $rule_reference)->first();
+        }])->first();
+
+//        dump($data->requirementsData[0]);
+//        dd(__METHOD__,$flow_id, $rule_reference, $data->toArray());
+
+        return response()->json([
+            'requirement' => $data->requirementsData[0]
+        ]);
+
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -107,7 +129,12 @@ class FlowController extends Controller
      */
     public function update(Request $request, Flow $flow)
     {
-        dd(__METHOD__);
+        // ToDo: validation and ajax responce
+
+        $data = $flow->requirementsData()->updateExistingPivot($request->requirement_data_id, $request->except('_token'));
+
+//        return response()->json(['success' => 'Update successful']);
+        return redirect()->back()->with('success', 'Update successful');
     }
 
     /**
