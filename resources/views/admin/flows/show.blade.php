@@ -295,8 +295,7 @@
                 });
 
                 // dataTable list
-                $.noConflict();
-                var table = $('#datatable').DataTable({
+                $('#datatable').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {

@@ -9,17 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-
-    <!-- DataTable -->
-    <link  href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -48,6 +37,7 @@
                         @auth
                             <a class="nav-link" href="{{ route('admin.requirements.index') }}">Requirements</a>
                             <a class="nav-link" href="{{ route('admin.flows.index') }}">Flows</a>
+                            <a class="nav-link" href="{{ route('admin.companies.index') }}">Companies</a>
                         @endauth
                     </ul>
 
@@ -91,6 +81,9 @@
             @yield('content')
         </main>
     </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" ></script>
 
     @stack('scripts')
 

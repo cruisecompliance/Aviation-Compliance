@@ -46,7 +46,7 @@
 {{--                                <a href="{{ route('admin.flows.create') }}" class="btn btn-primary mt-2 mb-2 float-right">Create</a>--}}
                             </div>
                         </div>
-                        <!-- header data -->
+                        <!-- /header data -->
 
                         <!-- table data -->
                         <div class="row">
