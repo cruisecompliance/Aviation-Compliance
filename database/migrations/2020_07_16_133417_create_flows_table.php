@@ -17,11 +17,11 @@ class CreateFlowsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('description')->nullable();
-            $table->timestamps();
 
             $table->foreignId('requirement_id');
             $table->foreign('requirement_id')->references('id')->on('requirements')->onDelete('cascade');
 
+            $table->timestamps();
         });
     }
 

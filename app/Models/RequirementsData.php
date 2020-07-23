@@ -26,5 +26,10 @@ class RequirementsData extends Model
         return $this->hasOne(Requirement::class, 'id', 'version_id');
     }
 
+    public function flowsData()
+    {
+        return $this->hasMany(FlowsData::class);
+    }
+
 
 }

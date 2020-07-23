@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFlowRequirementTable extends Migration
+class CreateFlowsDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,23 @@ class CreateFlowRequirementTable extends Migration
      */
     public function up()
     {
-        Schema::create('flow_requirement', function (Blueprint $table) {
+        Schema::create('flows_data', function (Blueprint $table) {
+            $table->id();
 
-            $table->unsignedBigInteger('flow_id');
+            $table->foreignId('flow_id');
             $table->foreign('flow_id')->references('id')->on('flows')->onDelete('cascade');
 
-            $table->unsignedBigInteger('requirement_data_id');
-            $table->foreign('requirement_data_id')->references('id')->on('requirements_data')->onDelete('cascade');
+//            $table->foreignId('requirement_data_id');
+//            $table->foreign('requirement_data_id')->references('id')->on('requirements_data')->onDelete('cascade');
 
-            // pivot data
+            //
+            $table->integer('rule_section')->unsigned();
+            $table->string('rule_group');
+            $table->string('rule_reference');
+            $table->string('rule_title')->nullable();
+            $table->string('rule_manual_reference')->nullable();
+            $table->string('rule_chapter')->nullable();
+
             $table->string('company_manual')->nullable();
             $table->string('company_chapter')->nullable();
             $table->string('frequency')->nullable();
@@ -47,6 +55,8 @@ class CreateFlowRequirementTable extends Migration
             $table->date('response_date')->nullable();
             $table->date('extension_due_date')->nullable();
             $table->date('closed_date')->nullable();
+
+            $table->timestamps();
         });
     }
 
@@ -57,6 +67,6 @@ class CreateFlowRequirementTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('flow_requirement');
+        Schema::dropIfExists('flows_data');
     }
 }
