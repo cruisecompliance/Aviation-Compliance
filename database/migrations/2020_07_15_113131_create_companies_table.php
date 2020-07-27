@@ -20,6 +20,12 @@ class CreateCompaniesTable extends Migration
             $table->boolean('status')->default(1);
             $table->timestamps();
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('company_id')->after('status');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+        });
+
     }
 
     /**
@@ -29,6 +35,11 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('users_company_id_foreign');
+            $table->dropColumn('company_id');
+        });
+
         Schema::dropIfExists('companies');
     }
 }

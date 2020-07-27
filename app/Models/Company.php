@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
@@ -14,6 +15,11 @@ class Company extends Model
     public function scopeActive($query)
     {
         return $query->where('status', self::STATUS_ACTIVE)->latest();
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 
     public function flows()

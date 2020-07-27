@@ -18,7 +18,6 @@ class Flow extends Model
         return $this->belongsTo(Company::class);
     }
 
-
     public function flowData() {
         return $this->hasMany(FlowsData::class);
     }

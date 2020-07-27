@@ -38,7 +38,9 @@
                             <table class="table table-sm table-bordered" id="datatable">
                                 <thead>
                                 <tr>
-                                    <th scope="col" class="align-middle">E-mail</th>
+                                    <th scope="col" class="align-middle" width="250px">E-mail</th>
+                                    <th scope="col" class="align-middle">Name</th>
+                                    <th scope="col" class="align-middle">Company</th>
                                     <th scope="col" class="align-middle" width="100px">Status</th>
                                     <th scope="col" class="align-middle" width="40px"></th>
                                 </tr>
@@ -68,12 +70,20 @@
                         <input type="hidden" name="_method" id="_method" value="">
                         <input type="hidden" name="Item_id" id="Item_id">
                         <div class="form-group">
+                            <label for="email" class="control-label">E-mail</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter E-mail" value="" required>
+                        </div>
+                        <div class="form-group">
                             <label for="name" class="control-label">Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" required>
                         </div>
                         <div class="form-group">
-                            <label for="email" class="control-label">E-mail</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter E-mail" value="" required>
+                            <label for="company" class="control-label">Company</label>
+                            <select name="company" class="form-control">
+                                @foreach($companies as $company)
+                                <option value="{{ $company->id  }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group password">
                             <label for="password" class="control-label">Password</label>
@@ -119,7 +129,9 @@
                         },
                         columns: [
                             // {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                            {data: 'email', name: 'email'},
                             {data: 'name', name: 'name'},
+                            {data: 'company', name: 'company'},
                             {data: 'status',
                                 'render': function (data, type, row) {
                                     return (data == true)
@@ -148,6 +160,7 @@
                         $('#saveBtn').html("Create"); // form button
                         $('#name').val(''); //Add form data
                         $('#email').val(''); //Add form data
+                        // $('#company').val(''); //Add form data
                         $('#password').val(''); //Add form data
                         $('#ajaxModel').modal('show');
                     });
@@ -164,12 +177,13 @@
                         $('.password').hide(); // remove div password
 
                         $.get("{{ route('admin.users.index') }}" + '/' + user_id + '/edit', function (data) {
-                            $('#modelHeading').html("Edit Company - " + data.user.name); // modal header
+                            $('#modelHeading').html("Edit User - " + data.user.name); // modal header
                             $('#ItemForm').attr('action', action); // form action
                             $('#_method').val(method); // form method
                             $('#saveBtn').html("Update"); // form button
                             $('#name').val(data.user.name); // form data
                             $('#email').val(data.user.email); // form data
+                            // $('#company').val(data.user.company.name); // form data
                             $('#ajaxModel').modal('show');
                         })
                     });
