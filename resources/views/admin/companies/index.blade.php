@@ -38,7 +38,8 @@
                             <table class="table table-sm table-bordered" id="datatable">
                                 <thead>
                                 <tr>
-                                    <th scope="col" class="align-middle">Name</th>
+                                    <th scope="col" class="align-middle" width="250px">Company</th>
+                                    <th scope="col" class="align-middle">URL</th>
                                     <th scope="col" class="align-middle" width="100px">Status</th>
                                     <th scope="col" class="align-middle" width="40px"></th>
                                 </tr>
@@ -70,6 +71,10 @@
                         <div class="form-group">
                             <label for="name" class="control-label">Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="url" class="control-label">URL</label>
+                            <input type="text" class="form-control" id="url" name="url" placeholder="Enter URL" value="" required>
                         </div>
                         <div class="form-group">
                             <label for="status" class="control-label">Status</label>
@@ -112,6 +117,7 @@
                         columns: [
                             // {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                             {data: 'name', name: 'name'},
+                            {data: 'url', name: 'url'},
                             {data: 'status',
                                 'render': function (data, type, row) {
                                     return (data == true)
@@ -137,6 +143,7 @@
                         $('#_method').val(method); // form method
                         $('#saveBtn').html("Create"); // form button
                         $('#name').val(''); //Add form data
+                        $('#URL').val(''); //Add form data
                         $('#ajaxModel').modal('show');
                     });
 
@@ -156,6 +163,7 @@
                             $('#_method').val(method); // form method
                             $('#saveBtn').html("Update"); // form button
                             $('#name').val(data.company.name); // form data
+                            $('#url').val(data.company.url); // form data
                             $('#ajaxModel').modal('show');
                         })
                     });

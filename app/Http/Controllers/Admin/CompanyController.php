@@ -57,6 +57,7 @@ class CompanyController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:4|unique:companies,name',
+            'url' => 'required|string|url|min:4|unique:companies,url',
             'status' => 'required|boolean',
         ]);
 
@@ -69,6 +70,7 @@ class CompanyController extends Controller
 
         $company = Company::create([
             'name' => $request->name,
+            'url' => $request->url,
             'status' => $request->status,
         ]);
 
@@ -118,6 +120,7 @@ class CompanyController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:4|unique:companies,name,' . $company->id,
+            'url' => 'required|string|url|min:4|unique:companies,url,' . $company->id,
             'status' => 'required|boolean',
         ]);
 
@@ -130,6 +133,7 @@ class CompanyController extends Controller
 
         $company->update([
             'name' => $request->name,
+            'url' => $request->url,
             'status' => $request->status,
         ]);
 
