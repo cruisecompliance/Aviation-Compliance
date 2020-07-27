@@ -111,7 +111,7 @@ class FlowController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Flow $flow
+     * @param int $flow_id
      * @param string $rule_reference
      * @return \Illuminate\Http\Response
      */

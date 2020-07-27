@@ -48,7 +48,10 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth')->group(function (
     Route::post('/flows/{flow}', 'FlowController@update')->name('admin.flows.update');
     Route::get('/flows/show/{flow}/requirement/{rule_reference}/edit', 'FlowController@ajaxGetRuleReference')->name('admin.flows.ajax_rule_reference');
 
-
+    /**
+     * Companies
+     **/
+    Route::resource('/companies', 'CompanyController')->names('admin.companies');
 
 
 });
