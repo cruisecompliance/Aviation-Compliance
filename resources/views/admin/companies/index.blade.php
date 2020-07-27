@@ -2,24 +2,6 @@
 
 @section('content')
 
-    @if (session('success'))
-        <!-- alert -->
-        <div class="bg-light">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-
-                        <div class="alert alert-success" role="alert">
-                            {{ session('success') }}
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /alert -->
-    @endif
-
     <div class="container-fluid">
         {{--    <div class="container">--}}
         <div class="row justify-content-center">
