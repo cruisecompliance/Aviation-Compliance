@@ -75,6 +75,8 @@ class UserController extends Controller
             'status' => $request->status,
         ]);
 
+        // ToDo: generate password end send email to new user
+
         return response()->json([
             'success' => true,
             'message' => "User {$user->email} was added successfully.",

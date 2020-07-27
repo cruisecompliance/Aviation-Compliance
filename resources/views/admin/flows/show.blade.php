@@ -35,19 +35,20 @@
             </div>
             <!-- /breadcrumb -->
 
-            <!-- file info block -->
+            <!-- info block -->
             <div class="col-md-12 mb-3">
                 <div class="card">
                     <div class="card-body">
                         <p><span class="font-weight-bold">Title: </span>{{ $flow->title }}</p>
                         <p><span class="font-weight-bold">Description:</span> {{ $flow->description }}</p>
+                        <p><span class="font-weight-bold">Company:</span> {{ $flow->company->name }}</p>
                         <p><span class="font-weight-bold">Requirements:</span> version {{ $flow->requirement->id }}</p>
 
                     </div>
                 </div>
             </div>
-            <!-- /file info block -->
-            <!-- flow requirements data block-->
+            <!-- /info block -->
+            <!-- data block-->
             <style>
                 #datatable_wrapper {
                     display: block;
@@ -103,6 +104,8 @@
                     </div>
                 </div>
             </div>
+            <!-- /data block-->
+
         </div>
 
     </div>

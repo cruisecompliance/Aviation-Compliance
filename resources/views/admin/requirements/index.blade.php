@@ -77,7 +77,6 @@
                                                             </a>
                                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                                 <a class="dropdown-item" href="{{ route('admin.requirements.show', $version->id) }}">View</a>
-                                                                <a class="dropdown-item" href="{{ route('admin.flows.create', $version->id) }}">Create Flow</a>
                                                             </div>
                                                         </div>
 

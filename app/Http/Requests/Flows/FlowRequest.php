@@ -26,6 +26,8 @@ class FlowRequest extends FormRequest
         return [
             'title' => 'required|string|min:4',
             'description' => 'nullable|string|min:4',
+            'company' => 'required|numeric',
+            'requirement' => 'required|numeric',
         ];
     }
 }

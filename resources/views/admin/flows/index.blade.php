@@ -2,21 +2,21 @@
 
 @section('content')
 
-    @if (session('status'))
-        <!-- alert -->
-        <div class="bg-light">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /alert -->
-    @endif
+{{--    @if (session('status'))--}}
+{{--        <!-- alert -->--}}
+{{--        <div class="bg-light">--}}
+{{--            <div class="container-fluid">--}}
+{{--                <div class="row">--}}
+{{--                    <div class="col-md-12">--}}
+{{--                        <div class="alert alert-success" role="alert">--}}
+{{--                            {{ session('status') }}--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <!-- /alert -->--}}
+{{--    @endif--}}
 
     <div class="container-fluid">
         {{--<div class="container">--}}
@@ -32,7 +32,7 @@
             </div>
             <!-- /breadcrumb -->
 
-            <!-- flow -->
+            <!-- data block-->
             <div class="col-md-12 mb-3">
                 <div class="card">
                     <div class="card-body">
@@ -43,7 +43,7 @@
                                 <h1>Flows</h1>
                             </div>
                             <div class="col-md-4">
-{{--                                <a href="{{ route('admin.flows.create') }}" class="btn btn-primary mt-2 mb-2 float-right">Create</a>--}}
+                                <a href="{{ route('admin.flows.create') }}" class="btn btn-primary mt-2 mb-2 float-right">Create</a>
                             </div>
                         </div>
                         <!-- /header data -->
@@ -58,8 +58,9 @@
                                             <tr>
                                                 <th scope="col">ID</th>
                                                 <th scope="col" width="400px">Title</th>
-                                                <th scope="col">Date</th>
+                                                <th scope="col">Company</th>
                                                 <th scope="col">Requiremets</th>
+                                                <th scope="col">Date</th>
                                                 <th scope="col"></th>
                                             </tr>
                                             </thead>
@@ -68,8 +69,9 @@
                                                 <tr>
                                                     <th>{{ $flow->id }}</th>
                                                     <td>{{ $flow->title }}</td>
-                                                    <td>{{ $flow->created_at->format('d.m.Y H:i:s') }}</td>
+                                                    <td>{{ $flow->company->name }}</td>
                                                     <td>version: {{ $flow->requirement->id }}</td>
+                                                    <td>{{ $flow->created_at->format('d.m.Y H:i:s') }}</td>
                                                     <td>
                                                         <div class="btn-group" role="group">
                                                             <a id="btnGroupDrop1" type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -96,7 +98,7 @@
                     </div>
                 </div>
             </div>
-            <!-- flow -->
+            <!-- /data block-->
 
         </div>
     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\Flow;
 use App\Models\FlowsData;
 use App\Models\Requirement;
@@ -21,7 +22,11 @@ class FlowController extends Controller
      */
     public function index()
     {
-        $flows = Flow::with('requirement')->get();
+        $flows = Flow::query()
+            ->with('company')
+            ->with('requirement')
+            ->latest()
+            ->get();
 
         return view('admin.flows.index', [
             'flows' => $flows,
@@ -31,13 +36,20 @@ class FlowController extends Controller
     /**
      * Show the form for creating a new flow.
      *
-     * @param \App\Models\Requirement $requirement
      * @return \Illuminate\Http\Response
      */
-    public function create(Requirement $requirement)
+    public function create()
     {
+        // get companies list for input
+        $companies = Company::active()->latest()->get(['id','name']);
+
+        // get requirement list for input
+        $requirements = Requirement::latest()->get(['id','title']);
+
+        // return view with data
         return view('admin.flows.create', [
-            'requirement' => $requirement,
+            'companies' => $companies,
+            'requirements' => $requirements,
         ]);
     }
 
@@ -55,11 +67,12 @@ class FlowController extends Controller
             $flow = Flow::create([
                 'title' => $request->title,
                 'description' => $request->description,
-                'requirement_id' => $request->requirement_id,
+                'company_id' => $request->company,
+                'requirement_id' => $request->requirement,
             ]);
 
             // get RequirementsData
-            $requirementsData = RequirementsData::query()->where('version_id', $request->requirement_id)->get();
+            $requirementsData = RequirementsData::query()->where('version_id', $request->requirement)->get();
 
             // save FlowData
             foreach ($requirementsData as $requirement) {
@@ -88,6 +101,7 @@ class FlowController extends Controller
      */
     public function show(Flow $flow, Request $request)
     {
+        // flow data (dataTable)
         if (request()->ajax()) {
             $builder = FlowsData::whereFlowId($flow->id);
 
@@ -101,6 +115,10 @@ class FlowController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
+
+        // load relation data
+        $flow->load('company');
+        $flow->load('requirement');
 
         return view('admin.flows.show', [
             'flow' => $flow,

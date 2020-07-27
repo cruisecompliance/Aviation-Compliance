@@ -21,6 +21,10 @@ class CreateFlowsTable extends Migration
             $table->foreignId('requirement_id');
             $table->foreign('requirement_id')->references('id')->on('requirements')->onDelete('cascade');
 
+            $table->foreignId('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
+
             $table->timestamps();
         });
     }

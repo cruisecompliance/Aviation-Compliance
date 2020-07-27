@@ -2,8 +2,8 @@
 
 @section('content')
 
-        <div class="container">
-{{--    <div class="container-fluid">--}}
+    <div class="container">
+        {{--    <div class="container-fluid">--}}
 
         <div class="row justify-content-center">
 
@@ -17,20 +17,6 @@
                 </nav>
             </div>
             <!-- /breadcrumb -->
-
-{{--            <!-- file info block -->--}}
-{{--            <div class="col-md-12 mb-3">--}}
-{{--                <div class="card">--}}
-{{--                    <div class="card-body">--}}
-{{--                        <p><span class="font-weight-bold">Title: </span>{{ $requirement->title }}</p>--}}
-{{--                        <p><span class="font-weight-bold">Description:</span> {{ $requirement->description }}</p>--}}
-{{--                        <p><span class="font-weight-bold">Version:</span> {{ $requirement->id }}</p>--}}
-{{--                        <p><span class="font-weight-bold">File:</span> <a href="/storage/{{ $requirement->file_name }}">{{ $requirement->file_name }}</a></p>--}}
-{{--                        <p><span class="font-weight-bold>">Date:</span> {{ $requirement->created_at->format('d.m.Y H:i:s') }}</p>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <!-- /file info block -->--}}
 
             <!-- form -->
             <div class="col-md-12 mb-3">
@@ -51,17 +37,37 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Requirements
+                                <label>Companies
                                     <small>*</small>
                                 </label>
-                                <input type="text" class="form-control @error('version') is-invalid @enderror" name="version" value="version - {{ $requirement->id }} {{ $requirement->title }}" disabled="">
-                                @error('version')
+                                <select name="company" class="form-control @error('company') is-invalid @enderror">
+                                    <option value="">...</option>
+                                    @foreach($companies as $company)
+                                        <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('company')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
                             </div>
-        
+                            <div class="form-group">
+                                <label>Requirements
+                                    <small>*</small>
+                                </label>
+                                <select name="requirement" class="form-control @error('requirement') is-invalid @enderror">
+                                    @foreach($requirements as $requirement)
+                                        <option value="{{ $requirement->id }}">{{ $requirement->title }}</option>
+                                    @endforeach
+                                </select>
+                                @error('requirement')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea class="form-control @error('description') is-invalid @enderror" name="description" rows="3" placeholder="">{{ old('description') }}</textarea>
@@ -71,7 +77,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <input name="requirement_id" type="hidden" value="{{ $requirement->id }}">
+                            {{--                            <input name="requirement_id" type="hidden" value="{{ $requirement->id }}">--}}
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
