@@ -38,6 +38,11 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth')->group(function (
     Route::get('/requirements/history/{rule_reference}', 'RequirementController@history')->name('admin.requirements.history');
 
     /**
+     * Companies
+     **/
+    Route::resource('/companies', 'CompanyController')->names('admin.companies');
+
+    /**
      * Flows
      */
     // Route::resource('/flows', 'FlowController')->names('admin.flows');
@@ -49,9 +54,10 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth')->group(function (
     Route::get('/flows/show/{flow}/requirement/{rule_reference}/edit', 'FlowController@ajaxGetRuleReference')->name('admin.flows.ajax_rule_reference');
 
     /**
-     * Companies
+     * Users
      **/
-    Route::resource('/companies', 'CompanyController')->names('admin.companies');
+    Route::resource('/users', 'UserController')->names('admin.users');
+
 
 
 });

@@ -36,8 +36,9 @@
                     <ul class="navbar-nav mr-auto">
                         @auth
                             <a class="nav-link" href="{{ route('admin.requirements.index') }}">Requirements</a>
-                            <a class="nav-link" href="{{ route('admin.flows.index') }}">Flows</a>
                             <a class="nav-link" href="{{ route('admin.companies.index') }}">Companies</a>
+                            <a class="nav-link" href="{{ route('admin.flows.index') }}">Flows</a>
+                            <a class="nav-link" href="{{ route('admin.users.index') }}">Users</a>
                         @endauth
                     </ul>
 
