@@ -22,7 +22,7 @@ class CreateFlowsDataTable extends Migration
 //            $table->foreignId('requirement_data_id');
 //            $table->foreign('requirement_data_id')->references('id')->on('requirements_data')->onDelete('cascade');
 
-            //
+            // European Rule
             $table->integer('rule_section')->unsigned();
             $table->string('rule_group');
             $table->string('rule_reference');
@@ -30,12 +30,17 @@ class CreateFlowsDataTable extends Migration
             $table->string('rule_manual_reference')->nullable();
             $table->string('rule_chapter')->nullable();
 
+            // Company Structure
             $table->string('company_manual')->nullable();
             $table->string('company_chapter')->nullable();
+
+            // Audit Structure
             $table->string('frequency')->nullable();
             $table->string('month_quarter')->nullable();
             $table->string('assigned_auditor')->nullable(); // ToDo
             $table->string('assigned_auditee')->nullable(); //ToDo
+
+            // Auditors Input
             $table->string('comments')->nullable();
             $table->string('finding')->nullable();
             $table->string('deviation_statement')->nullable();
@@ -44,6 +49,8 @@ class CreateFlowsDataTable extends Migration
             $table->string('safety_level_before_action')->nullable();
             $table->date('due_date')->nullable();
             $table->string('repetitive_finding_ref_number')->nullable();
+
+            // Auditee Input (NP)
             $table->string('assigned_investigator')->nullable();
             $table->string('corrections')->nullable();
             $table->string('rootcause')->nullable();
@@ -53,6 +60,7 @@ class CreateFlowsDataTable extends Migration
             $table->string('safety_level_after_action')->nullable();
             $table->date('effectiveness_review_date')->nullable();
             $table->date('response_date')->nullable();
+
             $table->date('extension_due_date')->nullable();
             $table->date('closed_date')->nullable();
 
