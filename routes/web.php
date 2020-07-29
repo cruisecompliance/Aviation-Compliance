@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Enums\RoleName;
+use App\Enums\PermissionName;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +27,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 /**
  * Admin panel
  */
-Route::namespace('Admin')->prefix('admin')->middleware('auth')->group(function () {
+Route::namespace('Admin')->prefix('admin')->middleware('auth','role:'.RoleName::SME)->group(function () {
+//Route::namespace('Admin')->prefix('admin')->middleware(['auth','role:Auditor'])->group(function () {
 
     /**
      * Requirements

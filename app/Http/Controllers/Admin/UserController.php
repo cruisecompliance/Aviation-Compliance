@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Company;
 use Illuminate\Http\Request;
-use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Company;
+use App\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 
 class UserController extends Controller
 {
@@ -29,6 +32,9 @@ class UserController extends Controller
                 ->editColumn('company', function (User $user){
                     return $user->company->name;
                 })
+                ->editColumn('role', function (User $user){
+                    return $user->getRoleNames()->first();
+                })
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
                     // $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteItem">Delete</a>';
@@ -41,9 +47,13 @@ class UserController extends Controller
         // get companies for select
         $companies = Company::get(['id','name']);
 
+        // get roles for select
+        $roles = Role::get(['id','name']);
+
         // return view with data
         return view('admin.users.index',[
             'companies' => $companies,
+            'roles' => $roles
         ]);
 
     }
@@ -72,6 +82,7 @@ class UserController extends Controller
             'password' => 'required|string|min:8',
             'status' => 'required|boolean',
             'company' => 'required|numeric',
+            'role' => 'required|numeric',
         ]);
 
         if($validator->fails()){
@@ -86,7 +97,8 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'status' => $request->status,
-            'company_id' => $request->company
+            'company_id' => $request->company,
+            'role_id' => $request->role,
         ]);
 
         // ToDo: generate password end send email to new user
@@ -121,7 +133,9 @@ class UserController extends Controller
         // return JSON user data
         return response()->json([
             'success' => true,
-            'user' =>  $user->load('company'),
+            'user' =>  $user,
+            'company' => $user->company,
+            'role' =>  $user->roles->first(),
         ]);
 
     }
@@ -140,6 +154,7 @@ class UserController extends Controller
             'email' => 'required|string|email|min:4|unique:users,email,' . $user->id,
             'status' => 'required|boolean',
             'company' => 'required|numeric',
+            'role' => 'required|numeric',
         ]);
 
         if($validator->fails()){

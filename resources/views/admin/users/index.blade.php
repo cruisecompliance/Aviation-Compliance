@@ -41,6 +41,7 @@
                                     <th scope="col" class="align-middle" width="250px">E-mail</th>
                                     <th scope="col" class="align-middle">Name</th>
                                     <th scope="col" class="align-middle">Company</th>
+                                    <th scope="col" class="align-middle">Role</th>
                                     <th scope="col" class="align-middle" width="100px">Status</th>
                                     <th scope="col" class="align-middle" width="40px"></th>
                                 </tr>
@@ -79,9 +80,17 @@
                         </div>
                         <div class="form-group">
                             <label for="company" class="control-label">Company</label>
-                            <select name="company" class="form-control">
+                            <select name="company" id="company" class="form-control">
                                 @foreach($companies as $company)
                                 <option value="{{ $company->id  }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="role" class="control-label">Role</label>
+                            <select name="role" id="role" class="form-control">
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id  }}">{{ $role->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -132,6 +141,7 @@
                             {data: 'email', name: 'email'},
                             {data: 'name', name: 'name'},
                             {data: 'company', name: 'company'},
+                            {data: 'role', name: 'role'},
                             {data: 'status',
                                 'render': function (data, type, row) {
                                     return (data == true)
@@ -160,7 +170,6 @@
                         $('#saveBtn').html("Create"); // form button
                         $('#name').val(''); //Add form data
                         $('#email').val(''); //Add form data
-                        // $('#company').val(''); //Add form data
                         $('#password').val(''); //Add form data
                         $('#ajaxModel').modal('show');
                     });
@@ -177,13 +186,15 @@
                         $('.password').hide(); // remove div password
 
                         $.get("{{ route('admin.users.index') }}" + '/' + user_id + '/edit', function (data) {
+
                             $('#modelHeading').html("Edit User - " + data.user.name); // modal header
                             $('#ItemForm').attr('action', action); // form action
                             $('#_method').val(method); // form method
                             $('#saveBtn').html("Update"); // form button
                             $('#name').val(data.user.name); // form data
                             $('#email').val(data.user.email); // form data
-                            // $('#company').val(data.user.company.name); // form data
+                            $('#company option[value=' + data.company.id + ']').prop('selected', true); // form data - selected user company
+                            $('#role option[value=' + data.role.id + ']').prop('selected', true); // form data - selected user role
                             $('#ajaxModel').modal('show');
                         })
                     });
