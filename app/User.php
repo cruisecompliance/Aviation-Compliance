@@ -14,6 +14,9 @@ class User extends Authenticatable
     use Notifiable;
     use HasRoles;
 
+    const STATUS_ACTIVE = 1;
+    const STATUS_DISABLED = 0;
+
     /**
      * The attributes that are mass assignable.
      *
