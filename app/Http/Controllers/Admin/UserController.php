@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\DB;
 
 
 class UserController extends Controller
@@ -29,14 +30,14 @@ class UserController extends Controller
 
             return datatables()->of($builder)
                 ->addIndexColumn()
-                ->editColumn('company', function (User $user){
+                ->editColumn('company', function (User $user) {
                     return $user->company->name;
                 })
-                ->editColumn('role', function (User $user){
+                ->editColumn('role', function (User $user) {
                     return $user->getRoleNames()->first();
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
                     // $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteItem">Delete</a>';
                     return $btn;
                 })
@@ -45,13 +46,13 @@ class UserController extends Controller
         }
 
         // get companies for select
-        $companies = Company::get(['id','name']);
+        $companies = Company::get(['id', 'name']);
 
         // get roles for select
-        $roles = Role::get(['id','name']);
+        $roles = Role::get(['name']);
 
         // return view with data
-        return view('admin.users.index',[
+        return view('admin.users.index', [
             'companies' => $companies,
             'roles' => $roles
         ]);
@@ -71,7 +72,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -82,39 +83,37 @@ class UserController extends Controller
             'password' => 'required|string|min:8',
             'status' => 'required|boolean',
             'company' => 'required|numeric',
-            'role' => 'required|numeric',
+            'role' => 'required|string',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors(),
             ]);
         }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'status' => $request->status,
-            'company_id' => $request->company,
-            'role_id' => $request->role,
-        ]);
+        return DB::transaction(function () use ($request) {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'status' => $request->status,
+                'company_id' => $request->company,
+            ])->assignRole($request->role);
 
-        // ToDo: generate password end send email to new user
-
-        return response()->json([
-            'success' => true,
-            'message' => "User {$user->email} was added successfully.",
-            'resource' => $user,
-        ]);
-
+            return response()->json([
+                'success' => true,
+                'message' => "User {$user->email} was added successfully.",
+                'resource' => $user,
+            ]);
+        });
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -125,7 +124,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -133,9 +132,9 @@ class UserController extends Controller
         // return JSON user data
         return response()->json([
             'success' => true,
-            'user' =>  $user,
+            'user' => $user,
             'company' => $user->company,
-            'role' =>  $user->roles->first(),
+            'role' => $user->roles->first(),
         ]);
 
     }
@@ -143,8 +142,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param \Illuminate\Http\Request $request
+     * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
@@ -154,36 +153,38 @@ class UserController extends Controller
             'email' => 'required|string|email|min:4|unique:users,email,' . $user->id,
             'status' => 'required|boolean',
             'company' => 'required|numeric',
-            'role' => 'required|numeric',
+            'role' => 'required|string',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors(),
             ]);
         }
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'status' => $request->status,
-            'company_id' => $request->company,
+        return DB::transaction(function () use($request,$user) {
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'status' => $request->status,
+                'company_id' => $request->company,
+            ]);
 
-        ]);
+            $user->syncRoles([$request->role]);
 
-        return response()->json([
-            'success' => true,
-            'message' => "User {$user->email} was update successfully.",
-            'resource' => $user,
-        ]);
-
+            return response()->json([
+                'success' => true,
+                'message' => "User {$user->email} was update successfully.",
+                'resource' => $user,
+            ]);
+        });
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

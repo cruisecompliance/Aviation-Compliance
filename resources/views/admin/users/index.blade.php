@@ -90,7 +90,7 @@
                             <label for="role" class="control-label">Role</label>
                             <select name="role" id="role" class="form-control">
                                 @foreach($roles as $role)
-                                    <option value="{{ $role->id  }}">{{ $role->name }}</option>
+                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -194,7 +194,7 @@
                             $('#name').val(data.user.name); // form data
                             $('#email').val(data.user.email); // form data
                             $('#company option[value=' + data.company.id + ']').prop('selected', true); // form data - selected user company
-                            $('#role option[value=' + data.role.id + ']').prop('selected', true); // form data - selected user role
+                            $('#role option[value="' + data.role.name + '"]').prop('selected', true); // form data - selected user role
                             $('#ajaxModel').modal('show');
                         })
                     });
