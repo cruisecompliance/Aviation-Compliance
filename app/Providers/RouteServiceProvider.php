@@ -21,7 +21,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home'; // ToDo - change this link when user functionality implemented
+    public const HOME = '/admin/home'; // ToDo - change this link when user functionality implemented
 
     /**
      * Define your route model bindings, pattern filters, etc.

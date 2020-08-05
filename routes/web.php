@@ -25,14 +25,17 @@ Route::get('/starter', function () {
 
 Auth::routes();
 
-// TODO: delete this route
-Route::get('/home', 'HomeController@index')->name('home');
+
 
 /**
  * Admin panel
  */
 Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName::SME)->group(function () {
-//Route::namespace('Admin')->prefix('admin')->middleware(['auth','role:Auditor'])->group(function () {
+
+    /**
+     * Admin homepage
+     */
+    Route::get('/home', 'HomeController@index')->name('admin.dashboard');
 
     /**
      * Requirements
