@@ -19,6 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/starter', function () {
+    return view('starter');
+});
+
 Auth::routes();
 
 // TODO: delete this route

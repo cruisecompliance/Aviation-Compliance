@@ -1,11 +1,141 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
-// Variables
-@import 'variables';
-
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
 
 // DataTable
-@import '~datatables.net-bs4/css/dataTables.bootstrap4.css';
+//@import '~datatables.net-bs4/css/dataTables.bootstrap4.css';
+
+
+/*
+Template Name: Ubold - Responsive Bootstrap 4 Admin Dashboard
+Author: CoderThemes
+Version: 4.0.0
+Website: https://coderthemes.com/
+Contact: support@coderthemes.com
+File: Main Css File
+*/
+
+
+//Fonts
+@import 'fonts';
+
+// Icons
+@import "icons";
+
+
+//Core files
+//@import "~bootstrap/scss/bootstrap"; // WTF ???
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+// Variables
+@import "config/variables";
+
+// Structure
+@import "structure/general";
+@import "structure/left-menu";
+@import "structure/topbar";
+@import "structure/page-head";
+@import "structure/footer";
+@import "structure/right-sidebar";
+
+@import "structure/layouts";
+//@import "structure/horizontal-nav";
+//@import "structure/two-column-menu";
+
+//Components
+@import "components/accordions";
+@import "components/avatar";
+@import "components/backgrounds";
+@import "components/badge";
+@import "components/breadcrumb";
+@import "components/buttons";
+@import "components/card";
+@import "components/custom-checkbox";
+@import "components/custom-radio";
+@import "components/dropdown";
+@import "components/forms";
+@import "components/helper";
+@import "components/modal";
+@import "components/nav";
+@import "components/pagination";
+@import "components/popover";
+@import "components/preloader";
+@import "components/print";
+@import "components/progress";
+@import "components/reboot";
+@import "components/ribbons";
+@import "components/social";
+@import "components/tables";
+@import "components/type";
+@import "components/widgets";
+
+//Pages
+@import "plugins/slimscroll"; // simplebar.js  (simplebar-wrapper - sidebar and notify)
+
+//@import "pages/authentication";
+//@import "pages/components-demo";
+//@import "pages/error";
+//@import "pages/logout";
+//@import "pages/faq";
+//@import "pages/maintenance";
+//@import "pages/timeline";
+//@import "pages/email";
+//@import "pages/sitemap";
+//@import "pages/search-results";
+//@import "pages/pricing";
+//@import "pages/gallery";
+//@import "pages/coming-soon";
+//@import "pages/profile";
+//@import "pages/task";
+//@import "pages/kanbanboard";
+//@import "pages/ecommerce";
+//@import "pages/order-detail";
+
+// Plugins
+//@import "plugins/apexcharts";
+//@import "plugins/autocomplete";
+//@import "plugins/bootstrap-select";
+//@import "plugins/bootstrap-tables";
+//@import "plugins/bootstrap-touchspin";
+//@import "plugins/c3";
+//@import "plugins/calendar";
+//@import "plugins/chartist";
+//@import "plugins/chartjs";
+//@import "plugins/clockpicker";
+//@import "plugins/colorpicker";
+//@import "plugins/cropper";
+//@import "plugins/datatable";
+//@import "plugins/datepicker";
+//@import "plugins/daterange";
+//@import "plugins/dragula";
+//@import "plugins/dropify";
+//@import "plugins/dropzone";
+//@import "plugins/flatpickr";
+//@import "plugins/flot";
+//@import "plugins/footables";
+//@import "plugins/form-wizard";
+//@import "plugins/google-maps";
+//@import "plugins/hopscotch";
+//@import "plugins/ion-rangeslider";
+//@import "plugins/jsgrid";
+//@import "plugins/mapeal-maps";
+//@import "plugins/morris";
+//@import "plugins/multiple-select";
+//@import "plugins/nestable-list";
+//@import "plugins/parsley";
+//@import "plugins/quilljs-editor";
+//@import "plugins/responsive-table";
+//@import "plugins/ricksaw";
+//@import "plugins/select2";
+//@import "plugins/selectize";
+//@import "plugins/sparkline-chart";
+//@import "plugins/summernote";
+//@import "plugins/sweetalert";
+//@import "plugins/tablesaw";
+//@import "plugins/tippy";
+//@import "plugins/toaster";
+//@import "plugins/vector-maps";
+//@import "plugins/waves";
+//@import "plugins/x-editable";
