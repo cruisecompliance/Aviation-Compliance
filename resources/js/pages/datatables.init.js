@@ -8,21 +8,21 @@ File: Datatables init js
 
 $(document).ready(function() {
 
-    // Default Datatable
-    $('#basic-datatable').DataTable({
-        "language": {
-            "paginate": {
-                "previous": "<i class='mdi mdi-chevron-left'>",
-                "next": "<i class='mdi mdi-chevron-right'>"
-            }
-        },
-        "drawCallback": function () {
-            $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
-        }
-    });
+    // // Default Datatable
+    // var table = $('#basic-datatable').DataTable({
+    //     "language": {
+    //         "paginate": {
+    //             "previous": "<i class='mdi mdi-chevron-left'>",
+    //             "next": "<i class='mdi mdi-chevron-right'>"
+    //         }
+    //     },
+    //     "drawCallback": function () {
+    //         $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+    //     }
+    // });
 
     //Buttons examples
-    var table = $('#datatable-buttons').DataTable({
+    var datatableButtons = $('#datatable-buttons').DataTable({
         lengthChange: false,
         buttons: ['copy', 'print', 'pdf'],
         buttons: [
@@ -71,7 +71,7 @@ $(document).ready(function() {
         }
     });
 
-    table.buttons().container()
+    datatableButtons.buttons().container()
             .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
 
 

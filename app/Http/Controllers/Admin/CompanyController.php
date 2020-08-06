@@ -36,17 +36,6 @@ class CompanyController extends Controller
 
     }
 
-    /**m
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        dd(__METHOD__);
-
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -79,18 +68,6 @@ class CompanyController extends Controller
             'message' => "Company {$company->name} was added successfully.",
             'resource' => $company,
         ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Company $company)
-    {
-        dd(__METHOD__);
-
     }
 
     /**
@@ -145,15 +122,4 @@ class CompanyController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Company $company)
-    {
-        dd(__METHOD__, $company);
-
-    }
 }

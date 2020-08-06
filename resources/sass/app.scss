@@ -4,6 +4,11 @@
 
 // DataTable
 //@import '~datatables.net-bs4/css/dataTables.bootstrap4.css';
+@import '~datatables.net-bs4';
+@import '~datatables.net-buttons-bs4';
+@import '~datatables.net-keytable-bs4';
+@import '~datatables.net-responsive-bs4';
+@import '~datatables.net-select-bs4';
 
 
 /*
@@ -24,7 +29,7 @@ File: Main Css File
 
 
 //Core files
-//@import "~bootstrap/scss/bootstrap"; // WTF ???
+//@import "~bootstrap/scss/bootstrap"; // ???
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
@@ -73,6 +78,7 @@ File: Main Css File
 
 //Pages
 @import "plugins/slimscroll"; // simplebar.js  (simplebar-wrapper - sidebar and notify)
+@import "plugins/datatable"; // Нет никаких изменений при импорте.
 
 //@import "pages/authentication";
 //@import "pages/components-demo";
@@ -106,7 +112,6 @@ File: Main Css File
 //@import "plugins/clockpicker";
 //@import "plugins/colorpicker";
 //@import "plugins/cropper";
-//@import "plugins/datatable";
 //@import "plugins/datepicker";
 //@import "plugins/daterange";
 //@import "plugins/dragula";

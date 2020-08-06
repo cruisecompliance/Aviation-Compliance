@@ -21,6 +21,8 @@ require('datatables.net-buttons-bs4');
 require('datatables.net-keytable-bs4');
 require('datatables.net-responsive-bs4');
 require('datatables.net-select-bs4');
+require('jquery-datatables-checkboxes');
+require('./pages/datatables.init');
 
 // feather icons
 const feather = require('feather-icons');

@@ -1,60 +1,69 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 
-    <div class="container-fluid">
-        {{--    <div class="container">--}}
-        <div class="row justify-content-center">
+    <div class="content">
 
-            <!-- breadcrumb -->
-            <div class="col-md-12 mb-3">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page"> Companies</li>
-                    </ol>
-                </nav>
-            </div>
-            <!-- /breadcrumb -->
+        <div class="container-fluid">
 
-
-            <!-- data block-->
-            <div class="col-md-12 mb-3">
-                <div class="card ">
-                    <div class="card-body">
-
-                        <!-- header data -->
-                        <div class="row mb-3">
-                            <div class="col-md-8">
-                                <h1>Companies</h1>
-                            </div>
-                            <div class="col-md-4">
-                                <a class="btn btn-primary mt-2 mb-2 float-right" href="javascript:void(0)" id="createNewItem"> Create</a>
-                            </div>
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                                <li class="breadcrumb-item active">Companies</li>
+                            </ol>
                         </div>
-                        <!-- /header data -->
-
-                        <!-- table data -->
-                        <div class="table">
-                            <table class="table table-sm table-bordered" id="datatable">
-                                <thead>
-                                <tr>
-                                    <th scope="col" class="align-middle" width="250px">Company</th>
-                                    <th scope="col" class="align-middle">URL</th>
-                                    <th scope="col" class="align-middle" width="100px">Status</th>
-                                    <th scope="col" class="align-middle" width="40px"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                            </table>
-                        </div>
-                        <!-- /table data -->
-
+                        <h4 class="page-title">Companies</h4>
                     </div>
                 </div>
             </div>
-            <!-- /data block -->
+            <!-- end page title -->
+
+            <!-- page content -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-8">
+                                    <h4 class="header-title">Companies</h4>
+                                </div>
+
+                                <div class="col-4">
+                                    <a class="btn btn-primary float-right" href="javascript:void(0)" id="createNewItem"> Create</a>
+                                </div>
+                            </div>
+
+                            <div class="border-top my-3"></div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" class="align-middle" width="250px">Company</th>
+                                            <th scope="col" class="align-middle">URL</th>
+                                            <th scope="col" class="align-middle" width="100px">Status</th>
+                                            <th scope="col" class="align-middle" width="40px"></th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div><!-- end row-->
+
+            <!-- /page content -->
 
         </div>
+
     </div>
 
     <!-- modal -->
@@ -78,8 +87,8 @@
                         </div>
                         <div class="form-group">
                             <label for="status" class="control-label">Status</label>
-                            <select name="status" class="form-control">
-                                <option value="1" selected>Active</option>
+                            <select name="status" id="company_status" class="form-control">
+                                <option value="1">Active</option>
                                 <option value="0">Disabled</option>
                             </select>
                         </div>
@@ -107,7 +116,7 @@
                     });
 
                     // dataTable list
-                    var table = $('#datatable').DataTable({
+                    var table = $('#basic-datatable').DataTable({
                         processing: true,
                         serverSide: true,
                         ajax: {
@@ -121,13 +130,22 @@
                             {data: 'status',
                                 'render': function (data, type, row) {
                                     return (data == true)
-                                        ? 'Active'
-                                        : 'Disabled';
+                                        ? '<span class="badge badge-success">Active</span>'
+                                        : '<span class="badge badge-warning">Disabled';
                                 }
                             },
                             {data: 'action', name: 'action', orderable: false, searchable: false},
 
-                        ]
+                        ],
+                        "language": {
+                            "paginate": {
+                                "previous": "<i class='mdi mdi-chevron-left'>",
+                                "next": "<i class='mdi mdi-chevron-right'>"
+                            }
+                        },
+                        "drawCallback": function () {
+                            $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+                        }
                     });
 
                     // modal create
@@ -164,6 +182,7 @@
                             $('#saveBtn').html("Update"); // form button
                             $('#name').val(data.company.name); // form data
                             $('#url').val(data.company.url); // form data
+                            $('#company_status option[value="' + data.company.status + '"]').prop('selected', true); // form data - selected user role
                             $('#ajaxModel').modal('show');
                         })
                     });

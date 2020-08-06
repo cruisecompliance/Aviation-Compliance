@@ -26,15 +26,17 @@ class UserController extends Controller
         // dataTable
         if (request()->ajax()) {
 
-            $builder = User::query();
+            $builder = User::with('company')->with('roles')->select('users.*');
 
             return datatables()->of($builder)
                 ->addIndexColumn()
                 ->editColumn('company', function (User $user) {
                     return $user->company->name;
                 })
-                ->editColumn('role', function (User $user) {
-                    return $user->getRoleNames()->first();
+                ->editColumn('roles', function (User $user) {
+//                    return $user->getRoleNames()->first();
+//                    return $user->roles->pluck('name')->implode('<br>');
+                    return $user->roles->first()->name;
                 })
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
@@ -45,10 +47,10 @@ class UserController extends Controller
                 ->make(true);
         }
 
-        // get companies for select
+        // get companies for select input
         $companies = Company::get(['id', 'name']);
 
-        // get roles for select
+        // get roles for select input
         $roles = Role::get(['name']);
 
         // return view with data
@@ -59,15 +61,6 @@ class UserController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -110,16 +103,6 @@ class UserController extends Controller
         });
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -181,14 +164,4 @@ class UserController extends Controller
         });
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -38,6 +38,17 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
     Route::get('/home', 'HomeController@index')->name('admin.dashboard');
 
     /**
+     * Users
+     **/
+    Route::resource('/users', 'UserController')->except(['create','show','destroy'])->names('admin.users');
+
+    /**
+     * Companies
+     **/
+    Route::resource('/companies', 'CompanyController')->except(['create','show','destroy'])->names('admin.companies');
+
+
+    /**
      * Requirements
      */
     //Route::resource('/admin/requirements', 'RequirementController')->names('admin.requirements');
@@ -46,11 +57,6 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
     Route::post('/requirements/store', 'RequirementController@store')->name('admin.requirements.store');
     Route::get('/requirements/show/{requirement}', 'RequirementController@show')->name('admin.requirements.show');
     Route::get('/requirements/history/{rule_reference}', 'RequirementController@history')->name('admin.requirements.history');
-
-    /**
-     * Companies
-     **/
-    Route::resource('/companies', 'CompanyController')->names('admin.companies');
 
     /**
      * Flows
@@ -62,11 +68,6 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
     Route::get('/flows/show/{flow}', 'FlowController@show')->name('admin.flows.show');
     Route::post('/flows/{flow}', 'FlowController@update')->name('admin.flows.update');
     Route::get('/flows/show/{flow}/requirement/{rule_reference}/edit', 'FlowController@ajaxGetRuleReference')->name('admin.flows.ajax_rule_reference');
-
-    /**
-     * Users
-     **/
-    Route::resource('/users', 'UserController')->names('admin.users');
 
 
 
