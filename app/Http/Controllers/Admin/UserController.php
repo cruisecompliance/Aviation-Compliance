@@ -31,12 +31,12 @@ class UserController extends Controller
             return datatables()->of($builder)
                 ->addIndexColumn()
                 ->editColumn('company', function (User $user) {
-                    return $user->company->name;
+                    return $user->company ? $user->company->name : '';
                 })
                 ->editColumn('roles', function (User $user) {
 //                    return $user->getRoleNames()->first();
 //                    return $user->roles->pluck('name')->implode('<br>');
-                    return $user->roles->first()->name;
+                    return $user->roles->first() ? $user->roles->first()->name : '' ;
                 })
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';

@@ -23,7 +23,8 @@ Route::get('/starter', function () {
     return view('starter');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
+//Auth::routes();
 
 
 
