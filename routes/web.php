@@ -62,14 +62,16 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
     /**
      * Flows
      */
-    // Route::resource('/flows', 'FlowController')->names('admin.flows');
-    Route::get('/flows', 'FlowController@index')->name('admin.flows.index');
-    Route::get('/flows/create/', 'FlowController@create')->name('admin.flows.create');
-    Route::post('/flows/store', 'FlowController@store')->name('admin.flows.store');
-    Route::get('/flows/show/{flow}', 'FlowController@show')->name('admin.flows.show');
-    Route::post('/flows/{flow}', 'FlowController@update')->name('admin.flows.update');
-    Route::get('/flows/show/{flow}/requirement/{rule_reference}/edit', 'FlowController@ajaxGetRuleReference')->name('admin.flows.ajax_rule_reference');
+    Route::namespace('Flows')->group(function () {
 
+        // Flows
+        Route::resource('/flows', 'FlowController')->except(['create','show','update','destroy'])->names('admin.flows');
+
+        // Flow Requirements
+        Route::get('/flows/{flow}/requirements', 'RequirementController@index')->name('admin.flows.requirements.index');
+        Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('admin.flows.requirements.edit');
+        Route::post('/flows/{flow}/requirements', 'RequirementController@update')->name('admin.flows.requirements.update');
+    });
 
 
 });

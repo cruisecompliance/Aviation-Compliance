@@ -16,6 +16,7 @@ File: Main Js File
 require('simplebar');
 
 // DataTable
+require('datatables.net');
 require('datatables.net-bs4');
 require('datatables.net-buttons-bs4');
 require('datatables.net-keytable-bs4');
