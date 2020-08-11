@@ -38393,3 +38393,219 @@ body.authentication-bg-pattern {
   display: block;
 }
 
+.bootstrap-table .table:not(.table-sm) > tbody > tr > td,
+.bootstrap-table .table:not(.table-sm) > tbody > tr > th,
+.bootstrap-table .table:not(.table-sm) > tfoot > tr > td,
+.bootstrap-table .table:not(.table-sm) > tfoot > tr > th,
+.bootstrap-table .table:not(.table-sm) > thead > tr > td {
+  padding: 0.85rem;
+}
+
+.bootstrap-table .table {
+  border-bottom: none;
+}
+
+.bootstrap-table .table > thead > tr > th {
+  border-bottom: 2px solid transparent;
+}
+
+.table-borderless.table-bordered {
+  border: none !important;
+}
+
+table[data-toggle=table] {
+  display: none;
+}
+
+.fixed-table-pagination .pagination-detail,
+.fixed-table-pagination div.pagination {
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.fixed-table-pagination .pagination .page-link {
+  border-radius: 30px !important;
+  margin: 0 3px;
+  border: none;
+}
+
+.fixed-table-container {
+  border: none;
+}
+
+.fixed-table-container tbody td {
+  border-left: none;
+}
+
+.fixed-table-container thead th .th-inner {
+  padding: 0.85rem;
+}
+
+.fixed-table-toolbar .fa {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+}
+
+.fixed-table-toolbar .fa.fa-sync {
+  font-weight: 900;
+}
+
+.fixed-table-toolbar .fa-toggle-down:before {
+  content: "\F150";
+}
+
+.fixed-table-toolbar .fa-toggle-up:before {
+  content: "\F151";
+}
+
+.fixed-table-toolbar .fa-refresh:before {
+  content: "\F01E";
+  font-weight: 900;
+}
+
+.fixed-table-toolbar .fa-th-list:before {
+  content: "\F0CA";
+  font-weight: 900;
+}
+
+.responsive-table-plugin .dropdown-menu li.checkbox-row {
+  padding: 7px 15px;
+  color: #6c757d;
+}
+
+.responsive-table-plugin .table-responsive {
+  border: none;
+  margin-bottom: 0;
+}
+
+.responsive-table-plugin .btn-toolbar {
+  display: block;
+}
+
+.responsive-table-plugin tbody th {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.responsive-table-plugin .checkbox-row {
+  padding-left: 40px;
+}
+
+.responsive-table-plugin .checkbox-row label {
+  display: inline-block;
+  padding-left: 5px;
+  position: relative;
+  margin-bottom: 0;
+}
+
+.responsive-table-plugin .checkbox-row label::before {
+  background-color: transparent;
+  border-radius: 3px;
+  border: 1px solid #ced4da;
+  content: "";
+  display: inline-block;
+  height: 17px;
+  left: 0;
+  margin-left: -20px;
+  position: absolute;
+  transition: 0.3s ease-in-out;
+  width: 17px;
+  outline: none;
+}
+
+.responsive-table-plugin .checkbox-row label::after {
+  color: #ced4da;
+  display: inline-block;
+  font-size: 9px;
+  height: 16px;
+  left: 0;
+  margin-left: -19px;
+  padding-left: 3px;
+  padding-top: 1px;
+  position: absolute;
+  top: -2px;
+  width: 16px;
+}
+
+.responsive-table-plugin .checkbox-row input[type=checkbox] {
+  cursor: pointer;
+  opacity: 0;
+  z-index: 1;
+  outline: none;
+}
+
+.responsive-table-plugin .checkbox-row input[type=checkbox]:disabled + label {
+  opacity: 0.65;
+}
+
+.responsive-table-plugin .checkbox-row input[type=checkbox]:focus + label::before {
+  outline-offset: -2px;
+  outline: none;
+}
+
+.responsive-table-plugin .checkbox-row input[type=checkbox]:checked + label::after {
+  content: "\F00C";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+.responsive-table-plugin .checkbox-row input[type=checkbox]:disabled + label::before {
+  background-color: #dee2e6;
+  cursor: not-allowed;
+}
+
+.responsive-table-plugin .checkbox-row input[type=checkbox]:checked + label::before {
+  background-color: transparent;
+  border-color: #6658dd;
+}
+
+.responsive-table-plugin .checkbox-row input[type=checkbox]:checked + label::after {
+  color: #6658dd;
+}
+
+.responsive-table-plugin table.focus-on tbody tr.focused th,
+.responsive-table-plugin table.focus-on tbody tr.focused td,
+.responsive-table-plugin .sticky-table-header {
+  background: #6658dd;
+  border-color: #6658dd;
+  color: #fff;
+}
+
+.responsive-table-plugin table.focus-on tbody tr.focused th table,
+.responsive-table-plugin table.focus-on tbody tr.focused td table,
+.responsive-table-plugin .sticky-table-header table {
+  color: #fff;
+}
+
+.responsive-table-plugin .fixed-solution .sticky-table-header {
+  top: 70px !important;
+}
+
+.responsive-table-plugin .btn-default {
+  background-color: #f3f7f9;
+  color: #343a40;
+  border: 1px solid rgba(50, 58, 70, 0.3);
+}
+
+.responsive-table-plugin .btn-default.btn-primary {
+  background-color: #6658dd;
+  border-color: #6658dd;
+  color: #fff;
+  box-shadow: 0 0 0 2px rgba(102, 88, 221, 0.5);
+}
+
+.responsive-table-plugin .btn-group.pull-right {
+  float: right;
+}
+
+.responsive-table-plugin .btn-group.pull-right .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+.no-touch .dropdown-menu > .checkbox-row:hover,
+.no-touch .dropdown-menu > .checkbox-row:active {
+  color: #323a46;
+  background-color: #f3f7f9;
+}
+

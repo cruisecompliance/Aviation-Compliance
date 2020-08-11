@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Requirements\RequirementRequest;
-//use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\Models\Requirement;
 use App\Models\RequirementsData;
 use App\Imports\RequirementsImport;
 use App\Services\ColorDiff;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 class RequirementController extends Controller
 {
@@ -17,22 +19,50 @@ class RequirementController extends Controller
      * Display a listing of the requirements.
      *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function index()
     {
-        // get requirement versions data
+        // get latest requirement
         $versions = Requirement::latest()->get();
 
-        // get last version requirements data
-        if($versions->isNotEmpty()){
-            $lastRequirements = RequirementsData::where('version_id', $versions->first()->id)->get();
+        // dataTable
+        if (request()->ajax()) {
 
+            // get last version of requirements data
+            $builder = RequirementsData::where('version_id', $versions->first()->id);
+
+            return datatables()->of($builder)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . route('admin.requirements.history', $row->rule_reference) . '" class="edit btn btn-primary btn-sm">View</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+
+//            $builder = Requirement::query();
+//
+//            return datatables()->of($builder)
+//                ->addIndexColumn()
+//                ->addColumn('action', function ($row) {
+//                    $btn = '<a href="'.route('admin.requirements.show', $row->id).'" class="edit btn btn-primary btn-sm">View</a>';
+//                    return $btn;
+//                })
+//                ->editColumn('created_at', function ($row) {
+//                    return $row->created_at ? with(new Carbon($row->created_at))->format('d.m.Y H:i:s') : '';
+//                })
+//                ->filterColumn('created_at', function ($query, $keyword) {
+//                    $query->whereRaw("DATE_FORMAT(created_at,'%d.%m.%Y %H:%i:%s') like ?", ["%$keyword%"]);
+//                })
+//                ->rawColumns(['action'])
+//                ->make(true);
         }
 
-        // return view with data
+
+        // return view
         return view('admin.requirements.index', [
-            'versions' => $versions,
-            'lastRequirements' => ($lastRequirements) ?? null,
+            'versions' => $versions
         ]);
     }
 
@@ -56,25 +86,30 @@ class RequirementController extends Controller
         ]);
     }
 
-
-    /**
-     * Show the form for creating a new requirements.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.requirements.create');
-    }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RequirementRequest $request)
+    public function store(Request $request)
     {
+
+        //> request validation
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|min:4|unique:requirements',
+            'description' => 'nullable|string|min:4',
+            'user_file' => 'required|file|mimes:xlsx'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+
         //> upload file
         $file = $request->file('user_file');
         $file->getClientOriginalName();
@@ -123,8 +158,12 @@ class RequirementController extends Controller
         }
         //<
 
-        // redirect to the admin.requirements.index page with success status
-        return redirect()->route('admin.requirements.index')->with('status', 'File "' . $file->getClientOriginalName() . '" imported success.');
+        return response()->json([
+            'success' => true,
+            'message' => "File {$file->getClientOriginalName()} was imported successfully.",
+            'resource' => $version,
+        ]);
+
     }
 
     /**
@@ -132,50 +171,25 @@ class RequirementController extends Controller
      *
      * @param \App\Models\Requirement $requirement
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function show(Requirement $requirement)
     {
-        // get requirement data
-        $data = RequirementsData::where('version_id', $requirement->id)->get();
+
+        // dataTable
+        if (request()->ajax()) {
+
+            $builder = RequirementsData::where('version_id', $requirement->id);
+
+            return datatables()->of($builder)
+                ->addIndexColumn()
+                ->make(true);
+        }
 
         // return view with data
         return view('admin.requirements.show', [
             'requirement' => $requirement,
-            'data' => $data,
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Requirement $requirement
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Requirement $requirement)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Requirement $requirement
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Requirement $requirement)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Requirement $requirement
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Requirement $requirement)
-    {
-        //
-    }
 }

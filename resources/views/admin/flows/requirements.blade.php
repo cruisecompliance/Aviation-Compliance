@@ -102,7 +102,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 
                 </div>
-                <div class="modal-body" id="modalContent">
+                <div class="modal-body" id="">
                     <form id="ItemForm" action="" name="ItemForm" class="form-horizontal" method="POST">
 
                         <input type="hidden" name="_method" id="_method" value="">
