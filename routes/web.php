@@ -19,6 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// TODO:: delete
 Route::get('/starter', function () {
     return view('starter');
 });
@@ -26,6 +27,17 @@ Route::get('/starter', function () {
 Auth::routes(['register' => false]);
 //Auth::routes();
 
+/**
+ * User panel
+ */
+Route::namespace('User')->prefix('user')->middleware('auth', 'role:'.RoleName::ACCOUNTABLE_MANAGER.'|'.RoleName::COMPLIANCE_MONITORING_MANAGER.'|'.RoleName::AUDITOR.'|'.RoleName::AUDITEE.'|'.RoleName::INVESTIGATOR)->group(function () {
+
+    /**
+     * User homapege
+     */
+    Route::get('/home', 'HomeController@index')->name('user.dashboard');
+
+});
 
 
 /**

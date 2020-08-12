@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Enums\RoleName;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -36,5 +38,19 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Determine the redirect URL after login
+     *
+     * @return string
+     */
+    protected function redirectTo()
+    {
+        if (Auth::user()->hasRole(RoleName::SME)) {
+            return route('admin.dashboard');
+        } else {
+            return route('user.dashboard');
+        }
     }
 }
