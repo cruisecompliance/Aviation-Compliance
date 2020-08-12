@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -42,6 +44,20 @@ class RegisterController extends Controller
     }
 
     /**
+     * Determine the redirect URL after login
+     *
+     * @return string
+     */
+    protected function redirectTo()
+    {
+        if (Auth::user()->hasRole(RoleName::SME)) {
+            return route('admin.dashboard');
+        } else {
+            return route('user.dashboard');
+        }
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -70,4 +86,5 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
 }

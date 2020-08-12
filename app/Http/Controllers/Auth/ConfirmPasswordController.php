@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ConfirmsPasswords;
+use Illuminate\Support\Facades\Auth;
 
 class ConfirmPasswordController extends Controller
 {
@@ -36,5 +38,19 @@ class ConfirmPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    /**
+     * Determine the redirect URL after login
+     *
+     * @return string
+     */
+    protected function redirectTo()
+    {
+        if (Auth::user()->hasRole(RoleName::SME)) {
+            return route('admin.dashboard');
+        } else {
+            return route('user.dashboard');
+        }
     }
 }

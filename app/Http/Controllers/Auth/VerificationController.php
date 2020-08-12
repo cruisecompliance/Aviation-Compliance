@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Support\Facades\Auth;
 
 class VerificationController extends Controller
 {
@@ -38,5 +40,19 @@ class VerificationController extends Controller
         $this->middleware('auth');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
+    }
+
+    /**
+     * Determine the redirect URL after login
+     *
+     * @return string
+     */
+    protected function redirectTo()
+    {
+        if (Auth::user()->hasRole(RoleName::SME)) {
+            return route('admin.dashboard');
+        } else {
+            return route('user.dashboard');
+        }
     }
 }

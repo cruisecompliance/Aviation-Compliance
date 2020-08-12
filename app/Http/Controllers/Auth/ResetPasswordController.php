@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Auth;
 
 class ResetPasswordController extends Controller
 {
@@ -27,4 +29,18 @@ class ResetPasswordController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+
+    /**
+     * Determine the redirect URL after login
+     *
+     * @return string
+     */
+    protected function redirectTo()
+    {
+        if (Auth::user()->hasRole(RoleName::SME)) {
+            return route('admin.dashboard');
+        } else {
+            return route('user.dashboard');
+        }
+    }
 }
