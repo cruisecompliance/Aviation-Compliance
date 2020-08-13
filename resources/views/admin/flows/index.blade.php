@@ -16,7 +16,6 @@
                                 <li class="breadcrumb-item active">Flows</li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Flows</h4>
                     </div>
                 </div>
             </div>
@@ -30,7 +29,7 @@
 
                             <div class="row">
                                 <div class="col-8">
-                                    <h4 class="header-title">Flows</h4>
+                                    <h4 class="page-title">Flows</h4>
                                 </div>
 
                                 <div class="col-4">
@@ -78,11 +77,11 @@
                         <input type="hidden" name="_method" id="_method" value="">
                         <input type="hidden" name="Item_id" id="Item_id">
                         <div class="form-group">
-                            <label for="title" class="control-label">Title</label>
+                            <label for="title" class="control-label">Title*</label>
                             <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" value="" required>
                         </div>
                         <div class="form-group">
-                            <label for="company" class="control-label">Company</label>
+                            <label for="company" class="control-label">Company*</label>
                             <select name="company" id="company" class="form-control">
                                 @foreach($companies as $company)
                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
@@ -90,7 +89,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="requirements" class="control-label">Requirements</label>
+                            <label for="requirements" class="control-label">Requirements*</label>
                             <select name="requirements" id="requirement" class="form-control">
                                 @foreach($requirements as $requirement)
                                     <option value="{{ $requirement->id }}">{{ $requirement->title }}</option>
@@ -175,11 +174,11 @@
                     // reset form alert
                     var resetForm = function () {
                         var form = $('#ItemForm');
-                        $(".alert-success").remove();
-                        $(".text-danger").remove();
                         form.find("input").removeClass('is-invalid');
                         form.find("select").removeClass('is-invalid');
                         form.find("textarea").removeClass('is-invalid');
+                        $(".alert-success").remove();
+                        $(".text-danger").remove();
                     };
 
                     // ajax create | save
