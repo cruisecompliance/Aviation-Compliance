@@ -30,7 +30,7 @@ class FlowController extends Controller
             return datatables()->of($builder)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-flow_id="'.$row->flow_id.'" data-rule_reference="' . $row->rule_reference . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-rule_reference="' . $row->rule_reference . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
 //                    $btn = $btn. '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
                     return $btn;
                 })
@@ -48,15 +48,18 @@ class FlowController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $flow_id
      * @param string $rule_reference
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $flow_id, string $rule_reference)
+    public function edit(string $rule_reference)
     {
-        // get rule reference data
-        $flowData = FlowsData::whereFlowId($flow_id)->whereRuleReference($rule_reference)->first();
+        // get latest company flow
+        $flow = Auth::user()->company->flows->first();
 
+        // get rule reference data
+        $flowData = FlowsData::whereFlowId($flow->id)->whereRuleReference($rule_reference)->first();
+
+        // return json response with data
         return response()->json([
             'success' => true,
             'resource' => $flowData,
@@ -66,12 +69,12 @@ class FlowController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Flow $flow
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Flow $flow, Request $request)
+    public function update(Request $request)
     {
+        // validate request data
         $validator = Validator::make($request->all(), [
             'rule_section' => 'sometimes|required|numeric',
             'rule_group' => 'sometimes|required|string',
@@ -114,6 +117,10 @@ class FlowController extends Controller
             ]);
         }
 
+        // get latest company flow
+        $flow = Auth::user()->company->flows->first();
+
+        // update flow requirements data
         $flow->flowData()
             ->whereRuleReference($request->requirements_rule)
             ->update($request->except(
@@ -128,6 +135,7 @@ class FlowController extends Controller
                 'rule_chapter'
             ));
 
+        // return json response with data
         return response()->json([
             'success' => true,
             'message' => "{$request->requirements_rule} was update successfully.",

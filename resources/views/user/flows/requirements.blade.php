@@ -406,14 +406,13 @@
 
                     // modal edit
                     $('body').on('click', '.editItem', function () {
-                        var flow_id = $(this).data('flow_id');
                         var rule_reference = $(this).data('rule_reference');
-                        var action = "{{ route('user.flows.index') }}" + '/' + flow_id;
+                        var action = "{{ route('user.flows.index') }}";
                         var method = "POST";
 
                         resetForm();
 
-                        $.get("{{ route('user.flows.index') }}" + '/' + flow_id + '/requirements/' + rule_reference + '/edit', function (data) {
+                        $.get("{{ route('user.flows.index') }}" + '/' + rule_reference + '/edit', function (data) {
                             $('#modelHeading').html("Edit - " + data.resource.rule_reference); // modal header
                             $('#ItemForm').attr('action', action); // form action
                             $('#_method').val(method); // form method

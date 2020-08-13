@@ -41,8 +41,8 @@ Route::namespace('User')->prefix('user')->middleware('auth', 'role:'.RoleName::A
      * Flows
      */
     Route::get('/flows/', 'FlowController@index')->name('user.flows.index');
-    Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'FlowController@edit')->name('user.flows.edit');
-    Route::post('/flows/{flow}', 'FlowController@update')->name('user.flows.update');
+    Route::get('/flows/{rule_reference}/edit', 'FlowController@edit')->name('user.flows.edit');
+    Route::post('/flows/', 'FlowController@update')->name('user.flows.update');
 
 });
 
