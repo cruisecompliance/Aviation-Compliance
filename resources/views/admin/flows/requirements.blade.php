@@ -17,7 +17,6 @@
                                 <li class="breadcrumb-item active">Requirements</li>
                             </ol>
                         </div>
-                        <h4 class="page-title">{{ $flow->title }}</h4>
                     </div>
                 </div>
             </div>
@@ -31,7 +30,7 @@
 
                             <div class="row">
                                 <div class="col-8">
-                                    <h4 class="header-title mb-2">{{ $flow->title }}</h4>
+                                    <h4 class="page-title mb-2">{{ $flow->title }}</h4>
                                     <div class="text-muted font-13">Company: <span class="font-weight-bold">{{ $flow->company->name }}</span></div>
                                     <div class="text-muted font-13">Requirements: <span class="font-weight-bold">version {{ $flow->requirement->id }}</span></div>
                                     <div class="text-muted font-13 mt-1">{{ $flow->description }}</div>
