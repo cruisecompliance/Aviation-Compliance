@@ -16,7 +16,6 @@
                                 <li class="breadcrumb-item active">Users</li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Users</h4>
                     </div>
                 </div>
             </div>
@@ -30,7 +29,7 @@
 
                             <div class="row">
                                 <div class="col-8">
-                                    <h4 class="header-title">Users</h4>
+                                    <h4 class="page-title">Users</h4>
                                 </div>
 
                                 <div class="col-4">
@@ -80,15 +79,15 @@
                         <input type="hidden" name="_method" id="_method" value="">
                         <input type="hidden" name="Item_id" id="Item_id">
                         <div class="form-group">
-                            <label for="email" class="control-label">E-mail</label>
+                            <label for="email" class="control-label">E-mail*</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter E-mail" value="" required>
                         </div>
                         <div class="form-group">
-                            <label for="name" class="control-label">Name</label>
+                            <label for="name" class="control-label">Name*</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" required>
                         </div>
                         <div class="form-group">
-                            <label for="company" class="control-label">Company</label>
+                            <label for="company" class="control-label">Company*</label>
                             <select name="company" id="company" class="form-control">
                                 @foreach($companies as $company)
                                     <option value="{{ $company->id  }}">{{ $company->name }}</option>
@@ -96,7 +95,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="role" class="control-label">Role</label>
+                            <label for="role" class="control-label">Role*</label>
                             <select name="role" id="role" class="form-control">
                                 @foreach($roles as $role)
                                     <option value="{{ $role->name }}">{{ $role->name }}</option>
@@ -104,11 +103,11 @@
                             </select>
                         </div>
                         <div class="form-group password">
-                            <label for="password" class="control-label">Password</label>
+                            <label for="password" class="control-label">Password*</label>
                             <input type="text" class="form-control" id="password" name="password" placeholder="Enter Password" value="" required>
                         </div>
                         <div class="form-group">
-                            <label for="status" class="control-label">Status</label>
+                            <label for="status" class="control-label">Status*</label>
                             <select name="status" id="user_status" class="form-control">
                                 <option value="1">Active</option>
                                 <option value="0">Disabled</option>
@@ -224,9 +223,12 @@
 
                 // reset form alert
                 var resetForm = function () {
+                    var form = $('#ItemForm');
+                    form.find("input").removeClass('is-invalid');
+                    form.find("select").removeClass('is-invalid');
+                    form.find("textarea").removeClass('is-invalid');
                     $(".alert-success").remove();
                     $(".text-danger").remove();
-                    $("form").find("input").removeClass('is-invalid');
                 };
 
                 // ajax create | save
@@ -245,7 +247,7 @@
                                 table.draw();
                             } else {
                                 $.each(data.errors, function (input_name, input_error) {
-                                    form.find("input[name='" + input_name + "']").addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
+                                    $("#" + input_name).addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
                                 });
                             }
                         },
