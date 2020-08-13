@@ -30,12 +30,19 @@ Auth::routes(['register' => false]);
 /**
  * User panel
  */
-Route::namespace('User')->prefix('user')->middleware('auth', 'role:'.RoleName::ACCOUNTABLE_MANAGER.'|'.RoleName::COMPLIANCE_MONITORING_MANAGER.'|'.RoleName::AUDITOR.'|'.RoleName::AUDITEE.'|'.RoleName::INVESTIGATOR)->group(function () {
+Route::namespace('User')->prefix('user')->middleware('auth', 'role:'.RoleName::ACCOUNTABLE_MANAGER.'|'.RoleName::COMPLIANCE_MONITORING_MANAGER.'|'.RoleName::AUDITOR.'|'.RoleName::AUDITEE.'|'.RoleName::INVESTIGATOR.'')->group(function () {
 
     /**
-     * User homapege
+     * User homepage
      */
     Route::get('/home', 'HomeController@index')->name('user.dashboard');
+
+    /**
+     * Flows
+     */
+    Route::get('/flows/', 'FlowController@index')->name('user.flows.index');
+    Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'FlowController@edit')->name('user.flows.edit');
+    Route::post('/flows/{flow}', 'FlowController@update')->name('user.flows.update');
 
 });
 

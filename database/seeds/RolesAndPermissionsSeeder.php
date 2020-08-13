@@ -25,6 +25,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => PermissionName::EDIT_RULE_SECTION]);
         Permission::create(['name' => PermissionName::EDIT_RULE_GROUP]);
         Permission::create(['name' => PermissionName::EDIT_RULE_REFERENCE]);
+        Permission::create(['name' => PermissionName::EDIT_RULE_TITLE]);
         Permission::create(['name' => PermissionName::EDIT_RULE_MANUAL_REFERENCE]);
         Permission::create(['name' => PermissionName::EDIT_RULE_CHAPTER]);
 
@@ -70,6 +71,7 @@ class RolesAndPermissionsSeeder extends Seeder
             PermissionName::EDIT_RULE_SECTION,
             PermissionName::EDIT_RULE_GROUP,
             PermissionName::EDIT_RULE_REFERENCE,
+            PermissionName::EDIT_RULE_TITLE,
             PermissionName::EDIT_RULE_MANUAL_REFERENCE,
             PermissionName::EDIT_RULE_CHAPTER,
         ]);

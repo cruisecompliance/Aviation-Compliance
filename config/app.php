@@ -233,6 +233,8 @@ return [
         /*
          * Package aliases...
          */
+        'RoleName' => App\Enums\RoleName::class,
+        'PermissionName' => App\Enums\PermissionName::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
 

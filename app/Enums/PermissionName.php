@@ -18,6 +18,7 @@ final class PermissionName extends Enum
     const EDIT_RULE_SECTION = 'edit_rule_section';
     const EDIT_RULE_GROUP = 'edit_rule_group';
     const EDIT_RULE_REFERENCE = 'edit_rule_reference';
+    const EDIT_RULE_TITLE = 'edit_rule_title';
     const EDIT_RULE_MANUAL_REFERENCE = 'edit_rule_manual_reference';
     const EDIT_RULE_CHAPTER = 'edit_rule_chapter';
 

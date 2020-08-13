@@ -19,7 +19,6 @@ class RequirementController extends Controller
      */
     public function index(Flow $flow)
     {
-//        dd(FlowsData::whereFlowId($flow->id)->get()->toArray());
         // dataTable
         if (request()->ajax()) {
 
