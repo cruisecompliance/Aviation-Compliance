@@ -16,7 +16,6 @@
                                 <li class="breadcrumb-item active">Companies</li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Companies</h4>
                     </div>
                 </div>
             </div>
@@ -30,7 +29,7 @@
 
                             <div class="row">
                                 <div class="col-8">
-                                    <h4 class="header-title">Companies</h4>
+                                    <h4 class="page-title">Companies</h4>
                                 </div>
 
                                 <div class="col-4">
@@ -78,15 +77,15 @@
                         <input type="hidden" name="_method" id="_method" value="">
                         <input type="hidden" name="Item_id" id="Item_id">
                         <div class="form-group">
-                            <label for="name" class="control-label">Name</label>
+                            <label for="name" class="control-label">Name*</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" required>
                         </div>
                         <div class="form-group">
-                            <label for="url" class="control-label">URL</label>
+                            <label for="url" class="control-label">URL*</label>
                             <input type="text" class="form-control" id="url" name="url" placeholder="Enter URL" value="" required>
                         </div>
                         <div class="form-group">
-                            <label for="status" class="control-label">Status</label>
+                            <label for="status" class="control-label">Status*</label>
                             <select name="status" id="company_status" class="form-control">
                                 <option value="1">Active</option>
                                 <option value="0">Disabled</option>
@@ -189,9 +188,12 @@
 
                     // reset form alert
                     var resetForm = function () {
+                        var form = $('#ItemForm');
+                        form.find("input").removeClass('is-invalid');
+                        form.find("select").removeClass('is-invalid');
+                        form.find("textarea").removeClass('is-invalid');
                         $(".alert-success").remove();
                         $(".text-danger").remove();
-                        $("form").find("input").removeClass('is-invalid');
                     };
 
                     // ajax create | save
