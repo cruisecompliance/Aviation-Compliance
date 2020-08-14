@@ -276,8 +276,8 @@
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "{{ route('admin.flows.requirements.index', $flow) }}",
-                            type: 'GET',
+                            url: "{{ route('admin.flows.requirements.datatable', $flow) }}",
+                            type: 'POST',
                         },
                         columns: [
                             // {data: 'DT_RowIndex', name: 'DT_RowIndex'},

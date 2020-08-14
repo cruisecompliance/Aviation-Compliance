@@ -19,30 +19,38 @@ class RequirementController extends Controller
      */
     public function index(Flow $flow)
     {
-        // dataTable
-        if (request()->ajax()) {
-
-            $builder = FlowsData::whereFlowId($flow->id);
-
-            return datatables()->of($builder)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-rule_reference="' . $row->rule_reference . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
-//                    $btn = $btn. '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
         // load relation data
         $flow->load('company');
         $flow->load('requirement');
 
+        // return view with data
         return view('admin.flows.requirements', [
             'flow' => $flow,
         ]);
 
+    }
+
+    /**
+     * DataTable - get data for index page
+     *
+     * @param Flow $flow
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function datatable(Flow $flow, Request $request)
+    {
+        $builder = FlowsData::whereFlowId($flow->id);
+
+        return datatables()->of($builder)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-rule_reference="' . $row->rule_reference . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
+//                    $btn = $btn. '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
 
@@ -109,7 +117,7 @@ class RequirementController extends Controller
 
         ]);
 
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors(),
