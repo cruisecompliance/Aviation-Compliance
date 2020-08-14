@@ -35,6 +35,17 @@
 
         <!-- Page Content Start -->
         <div class="content-page">
+
+            <!-- impersonate alert -->
+            @if (session('impersonated_by'))
+                <div class="alert alert-warning mt-2" role="alert">
+                    <i class="mdi mdi-alert-outline mr-2"></i>
+                    You are logged in as a user <strong>{{ Auth::user()->name }}</strong>.
+                    <a href="{{ route('admin.users.impersonate.logout') }}"> <strong>Click here for logout</strong></a>
+                </div>
+            @endif
+            <!-- /impersonate alert -->
+
             <!-- content -->
             @yield('content')
             <!-- /content -->

@@ -11,6 +11,7 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserController extends Controller
@@ -36,11 +37,11 @@ class UserController extends Controller
                 ->editColumn('roles', function (User $user) {
 //                    return $user->getRoleNames()->first();
 //                    return $user->roles->pluck('name')->implode('<br>');
-                    return $user->roles->first() ? $user->roles->first()->name : '' ;
+                    return $user->roles->first() ? $user->roles->first()->name : '';
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
-                    // $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteItem">Delete</a>';
+                    $btn = ' <a href="' . route('admin.users.impersonate.login', $row->id) . '" class="btn btn-success btn-sm mr-1">Log In</a>';
+                    $btn = $btn . '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -146,7 +147,7 @@ class UserController extends Controller
             ]);
         }
 
-        return DB::transaction(function () use($request,$user) {
+        return DB::transaction(function () use ($request, $user) {
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,

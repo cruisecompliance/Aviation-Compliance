@@ -61,6 +61,8 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
      * Users
      **/
     Route::resource('/users', 'UserController')->except(['create','show','destroy'])->names('admin.users');
+    Route::get('/users/impersonate/login/{user_id}', 'Users\ImpersonateController@login')->name('admin.users.impersonate.login');
+    Route::get('/users/impersonate/logout/', 'Users\ImpersonateController@logout')->name('admin.users.impersonate.logout')->withoutMiddleware('role:'.RoleName::SME);
 
     /**
      * Companies
