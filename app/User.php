@@ -8,11 +8,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Lab404\Impersonate\Models\Impersonate;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
+    use Impersonate;
 
     const STATUS_ACTIVE = 1;
     const STATUS_DISABLED = 0;
