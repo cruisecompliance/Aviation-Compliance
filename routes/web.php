@@ -14,7 +14,7 @@ use App\Enums\PermissionName;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// ToDo
 Route::get('/', function () {
     return view('welcome');
 });
@@ -43,6 +43,9 @@ Route::namespace('User')->prefix('user')->middleware('auth', 'role:'.RoleName::A
     Route::get('/flows/', 'FlowController@index')->name('user.flows.index');
     Route::get('/flows/{rule_reference}/edit', 'FlowController@edit')->name('user.flows.edit');
     Route::post('/flows/', 'FlowController@update')->name('user.flows.update');
+
+    Route::post('/flows/datatable', 'FlowController@datatable')->name('user.flows.datatable');
+
 
 });
 

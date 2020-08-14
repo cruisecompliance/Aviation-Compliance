@@ -345,8 +345,8 @@
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "{{ route('user.flows.index') }}",
-                            type: 'GET',
+                            url: "{{ route('user.flows.datatable') }}",
+                            type: 'POST',
                         },
                         columns: [
                             // {data: 'DT_RowIndex', name: 'DT_RowIndex'},

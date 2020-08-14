@@ -22,8 +22,41 @@ class FlowController extends Controller
         // get latest company flow
         $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
 
+//        // dataTable
+//        if (request()->ajax()) {
+//
+//            $builder = FlowsData::whereFlowId($flow->id);
+//
+//            return datatables()->of($builder)
+//                ->addIndexColumn()
+//                ->addColumn('action', function ($row) {
+//                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-rule_reference="' . $row->rule_reference . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
+////                    $btn = $btn. '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
+//                    return $btn;
+//                })
+//                ->rawColumns(['action'])
+//                ->make(true);
+//        }
+
+        // return view with data
+        return view('user.flows.requirements', [
+            'flow' => $flow,
+        ]);
+
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function datatable(Request $request)
+    {
         // dataTable
         if (request()->ajax()) {
+
+            // get latest company flow
+            $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
 
             $builder = FlowsData::whereFlowId($flow->id);
 
@@ -37,11 +70,6 @@ class FlowController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-
-        // return view with data
-        return view('user.flows.requirements', [
-            'flow' => $flow,
-        ]);
 
     }
 
