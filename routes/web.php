@@ -41,11 +41,9 @@ Route::namespace('User')->prefix('user')->middleware('auth', 'role:'.RoleName::A
      * Flows
      */
     Route::get('/flows/', 'FlowController@index')->name('user.flows.index');
+    Route::post('/flows/datatable', 'FlowController@datatable')->name('user.flows.datatable');
     Route::get('/flows/{rule_reference}/edit', 'FlowController@edit')->name('user.flows.edit');
     Route::post('/flows/', 'FlowController@update')->name('user.flows.update');
-
-    Route::post('/flows/datatable', 'FlowController@datatable')->name('user.flows.datatable');
-
 
 });
 
