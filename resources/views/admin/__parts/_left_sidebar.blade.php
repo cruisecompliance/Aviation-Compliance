@@ -18,6 +18,13 @@
                 </li>
 
                 <li>
+                    <a href="{{ route('admin.flows.index') }}">
+                        <i data-feather="grid"></i>
+                        <span> Flow </span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="{{ route('admin.companies.index') }}">
                         <i data-feather="activity"></i>
                         <span> Companies </span>
@@ -28,13 +35,6 @@
                     <a href="{{ route('admin.users.index') }}">
                         <i data-feather="users"></i>
                         <span> Users </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('admin.flows.index') }}">
-                        <i data-feather="grid"></i>
-                        <span> Flow </span>
                     </a>
                 </li>
                 <!-- /item -->
