@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Users;
 
+use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
@@ -21,7 +22,12 @@ class ImpersonateController extends Controller
 
         Auth::user()->impersonate($user);
 
-        return redirect()->route('user.dashboard');
+        if (Auth::user()->hasRole(RoleName::SME)) {
+            return redirect()->route('admin.dashboard');
+        } else {
+            return redirect()->route('user.dashboard');
+        }
+
     }
 
     /**
@@ -33,7 +39,12 @@ class ImpersonateController extends Controller
     {
         Auth::user()->leaveImpersonation();
 
-        return redirect()->route('admin.dashboard');
+        if (Auth::user()->hasRole(RoleName::SME)) {
+            return redirect()->route('admin.dashboard');
+        } else {
+            return redirect()->route('user.dashboard');
+        }
+
     }
 
 }
