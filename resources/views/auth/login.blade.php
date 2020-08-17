@@ -64,6 +64,7 @@
 
                                 <div class="form-group mb-0 text-center">
                                     <button class="btn btn-primary btn-block" type="submit"> Log In</button>
+                                    <a href="{{ route('azure.login') }}" class="btn btn-primary"> Azure Login</a>
                                 </div>
 
                             </form>

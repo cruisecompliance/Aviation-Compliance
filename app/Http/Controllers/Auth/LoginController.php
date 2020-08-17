@@ -7,6 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Enums\RoleName;
 use Illuminate\Support\Facades\Auth;
+use Socialite;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -52,5 +54,34 @@ class LoginController extends Controller
         } else {
             return route('user.dashboard');
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function redirectToProvider()
+    {
+        return Socialite::with('azure')->redirect();
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function handleProviderCallback()
+    {
+//        $user = Socialite::with('azure')->user();
+        $azureUser = Socialite::with('azure')->user();
+//        dd($azureUser);
+
+        $user = User::where('email', $azureUser->user['mail'])->first();
+
+        auth()->login($user);
+
+        if (Auth::user()->hasRole(RoleName::SME)) {
+            return redirect()->route('admin.dashboard');
+        } else {
+            return redirect()->route('user.dashboard');
+        }
+
     }
 }

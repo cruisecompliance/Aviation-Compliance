@@ -24,6 +24,10 @@ Route::get('/starter', function () {
     return view('starter');
 });
 
+
+Route::get('login/azure', 'Auth\LoginController@redirectToProvider')->name('azure.login');
+Route::get('login/azure/callback', 'Auth\LoginController@handleProviderCallback');
+
 Auth::routes(['register' => false]);
 //Auth::routes();
 
