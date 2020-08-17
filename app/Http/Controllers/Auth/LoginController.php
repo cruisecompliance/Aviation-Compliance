@@ -69,19 +69,24 @@ class LoginController extends Controller
      */
     public function handleProviderCallback()
     {
-//        $user = Socialite::with('azure')->user();
         $azureUser = Socialite::with('azure')->user();
-//        dd($azureUser);
 
         $user = User::where('email', $azureUser->user['mail'])->first();
 
-        auth()->login($user);
+        if(!empty($user)){
 
-        if (Auth::user()->hasRole(RoleName::SME)) {
-            return redirect()->route('admin.dashboard');
+            auth()->login($user);
+
+            if (Auth::user()->hasRole(RoleName::SME)) {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('user.dashboard');
+            }
+
         } else {
-            return redirect()->route('user.dashboard');
-        }
 
+            return redirect()->back();
+            
+        }
     }
 }
