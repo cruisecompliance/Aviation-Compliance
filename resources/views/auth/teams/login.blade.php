@@ -60,9 +60,9 @@
             },
             success: function (profile) {
 
-                $.get('login/email/' + profile.mail, function (data) {
-                    if (data.success){
-                        alert(data.resource);
+                $.get('/login/teams/email/' + mail, function (data) {
+                    if (data.success) {
+                        window.location.href = window.location.origin;
                     }
                 });
 

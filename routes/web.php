@@ -38,7 +38,7 @@ Route::get('/login/teams', 'Auth\TeamController@login')->name('auth.login.teams'
 Route::get('/login/teams-start', 'Auth\TeamController@start')->name('auth.login.teams_start');
 Route::get('/login/teams-end', 'Auth\TeamController@end')->name('auth.login.teams_end');
 Route::get('/login/teams-end', 'Auth\TeamController@end')->name('auth.login.teams_end');
-Route::get('/login/email/{$email}', 'Auth\TeamController@getEmail')->name('auth.login.get_email');
+Route::get('/login/teams/email/{email}', 'Auth\TeamController@getEmail')->name('auth.login.get_email');
 
 /*
  * Auth

@@ -26,8 +26,9 @@ class TeamController extends Controller
         return view('auth.teams.end');
     }
 
-    public function getEmail($email)
+    public function getEmail(string $email)
     {
+
         $user = User::where('email', $email)->first();
 
         if (!empty($user)) {
