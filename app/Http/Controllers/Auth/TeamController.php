@@ -30,7 +30,7 @@ class TeamController extends Controller
     {
         $user = User::where('email', $email)->first();
 
-        if(!empty($user)){
+        if (!empty($user)) {
 
             auth()->login($user);
 
@@ -40,6 +40,9 @@ class TeamController extends Controller
                 return redirect()->route('user.dashboard');
             }
 
+        } else {
+            return redirect()->route('/login/teams');
         }
+    }
 }
 
