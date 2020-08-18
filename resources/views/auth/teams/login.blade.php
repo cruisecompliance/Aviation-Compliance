@@ -59,13 +59,17 @@
                 request.setRequestHeader("Authorization", "Bearer " + accessToken);
             },
             success: function (profile) {
-                $("#profileDisplayName").text(profile.displayName);
-                $("#profileJobTitle").text(profile.jobTitle);
-                $("#profileMail").text(profile.mail);
-                $("#profileUpn").text(profile.userPrincipalName);
-                $("#profileObjectId").text(profile.id);
-                $("#divProfile").show();
-                $("#divError").hide();
+
+                $.get('login/email' + profile.mail);
+
+
+                // $("#profileDisplayName").text(profile.displayName);
+                // $("#profileJobTitle").text(profile.jobTitle);
+                // $("#profileMail").text(profile.mail);
+                // $("#profileUpn").text(profile.userPrincipalName);
+                // $("#profileObjectId").text(profile.id);
+                // $("#divProfile").show();
+                // $("#divError").hide();
             },
             error: function (xhr, textStatus, errorThrown) {
                 console.log("textStatus: " + textStatus + ", errorThrown:" + errorThrown);
