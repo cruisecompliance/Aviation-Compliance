@@ -34,14 +34,18 @@ class TeamController extends Controller
 
             auth()->login($user);
 
-            if (Auth::user()->hasRole(RoleName::SME)) {
-                return redirect()->route('admin.dashboard');
-            } else {
-                return redirect()->route('user.dashboard');
-            }
+            return response()->json([
+                'success' => true,
+                'message' => "Auth user - {$user->email}.",
+                'resource' => Auth::user(),
+            ]);
 
         } else {
-            return redirect()->route('/login/teams');
+            return response()->json([
+                'success' => false,
+                'message' => "Error",
+                'resource' => NULL,
+            ]);
         }
     }
 }

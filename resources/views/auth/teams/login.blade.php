@@ -60,8 +60,11 @@
             },
             success: function (profile) {
 
-                $.get('login/email' + profile.mail);
-
+                $.get('login/email/' + profile.mail, function (data) {
+                    if (data.success){
+                        alert(data.resource);
+                    }
+                });
 
                 // $("#profileDisplayName").text(profile.displayName);
                 // $("#profileJobTitle").text(profile.jobTitle);
