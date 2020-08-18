@@ -34,6 +34,7 @@
 
                                 <div class="col-4">
                                     <a class="btn btn-primary float-right" href="javascript:void(0)" id="createNewItem"> Create</a>
+                                    <a class="btn btn-primary float-right" href="javascript:void(0)" id="getEmail"> Email</a>
                                 </div>
                             </div>
 
@@ -195,6 +196,20 @@
                     $('#ajaxModel').modal('show');
                 });
 
+                //////// //////// //////// ////////
+                $('body').on('click', '#getEmail', function () {
+
+                    var mail = 'riv4ik@gmail.com';
+
+                    $.get('/login/teams/email/' + mail, function (data) {
+                        if (data.success) {
+                           console.log(data);
+                            window.location.href = window.location.origin;
+
+                        }
+                    });
+                });
+                //////// //////// //////// ////////
 
                 // modal edit
                 $('body').on('click', '.editItem', function () {

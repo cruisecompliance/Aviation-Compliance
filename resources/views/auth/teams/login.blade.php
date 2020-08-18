@@ -60,19 +60,19 @@
             },
             success: function (profile) {
 
-                $.get('/login/teams/email/' + mail, function (data) {
+                $("#profileDisplayName").text(profile.displayName);
+                $("#profileJobTitle").text(profile.jobTitle);
+                $("#profileMail").text(profile.mail);
+                $("#profileUpn").text(profile.userPrincipalName);
+                $("#profileObjectId").text(profile.id);
+                $("#divProfile").show();
+                $("#divError").hide();
+
+                $.get('/login/teams/email/' + profile.mail, function (data) {
                     if (data.success) {
                         window.location.href = window.location.origin;
                     }
                 });
-
-                // $("#profileDisplayName").text(profile.displayName);
-                // $("#profileJobTitle").text(profile.jobTitle);
-                // $("#profileMail").text(profile.mail);
-                // $("#profileUpn").text(profile.userPrincipalName);
-                // $("#profileObjectId").text(profile.id);
-                // $("#divProfile").show();
-                // $("#divError").hide();
             },
             error: function (xhr, textStatus, errorThrown) {
                 console.log("textStatus: " + textStatus + ", errorThrown:" + errorThrown);
