@@ -28,10 +28,19 @@ Route::get('/starter', function () {
 /**
  * login microsoft azure ad
  */
-Route::get('login/azure', 'Auth\LoginController@redirectToProvider')->name('azure.login');
-Route::get('login/azure/callback', 'Auth\LoginController@handleProviderCallback'); 
+Route::get('/login/azure', 'Auth\LoginController@redirectToProvider')->name('azure.login');
+Route::get('/login/azure/callback', 'Auth\LoginController@handleProviderCallback');
 
+/**
+ * MS TEAMS
+ */
+Route::get('login/teams', 'Auth\TeamsController@')->name('auth.login.teams');
+Route::get('login/teams-start')->name('auth.login.teams_start');
+Route::get('login/teams-end')->name('auth.login.teams_end');
 
+/*
+ * Auth
+ */
 Auth::routes(['register' => false]);
 //Auth::routes();
 
