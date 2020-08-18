@@ -27,7 +27,7 @@
     microsoftTeams.initialize();
 
     function azure() {
-        login(window.location.origin + "/start"); // URL
+        login(window.location.origin + "/login/teams-start"); // URL
     }
 
     // Login to Azure AD and get access to Microsoft Graph

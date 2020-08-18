@@ -20,7 +20,7 @@
             response_type: "id_token token",
             response_mode: "fragment",
             resource: "https://graph.microsoft.com/",
-            redirect_uri: window.location.origin + "/end", // URL - end
+            redirect_uri: window.location.origin + "/login/teams-end", // URL - end
             nonce: _guid(),
             state: state,
             login_hint: context.loginHint,
