@@ -42,8 +42,8 @@ class FlowController extends Controller
                     return $flow->requirement ? $flow->requirement->title : '';
                 })
                 ->addColumn('action', function ($row) {
-//                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
-                     $btn = '<a href="'.route('admin.flows.requirements.index', $row->id).'" class="edit btn btn-primary btn-sm">View</a>';
+                    $btn = ' <a href="' . route('admin.flows.requirements.index', $row->id) . '" class="btn btn-success btn-sm mr-1">View</a>';
+                    $btn = $btn . '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -116,6 +116,62 @@ class FlowController extends Controller
                 'resource' => $flow,
             ]);
         });
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param \App\User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Flow $flow)
+    {
+        // return JSON data
+        return response()->json([
+            'success' => true,
+            'flow' => $flow,
+            'company' => $flow->company,
+            'requirement' => $flow->requirement,
+        ]);
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Flow $flow)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|min:4|unique:flows,title,' . $flow->id,
+            'description' => 'nullable|string|min:4',
+            'company' => 'required|numeric',
+            'requirements' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        $flow->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'company_id' => $request->company,
+            'requirement_id' => $request->requirements,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Flow {$flow->title} was update successfully.",
+            'resource' => $flow,
+        ]);
     }
 
 }

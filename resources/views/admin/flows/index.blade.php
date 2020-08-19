@@ -171,6 +171,30 @@
                         $('#ajaxModel').modal('show');
                     });
 
+                    // modal edit
+                    $('body').on('click', '.editItem', function () {
+
+                        var flow_id = $(this).data('id');
+                        var action = "{{ route('admin.flows.index') }}" + '/' + flow_id;
+                        var method = "PATCH";
+
+                        resetForm();
+
+                        $.get("{{ route('admin.flows.index') }}" + '/' + flow_id + '/edit', function (data) {
+
+                            $('#modelHeading').html("Edit Flow - " + data.flow.title); // modal header
+                            $('#ItemForm').attr('action', action); // form action
+                            $('#_method').val(method); // form method
+                            $('#saveBtn').html("Update"); // form button
+                            $('#title').val(data.flow.title); // form data
+                            $('#description').val(data.flow.description); // form data
+                            $('#company option[value=' + data.company.id + ']').prop('selected', true); // form data - selected user company
+                            $('#requirement option[value="' + data.requirement.id + '"]').prop('selected', true); // form data - selected user role
+                            $('#ajaxModel').modal('show');
+                        })
+                    });
+
+
                     // reset form alert
                     var resetForm = function () {
                         var form = $('#ItemForm');

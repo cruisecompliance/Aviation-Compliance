@@ -105,7 +105,7 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
     Route::namespace('Flows')->group(function () {
 
         // Flows
-        Route::resource('/flows', 'FlowController')->except(['create','show','update','destroy'])->names('admin.flows');
+        Route::resource('/flows', 'FlowController')->except(['create','show','destroy'])->names('admin.flows');
 
         // Flow Requirements
         Route::get('/flows/{flow}/requirements', 'RequirementController@index')->name('admin.flows.requirements.index');
