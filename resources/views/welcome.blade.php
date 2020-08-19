@@ -68,7 +68,11 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ route('admin.dashboard') }}">Home</a>
+                        @role(RoleName::SME)
+                            <a href="{{ route('admin.dashboard') }}">Home</a>
+                        @else
+                            <a href="{{ route('user.dashboard') }}">Home</a>
+                        @endrole
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
