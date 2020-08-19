@@ -69,7 +69,6 @@
                                     <a href="{{ route('azure.login') }}" class="btn btn-primary"> Azure Login</a>
                                 </div>
 
-
                             </form>
 
                         </div> <!-- end card-body -->
