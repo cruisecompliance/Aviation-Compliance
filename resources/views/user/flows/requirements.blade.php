@@ -179,14 +179,26 @@
                         @endcan
                         @can(PermissionName::EDIT_ASSIGNED_AUDITOR)
                         <div class="form-group">
-                            <label for="assigned_auditor" class="control-label">Assigned Auditor</label>
-                            <input type="text" class="form-control" id="assigned_auditor" name="assigned_auditor" value="">
+                            <select name="auditor_id" id="assigned_auditor" class="form-control">
+                                <option value="">...</option>
+                                @if($auditors->isNotEmpty())
+                                    @foreach($auditors as $auditor)
+                                        <option value="{{ $auditor->id }}">{{ $auditor->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
                         </div>
                         @endcan
                         @can(PermissionName::EDIT_ASSIGNED_AUDITEE)
                         <div class="form-group">
-                            <label for="assigned_auditee" class="control-label">Assigned Auditee</label>
-                            <input type="text" class="form-control" id="assigned_auditee" name="assigned_auditee" value="">
+                            <select name="auditee_id" id="assigned_auditee" class="form-control">
+                                <option value="">...</option>
+                                @if($auditees->isNotEmpty())
+                                    @foreach($auditees as $auditee)
+                                        <option value="{{ $auditee->id }}">{{ $auditee->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
                         </div>
                         @endcan
 
@@ -247,8 +259,14 @@
                         @endrole
                         @can(PermissionName::EDIT_ASSIGNED_INVESTIGATOR)
                         <div class="form-group">
-                            <label for="assigned_investigator" class="control-label">Assigned Investigator</label>
-                            <input type="text" class="form-control" id="assigned_investigator" name="assigned_investigator" value="">
+                            <select name="investigator_id" id="assigned_investigator" class="form-control">
+                                <option value="">...</option>
+                                @if($investigators->isNotEmpty())
+                                    @foreach($investigators as $investigator)
+                                        <option value="{{ $investigator->id }}">{{ $investigator->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
                         </div>
                         @endcan
                         @can(PermissionName::EDIT_CORRECTIONS)
@@ -360,8 +378,8 @@
                             {data: 'company_chapter', name: 'company_chapter'},
                             {data: 'frequency', name: 'frequency'},
                             {data: 'month_quarter', name: 'month_quarter'},
-                            {data: 'assigned_auditor', name: 'assigned_auditor'},
-                            {data: 'assigned_auditee', name: 'assigned_auditee'},
+                            {data: 'auditor', name: 'auditor.name'},
+                            {data: 'auditee', name: 'auditee.name'},
                             {data: 'comments', name: 'comments'},
                             {data: 'finding', name: 'finding'},
                             {data: 'deviation_statement', name: 'deviation_statement'},
@@ -370,7 +388,7 @@
                             {data: 'safety_level_before_action', name: 'safety_level_before_action'},
                             {data: 'due_date', name: 'due_date'},
                             {data: 'repetitive_finding_ref_number', name: 'repetitive_finding_ref_number'},
-                            {data: 'assigned_investigator', name: 'assigned_investigator'},
+                            {data: 'investigator', name: 'investigator.name'},
                             {data: 'corrections', name: 'corrections'},
                             {data: 'rootcause', name: 'rootcause'},
                             {data: 'corrective_actions_plan', name: 'corrective_actions_plan'},
@@ -398,10 +416,10 @@
                         }
                     });
 
-                    // console log dataTable row
-                    $('#basic-datatable tbody').on('click', 'tr', function () {
-                        console.log(table.row(this).data());
-                    });
+                    // // console log dataTable row
+                    // $('#basic-datatable tbody').on('click', 'tr', function () {
+                    //     console.log(table.row(this).data());
+                    // });
 
                     // modal edit
                     $('body').on('click', '.editItem', function () {
@@ -432,8 +450,12 @@
 
                             $('#frequency').val(data.resource.frequency);
                             $('#month_quarter').val(data.resource.month_quarter);
-                            $('#assigned_auditor').val(data.resource.assigned_auditor);
-                            $('#assigned_auditee').val(data.resource.assigned_auditee);
+                            if (data.auditor) {
+                                $('#assigned_auditor option[value=' + data.auditor.id + ']').prop('selected', true); // form data - selected user company
+                            }
+                            if (data.auditee) {
+                                $('#assigned_auditee option[value=' + data.auditee.id + ']').prop('selected', true); // form data - selected user company
+                            }
 
                             $('#comments').val(data.resource.comments);
                             $('#finding').val(data.resource.finding);
@@ -444,7 +466,9 @@
                             $('#due_date').val(data.resource.due_date);
                             $('#repetitive_finding_ref_number').val(data.resource.repetitive_finding_ref_number);
 
-                            $('#assigned_investigator').val(data.resource.assigned_investigator);
+                            if (data.investigator) {
+                                $('#assigned_investigator option[value=' + data.investigator.id + ']').prop('selected', true); // form data - selected user company
+                            }
                             $('#corrections').val(data.resource.corrections);
                             $('#rootcause').val(data.resource.rootcause);
                             $('#corrective_actions_plan').val(data.resource.corrective_actions_plan);

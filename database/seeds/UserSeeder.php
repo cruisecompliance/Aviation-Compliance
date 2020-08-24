@@ -25,18 +25,20 @@ class UserSeeder extends Seeder
             ]
         ]);
 
-        User::create([
-            'name' => 'John Doe',
-            'email' => 'demo@demo.com',
-            'password' => Hash::make('demo'),
-            'company_id' => 1,
-        ])->assignRole(RoleName::SME);
-
+        // LIGL Users
         User::create([
             'name' => 'Dasha',
             'email' => 'darina.levchuk@lifeisgoodlabs.com',
             'password' => Hash::make('demo'),
             'company_id' => 1,
+        ])->assignRole(RoleName::SME);
+
+        // DEMO Users
+        User::create([
+            'name' => 'John Doe',
+            'email' => 'demo@demo.com',
+            'password' => Hash::make('demo'),
+            'company_id' => 2,
         ])->assignRole(RoleName::SME);
 
         // SME - Subject Matter Expert
@@ -75,6 +77,13 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Auditee',
             'email' => 'auditee@demo.com',
+            'password' => Hash::make('demo'),
+            'company_id' => 2,
+        ])->assignRole(RoleName::AUDITEE);
+
+        User::create([
+            'name' => 'Auditee_2',
+            'email' => 'auditee_2@demo.com',
             'password' => Hash::make('demo'),
             'company_id' => 2,
         ])->assignRole(RoleName::AUDITEE);

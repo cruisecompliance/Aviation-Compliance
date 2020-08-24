@@ -38,8 +38,14 @@ class CreateFlowsDataTable extends Migration
             // Audit Structure
             $table->string('frequency')->nullable();
             $table->string('month_quarter')->nullable();
-            $table->string('assigned_auditor')->nullable(); // ToDo
-            $table->string('assigned_auditee')->nullable(); //ToDo
+//            $table->string('auditor_id')->nullable(); // ToDo:: assigned_auditor
+//            $table->string('auditee_id')->nullable(); //ToDo:: assigned_auditee
+
+            $table->foreignId('auditor_id')->nullable();
+            $table->foreign('auditor_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreignId('auditee_id')->nullable();
+            $table->foreign('auditee_id')->references('id')->on('users')->onDelete('set null');
+
 
             // Auditors Input
             $table->string('comments')->nullable();
@@ -52,7 +58,10 @@ class CreateFlowsDataTable extends Migration
             $table->string('repetitive_finding_ref_number')->nullable();
 
             // Auditee Input (NP)
-            $table->string('assigned_investigator')->nullable(); // ToDo
+//            $table->string('investigator_id')->nullable(); // ToDo:: assigned_investigator
+            $table->foreignId('investigator_id')->nullable();
+            $table->foreign('investigator_id')->references('id')->on('users')->onDelete('set null');
+
             $table->string('corrections')->nullable();
             $table->string('rootcause')->nullable();
             $table->string('corrective_actions_plan')->nullable();

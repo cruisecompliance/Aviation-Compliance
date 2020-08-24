@@ -38,16 +38,19 @@
                                         <div class="clearfix"></div>
                                         <div class="row">
                                             <div class="col">
-                                                <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date->format('d.m.Y') : '' }}</p>
+                                                <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date->format('d.m.Y') : '-' }}</p>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="text-right">
                                                     <a href="javascript: void(0);" class="text-muted">
-                                                        <img src="{{ asset('images/users/user-1.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">
+                                                        <div>Auditor: {{ ($item->auditor->name) ?? '-' }}</div>
+                                                        <div>Auditee: {{ ($item->auditee->name) ?? '-' }}</div>
+                                                        <div>Investigator: {{ ($item->investigator->name) ?? '-' }}</div>
+{{--                                                        <img src="{{ asset('images/users/user-1.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
                                                     </a>
-                                                    <a href="javascript: void(0);" class="text-muted">
-                                                        <img src="{{ asset('images/users/user-3.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">
-                                                    </a>
+{{--                                                    <a href="javascript: void(0);" class="text-muted">--}}
+{{--                                                        <img src="{{ asset('images/users/user-3.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
+{{--                                                    </a>--}}
                                                 </div>
                                             </div>
                                         </div>
@@ -72,12 +75,15 @@
                                         <div class="clearfix"></div>
                                         <div class="row">
                                             <div class="col">
-                                                <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date->format('d.m.Y') : '' }}</p>
+                                                <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date->format('d.m.Y') : '-' }}</p>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="text-right">
                                                     <a href="javascript: void(0);" class="text-muted">
-                                                        <img src="{{ asset('images/users/user-8.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">
+                                                        <div>Auditor: {{ ($item->auditor->name) ?? '-' }}</div>
+                                                        <div>Auditee: {{ ($item->auditee->name) ?? '-' }}</div>
+                                                        <div>Investigator: {{ ($item->investigator->name) ?? '-' }}</div>
+                                                        {{--                                                        <img src="{{ asset('images/users/user-8.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
                                                     </a>
                                                 </div>
                                             </div>
@@ -103,12 +109,15 @@
                                         <div class="clearfix"></div>
                                         <div class="row">
                                             <div class="col">
-                                                <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date->format('d.m.Y') : '' }}</p>
+                                                <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date->format('d.m.Y') : '-' }}</p>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="text-right">
                                                     <a href="javascript: void(0);" class="text-muted">
-                                                        <img src="{{ asset('images/users/user-3.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">
+                                                        <div>Auditor: {{ ($item->auditor->name) ?? '-' }}</div>
+                                                        <div>Auditee: {{ ($item->auditee->name) ?? '-' }}</div>
+                                                        <div>Investigator: {{ ($item->investigator->name) ?? '-' }}</div>
+                                                        {{--                                                        <img src="{{ asset('images/users/user-3.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
                                                     </a>
                                                 </div>
                                             </div>

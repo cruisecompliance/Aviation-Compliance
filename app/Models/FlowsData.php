@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class FlowsData extends Model
@@ -20,4 +21,33 @@ class FlowsData extends Model
     {
         return $this->belongsTo(RequirementsData::class);
     }
+
+    public function auditor()
+    {
+        return $this->belongsTo(User::class, 'auditor_id', 'id');
+    }
+
+    public function auditee()
+    {
+        return $this->belongsTo(User::class, 'auditee_id', 'id');
+    }
+
+    public function investigator()
+    {
+        return $this->belongsTo(User::class, 'investigator_id', 'id');
+    }
+
+    public static function assignedUser(int $user_id, $flow_id)
+    {
+        $data = self::query()
+            ->orWhere('auditor_id', $user_id)
+            ->orWhere('auditee_id', $user_id)
+            ->orWhere('investigator_id', $user_id)
+            ->where('flow_id', $flow_id)
+            ->first();
+
+        return ($data) ? true : false;
+    }
+
+
 }

@@ -17,7 +17,16 @@ class KanbanController extends Controller
      */
     public function index(Flow $flow)
     {
-        $flowData = collect($flow->FlowData);
+        // get flowData for flow
+        $flowData = $flow->FlowData;
+
+        // load relationship data
+        $flowData->load('auditor', 'auditee', 'investigator');
+
+        // collect flowData
+        $flowData = collect($flowData);
+
+        // groupBy flowData
         $flowData = $flowData->groupBy('status');
         // upcoming
         // in_progress

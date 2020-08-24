@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin\Flows;
 use App\Http\Controllers\Controller;
 use App\Models\Flow;
 use App\Models\FlowsData;
+use App\User;
+use App\Enums\RoleName;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class RequirementController extends Controller
@@ -19,13 +22,22 @@ class RequirementController extends Controller
      */
     public function index(Flow $flow)
     {
+
         // load relation data
         $flow->load('company');
         $flow->load('requirement');
 
+        // get users by roles (for select input)
+        $auditors = User::role(RoleName::AUDITOR)->whereCompanyId($flow->company->id)->get();
+        $auditees = User::role(RoleName::AUDITEE)->whereCompanyId($flow->company->id)->get();
+        $investigators = User::role(RoleName::INVESTIGATOR)->whereCompanyId($flow->company->id)->get();
+
         // return view with data
         return view('admin.flows.requirements', [
             'flow' => $flow,
+            'auditors' => $auditors,
+            'auditees' => $auditees,
+            'investigators' => $investigators,
         ]);
 
     }
@@ -40,10 +52,23 @@ class RequirementController extends Controller
      */
     public function datatable(Flow $flow, Request $request)
     {
-        $builder = FlowsData::whereFlowId($flow->id);
+        $builder = FlowsData::whereFlowId($flow->id)
+            ->with('auditor')
+            ->with('auditee')
+            ->with('investigator')
+            ->select('flows_data.*');
 
         return datatables()->of($builder)
             ->addIndexColumn()
+            ->editColumn('auditor', function (FlowsData $flowsData) {
+                return $flowsData->auditor ? $flowsData->auditor->name : '';
+            })
+            ->editColumn('auditee', function (FlowsData $flowsData) {
+                return $flowsData->auditee ? $flowsData->auditee->name : '';
+            })
+            ->editColumn('investigator', function (FlowsData $flowsData) {
+                return $flowsData->investigator ? $flowsData->investigator->name : '';
+            })
             ->addColumn('action', function ($row) {
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-rule_reference="' . $row->rule_reference . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
 //                    $btn = $btn. '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
@@ -69,6 +94,9 @@ class RequirementController extends Controller
         return response()->json([
             'success' => true,
             'resource' => $flowData,
+            'auditor' => $flowData->auditor,
+            'auditee' => $flowData->auditee,
+            'investigator' => $flowData->investigator,
         ]);
 
     }
@@ -93,8 +121,8 @@ class RequirementController extends Controller
             'company_chapter' => 'nullable|string',
             'frequency' => 'nullable|string',
             'month_quarter' => 'nullable|string',
-            'assigned_auditor' => 'nullable|string',
-            'assigned_auditee' => 'nullable|string',
+            'assigned_auditor' => 'nullable|numeric', // assigned
+            'assigned_auditee' => 'nullable|numeric', // assigned
             'comments' => 'nullable|string',
             'finding' => 'nullable|string',
             'deviation_statement' => 'nullable|string',
@@ -103,7 +131,7 @@ class RequirementController extends Controller
             'safety_level_before_action' => 'nullable|string',
             'due_date' => 'nullable|date', // date
             'repetitive_finding_ref_number' => 'nullable|string',
-            'assigned_investigator' => 'nullable|string',
+            'assigned_investigator' => 'nullable|numeric', // assigned
             'corrections' => 'nullable|string',
             'rootcause' => 'nullable|string',
             'corrective_actions_plan' => 'nullable|string',
@@ -114,7 +142,6 @@ class RequirementController extends Controller
             'response_date' => 'nullable|date', // date
             'extension_due_date' => 'nullable|date', // date
             'closed_date' => 'nullable|date', // date
-
         ]);
 
         if ($validator->fails()) {

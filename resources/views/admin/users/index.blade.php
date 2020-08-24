@@ -170,10 +170,10 @@
                     }
                 });
 
-                // console log dataTable row
-                $('#basic-datatable tbody').on( 'click', 'tr', function () {
-                    console.log( table.row( this ).data() );
-                } );
+                // // console log dataTable row
+                // $('#basic-datatable tbody').on( 'click', 'tr', function () {
+                //     console.log( table.row( this ).data() );
+                // } );
 
                 // modal create
                 $('#createNewItem').click(function () {
