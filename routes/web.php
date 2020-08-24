@@ -14,16 +14,11 @@ use App\Enums\PermissionName;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// ToDo
-Route::get('/', function () {
-    return view('welcome');
-});
 
-// TODO:: delete
-Route::get('/starter', function () {
-    return view('starter');
-});
-
+/**
+ * Main page (login form)
+ */
+Route::get('/', 'Auth\LoginController@showLoginForm');
 
 /**
  * login microsoft azure ad
