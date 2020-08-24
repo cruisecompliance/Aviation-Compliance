@@ -7,17 +7,19 @@
 <!-- Login button -->
 <button onclick="azure()">Login to Azure AD</button>
 
-<p>
-<h2>Profile from Microsoft Graph</h2>
-<div id="divError" style="display: none"></div>
-<div id="divProfile" style="display: none">
-    <div><b>Name:</b> <span id="profileDisplayName"/></div>
-    <div><b>Job title:</b> <span id="profileJobTitle"/></div>
-    <div><b>E-mail:</b> <span id="profileMail"/></div>
-    <div><b>UPN:</b> <span id="profileUpn"/></div>
-    <div><b>Object id:</b> <span id="profileObjectId"/></div>
-</div>
-</p>
+{{ request()->header('User-Agent') }}
+
+{{--<p>--}}
+{{--<h2>Profile from Microsoft Graph</h2>--}}
+{{--<div id="divError" style="display: none"></div>--}}
+{{--<div id="divProfile" style="display: none">--}}
+{{--    <div><b>Name:</b> <span id="profileDisplayName"/></div>--}}
+{{--    <div><b>Job title:</b> <span id="profileJobTitle"/></div>--}}
+{{--    <div><b>E-mail:</b> <span id="profileMail"/></div>--}}
+{{--    <div><b>UPN:</b> <span id="profileUpn"/></div>--}}
+{{--    <div><b>Object id:</b> <span id="profileObjectId"/></div>--}}
+{{--</div>--}}
+{{--</p>--}}
 
 <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha384-VC7EHu0lDzZyFfmjTPJq+DFyIn8TUGAJbEtpXquazFVr00Q/OOx//RjiZ9yU9+9m" crossorigin="anonymous"></script>
 <script src="https://statics.teams.cdn.office.net/sdk/v1.6.0/js/MicrosoftTeams.min.js" integrity="sha384-mhp2E+BLMiZLe7rDIzj19WjgXJeI32NkPvrvvZBrMi5IvWup/1NUfS5xuYN5S3VT" crossorigin="anonymous"></script>
@@ -60,13 +62,13 @@
             },
             success: function (profile) {
 
-                $("#profileDisplayName").text(profile.displayName);
-                $("#profileJobTitle").text(profile.jobTitle);
-                $("#profileMail").text(profile.mail);
-                $("#profileUpn").text(profile.userPrincipalName);
-                $("#profileObjectId").text(profile.id);
-                $("#divProfile").show();
-                $("#divError").hide();
+                // $("#profileDisplayName").text(profile.displayName);
+                // $("#profileJobTitle").text(profile.jobTitle);
+                // $("#profileMail").text(profile.mail);
+                // $("#profileUpn").text(profile.userPrincipalName);
+                // $("#profileObjectId").text(profile.id);
+                // $("#divProfile").show();
+                // $("#divError").hide();
 
                 $.get('/login/teams/email/' + profile.mail, function (data) {
                     if (data.success) {
