@@ -32,13 +32,13 @@
                             @if(!empty($flowData[RequrementStatus::UPCOMING]))
                                 @foreach($flowData[RequrementStatus::UPCOMING] as $item)
                                     <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
-                                        <span class="badge bg-soft-danger text-danger float-right">High</span>
+{{--                                        <span class="badge bg-soft-danger text-danger float-right">High</span>--}}
                                         <h5 class="mt-0"><a href="javascript: void(0);" class="text-dark">{{ $item->rule_reference }}</a></h5>
-                                        <p>There are many variations of passages of Lorem Ipsum available.</p>
+                                        <p>{{ $item->rule_title }}</p>
                                         <div class="clearfix"></div>
                                         <div class="row">
                                             <div class="col">
-                                                <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> Oct 16, 2018</p>
+                                                <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date->format('d.m.Y') : '' }}</p>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="text-right">
@@ -66,13 +66,13 @@
                             @if(!empty($flowData[RequrementStatus::IN_PROGRESS]))
                                 @foreach($flowData[RequrementStatus::IN_PROGRESS] as $item)
                                     <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
-                                        <span class="badge bg-soft-warning text-warning float-right">Medium</span>
+{{--                                        <span class="badge bg-soft-warning text-warning float-right">Medium</span>--}}
                                         <h5 class="mt-0"><a href="javascript: void(0);" class="text-dark">{{ $item->rule_reference }}</a></h5>
-                                        <p>It has roots in a piece of classical Latin literature from 45 BC.</p>
+                                        <p>{{ $item->rule_title }}</p>
                                         <div class="clearfix"></div>
                                         <div class="row">
                                             <div class="col">
-                                                <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> Sep 18, 2018</p>
+                                                <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date->format('d.m.Y') : '' }}</p>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="text-right">
@@ -97,13 +97,13 @@
                             @if(!empty($flowData[RequrementStatus::COMPLETED]))
                                 @foreach($flowData[RequrementStatus::COMPLETED] as $item)
                                     <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
-                                        <span class="badge bg-soft-success text-success float-right">Low</span>
+{{--                                        <span class="badge bg-soft-success text-success float-right">Low</span>--}}
                                         <h5 class="mt-0"><a href="javascript: void(0);" class="text-dark">{{ $item->rule_reference }}</a></h5>
-                                        <p>Various versions have evolved over the years, sometimes by accident.</p>
+                                        <p>{{ $item->rule_title }}</p>
                                         <div class="clearfix"></div>
                                         <div class="row">
                                             <div class="col">
-                                                <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> Jun 13, 2018</p>
+                                                <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date->format('d.m.Y') : '' }}</p>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="text-right">

@@ -48,22 +48,22 @@ class CreateFlowsDataTable extends Migration
             $table->string('evidence_reference')->nullable();
             $table->string('deviation_level')->nullable();
             $table->string('safety_level_before_action')->nullable();
-            $table->date('due_date')->nullable();
+            $table->dateTime('due_date')->nullable();
             $table->string('repetitive_finding_ref_number')->nullable();
 
             // Auditee Input (NP)
-            $table->string('assigned_investigator')->nullable();
+            $table->string('assigned_investigator')->nullable(); // ToDo
             $table->string('corrections')->nullable();
             $table->string('rootcause')->nullable();
             $table->string('corrective_actions_plan')->nullable();
             $table->string('preventive_actions')->nullable();
             $table->string('action_implemented_evidence')->nullable();
             $table->string('safety_level_after_action')->nullable();
-            $table->date('effectiveness_review_date')->nullable();
-            $table->date('response_date')->nullable();
+            $table->dateTime('effectiveness_review_date')->nullable();
+            $table->dateTime('response_date')->nullable();
 
-            $table->date('extension_due_date')->nullable();
-            $table->date('closed_date')->nullable();
+            $table->dateTime('extension_due_date')->nullable();
+            $table->dateTime('closed_date')->nullable();
 
             $table->string('status')->default(RequrementStatus::UPCOMING);
             $table->timestamps();
