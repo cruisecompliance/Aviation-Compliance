@@ -5,10 +5,33 @@
 <body>
 
 <!-- Login button -->
-<button onclick="azure()">Login to Azure AD</button>
+<button onclick="azure()" class="btn btn-primary">Login</button>
 
-{{ request()->header('User-Agent') }}
+{{--{{ request()->header('User-Agent') }}--}}
+<style>
+    .btn{
+        display: inline-block;
+        font-weight: 400;
+        color: #6c757d;
+        text-align: center;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-color: transparent;
+        border: 1px solid transparent;
+        padding: 0.45rem 0.9rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        border-radius: 0.15rem;
 
+    }
+    .btn-primary{
+        color: #fff;
+        background-color: #6658dd;
+        border-color: #6658dd;
+    }
+</style>
 {{--<p>--}}
 {{--<h2>Profile from Microsoft Graph</h2>--}}
 {{--<div id="divError" style="display: none"></div>--}}
