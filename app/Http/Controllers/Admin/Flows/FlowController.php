@@ -42,7 +42,8 @@ class FlowController extends Controller
                     return $flow->requirement ? $flow->requirement->title : '';
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = ' <a href="' . route('admin.flows.requirements.index', $row->id) . '" class="btn btn-success btn-sm mr-1">View</a>';
+                    $btn = ' <a href="' . route('admin.flows.requirements.kanban.index', $row->id) . '" class="btn btn-success btn-sm mr-1">Kanban</a>';
+                    $btn = $btn . ' <a href="' . route('admin.flows.requirements.index', $row->id) . '" class="btn btn-success btn-sm mr-1">Table</a>';
                     $btn = $btn . '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
                     return $btn;
                 })

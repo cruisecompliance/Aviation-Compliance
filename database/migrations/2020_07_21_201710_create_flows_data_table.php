@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\RequrementStatus;
 
 class CreateFlowsDataTable extends Migration
 {
@@ -64,6 +65,7 @@ class CreateFlowsDataTable extends Migration
             $table->date('extension_due_date')->nullable();
             $table->date('closed_date')->nullable();
 
+            $table->string('status')->default(RequrementStatus::UPCOMING);
             $table->timestamps();
         });
     }

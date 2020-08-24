@@ -38393,6 +38393,40 @@ body.authentication-bg-pattern {
   display: block;
 }
 
+.tasklist {
+  min-height: 40px;
+  margin-bottom: 0;
+}
+
+.tasklist li {
+  background-color: white;
+  border: 1px solid #dee2e6;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 3px;
+  box-shadow: none;
+}
+
+.tasklist li:last-of-type {
+  margin-bottom: 0;
+}
+
+.tasklist li .btn-sm {
+  padding: 2px 8px;
+  font-size: 12px;
+}
+
+.tasklist .checkbox {
+  margin-left: 20px;
+  margin-top: 5px;
+}
+
+.task-placeholder {
+  border: 1px dashed #dee2e6 !important;
+  background-color: #f3f7f9 !important;
+  padding: 20px;
+}
+
 .bootstrap-table .table:not(.table-sm) > tbody > tr > td,
 .bootstrap-table .table:not(.table-sm) > tbody > tr > th,
 .bootstrap-table .table:not(.table-sm) > tfoot > tr > td,

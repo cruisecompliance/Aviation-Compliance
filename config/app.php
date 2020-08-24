@@ -236,6 +236,7 @@ return [
          */
         'RoleName' => App\Enums\RoleName::class,
         'PermissionName' => App\Enums\PermissionName::class,
+        'RequrementStatus' => App\Enums\RequrementStatus::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
 //        'Socialite' => Laravel\Socialite\Facades\Socialite::class, // ??

@@ -19,7 +19,9 @@ File: Kanban Board init js
 			Sortable.create($(this)[0], {
 				group: 'shared',
 				animation: 150,
-				ghostClass: 'bg-ghost'
+				ghostClass: 'bg-ghost',
+                sort: false, //
+                disabled: false, //
 			});
 			
 		});	

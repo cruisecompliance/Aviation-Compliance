@@ -25,6 +25,11 @@ require('datatables.net-select-bs4');
 require('jquery-datatables-checkboxes');
 require('./pages/datatables.init');
 
+// Kanban
+import Sortable, { MultiDrag, Swap } from 'sortablejs'; //
+window.Sortable = Sortable; // // global export
+// require('./pages/kanban.init');
+
 // feather icons
 const feather = require('feather-icons');
 feather.replace();

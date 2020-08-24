@@ -37,7 +37,6 @@ Route::get('/login/azure/callback', 'Auth\LoginController@handleProviderCallback
 Route::get('/login/teams', 'Auth\TeamController@login')->name('auth.login.teams');
 Route::get('/login/teams-start', 'Auth\TeamController@start')->name('auth.login.teams_start');
 Route::get('/login/teams-end', 'Auth\TeamController@end')->name('auth.login.teams_end');
-Route::get('/login/teams-end', 'Auth\TeamController@end')->name('auth.login.teams_end');
 Route::get('/login/teams/email/{email}', 'Auth\TeamController@getEmail')->name('auth.login.get_email');
 
 /*
@@ -107,11 +106,16 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
         // Flows
         Route::resource('/flows', 'FlowController')->except(['create','show','destroy'])->names('admin.flows');
 
-        // Flow Requirements
+        // Flow Requirements (Table View) // TODO rename - table (controller and view) and change AJAX routes
         Route::get('/flows/{flow}/requirements', 'RequirementController@index')->name('admin.flows.requirements.index');
         Route::post('/flows/{flow}/requirements/datatable', 'RequirementController@datatable')->name('admin.flows.requirements.datatable');
         Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('admin.flows.requirements.edit');
         Route::post('/flows/{flow}/requirements', 'RequirementController@update')->name('admin.flows.requirements.update');
+
+        // Flow Requirements (Kanban View)
+        Route::get('/flows/{flow}/requirements/kanban', 'KanbanController@index')->name('admin.flows.requirements.kanban.index');
+        Route::post('/flows/{flow}/requirements/kanban/status', 'KanbanController@changeStatus')->name('admin.flows.requirements.kanban.status');
+
     });
 
 
