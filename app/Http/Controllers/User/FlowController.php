@@ -25,9 +25,11 @@ class FlowController extends Controller
         // get latest company flow
         $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
 
-        // check assigned users for flowData
-        if (empty(FlowsData::assignedUser(Auth::user()->id, $flow->id))) {
-            return abort(403, 'User not assigned ');
+        // check assigned users for flowData (Auditee, Auditor, Investigator)
+        if(Auth::user()->hasRole([RoleName::AUDITEE, RoleName::AUDITOR, RoleName::INVESTIGATOR])){
+            if (empty(FlowsData::assignedUser(Auth::user()->id, $flow->id))) {
+                return abort(403, 'User not assigned ');
+            }
         }
 
         // get users by roles (for select input)
@@ -73,6 +75,36 @@ class FlowController extends Controller
             })
             ->editColumn('investigator', function (FlowsData $flowsData) {
                 return $flowsData->investigator ? $flowsData->investigator->name : '';
+            })
+            ->editColumn('due_date', function (FlowsData $flowsData) {
+                return $flowsData->due_date ? $flowsData->due_date->format('d.m.Y') : '';
+            })
+            ->filterColumn('due_date', function ($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(due_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
+            })
+            ->editColumn('effectiveness_review_date', function (FlowsData $flowsData) {
+                return $flowsData->effectiveness_review_date ? $flowsData->effectiveness_review_date->format('d.m.Y') : '';
+            })
+            ->filterColumn('effectiveness_review_date', function ($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(due_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
+            })
+            ->editColumn('response_date', function (FlowsData $flowsData) {
+                return $flowsData->response_date ? $flowsData->effectiveness_review_date->format('d.m.Y') : '';
+            })
+            ->filterColumn('response_date', function ($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(response_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
+            })
+            ->editColumn('extension_due_date', function (FlowsData $flowsData) {
+                return $flowsData->extension_due_date ? $flowsData->extension_due_date->format('d.m.Y') : '';
+            })
+            ->filterColumn('extension_due_date', function ($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(extension_due_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
+            })
+            ->editColumn('closed_date', function (FlowsData $flowsData) {
+                return $flowsData->closed_date ? $flowsData->closed_date->format('d.m.Y') : '';
+            })
+            ->filterColumn('closed_date', function ($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(closed_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
             })
             ->addColumn('action', function ($row) {
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-rule_reference="' . $row->rule_reference . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
