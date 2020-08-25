@@ -9,6 +9,7 @@ use App\Models\Requirement;
 use App\Models\RequirementsData;
 use App\Imports\RequirementsImport;
 use App\Services\ColorDiff;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
@@ -112,51 +113,42 @@ class RequirementController extends Controller
 
         //> upload file
         $file = $request->file('user_file');
-        $file->getClientOriginalName();
-        // generate a new file name
         $file_name = 'import_' . date('d.m.Y_H:s') . '.' . $file->getClientOriginalExtension();
-        // save file
-        $file_path = $request->file('user_file')->storeAs('public', $file_name);
-        //<
+        $file_path = $request->file('user_file')->storeAs('public/storage', $file_name);
 
-        //> store file info data
-        $version = Requirement::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'file_name' => $file_name,
-            'file_path' => $file_path,
-        ]);
-        //<
+        $version =  DB::transaction(function () use ($request, $file_name, $file_path) {
+            //> store file info data
+            $version = Requirement::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'file_name' => $file_name,
+            ]);
 
-        //> import data from file
-//        $path = "../public/storage/file.xlsx";
-        $path = "../public/storage/" . $file_name;
+            //> import data from file
+            // get file data
+            $array = (new RequirementsImport)->toArray($file_path);
 
-        // import requirements data
-        // $array = Excel::import(new RequirementsImport, $path);
+            // save file data (where array[key] is a sheet)
+            foreach ($array[1] as $item) {
+                if (!empty($item[0]) && !empty($item[1])) {
 
-        // get file data
-        $array = (new RequirementsImport)->toArray($path);
+                    if (!empty($item[2])) {
+                        $requirement[] = RequirementsData::create([
+                            'rule_section' => $item[0],
+                            'rule_group' => $item[1],
+                            'rule_reference' => $item[2],
+                            'rule_title' => $item[3],
+                            'rule_manual_reference' => $item[4],
+                            'rule_chapter' => $item[5],
+                            'version_id' => $version->id
+                        ]);
+                    }
 
-        // save file data (where array[key] is a sheet)
-        foreach ($array[1] as $item) {
-            if (!empty($item[0]) && !empty($item[1])) {
-
-                if (!empty($item[2])) {
-                    $requirement[] = RequirementsData::create([
-                        'rule_section' => $item[0],
-                        'rule_group' => $item[1],
-                        'rule_reference' => $item[2],
-                        'rule_title' => $item[3],
-                        'rule_manual_reference' => $item[4],
-                        'rule_chapter' => $item[5],
-                        'version_id' => $version->id
-                    ]);
                 }
-
             }
-        }
-        //<
+
+            return $version;
+        });
 
         return response()->json([
             'success' => true,

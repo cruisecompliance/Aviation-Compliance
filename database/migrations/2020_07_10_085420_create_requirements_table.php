@@ -18,7 +18,6 @@ class CreateRequirementsTable extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->string('file_name');
-            $table->string('file_path');
             $table->timestamps();
         });
     }
