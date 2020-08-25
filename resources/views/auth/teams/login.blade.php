@@ -95,7 +95,11 @@
 
                 $.get('/login/teams/email/' + profile.mail, function (data) {
                     if (data.success) {
-                        window.location.href = window.location.origin;
+                        if (data.role.name == data.sme) {
+                            window.location.href = window.location.origin + "/admin/home";
+                        } else {
+                            window.location.href = window.location.origin + "/user/home";
+                        }
                     }
                 });
             },
