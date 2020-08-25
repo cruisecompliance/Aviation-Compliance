@@ -35,6 +35,14 @@ class UserSeeder extends Seeder
 
         // DEMO Users
         User::create([
+            'name' => 'D Levchuk',
+            'email' => 'darina.levchuk@gmail.com',
+            'password' => Hash::make('demo'),
+            'company_id' => 2,
+        ])->assignRole(RoleName::SME);
+
+        // John Doe
+        User::create([
             'name' => 'John Doe',
             'email' => 'demo@demo.com',
             'password' => Hash::make('demo'),
