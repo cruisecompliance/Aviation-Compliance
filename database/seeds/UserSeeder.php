@@ -34,9 +34,26 @@ class UserSeeder extends Seeder
         ])->assignRole(RoleName::SME);
 
         // DEMO Users
+        // riv4ik@gmail.com
+        User::create([
+            'name' => 'Vadim Kukharenko',
+            'email' => 'riv4ik@gmail.com',
+            'password' => Hash::make('demo'),
+            'company_id' => 2,
+        ])->assignRole(RoleName::SME);
+
+        // darina.levchuk@gmail.com
         User::create([
             'name' => 'D Levchuk',
             'email' => 'darina.levchuk@gmail.com',
+            'password' => Hash::make('demo'),
+            'company_id' => 2,
+        ])->assignRole(RoleName::SME);
+
+        // eugene.pyvovarov@gmail.com
+        User::create([
+            'name' => 'Eugene Pyvovarov',
+            'email' => 'eugene.pyvovarov@gmail.com',
             'password' => Hash::make('demo'),
             'company_id' => 2,
         ])->assignRole(RoleName::SME);
