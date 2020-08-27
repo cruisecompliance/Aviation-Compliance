@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Flows;
 
+use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use App\Models\Flow;
 use App\Models\FlowsData;
@@ -18,24 +20,27 @@ class KanbanController extends Controller
     public function index(Flow $flow)
     {
         // get flowData for flow
-        $flowData = $flow->FlowData;
+        $flowData = $flow->FlowData->load('auditor', 'auditee', 'investigator');
 
-        // load relationship data
-        $flowData->load('auditor', 'auditee', 'investigator');
+        // group by status
+        $flowData = collect($flowData)->groupBy('status');
 
-        // collect flowData
-        $flowData = collect($flowData);
-
-        // groupBy flowData
-        $flowData = $flowData->groupBy('status');
         // upcoming
         // in_progress
         // completed
+
+        // get users by roles (for select input)
+        $auditors = User::role(RoleName::AUDITOR)->whereCompanyId($flow->company->id)->get();
+        $auditees = User::role(RoleName::AUDITEE)->whereCompanyId($flow->company->id)->get();
+        $investigators = User::role(RoleName::INVESTIGATOR)->whereCompanyId($flow->company->id)->get();
 
         // return requirements kanban view with data
         return view('admin.flows.kanban', [
             'flow' => $flow,
             'flowData' => $flowData,
+            'auditors' => $auditors,
+            'auditees' => $auditees,
+            'investigators' => $investigators,
         ]);
 
     }

@@ -83,7 +83,6 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
      **/
     Route::resource('/companies', 'CompanyController')->except(['create','show','destroy'])->names('admin.companies');
 
-
     /**
      * Requirements
      */
@@ -104,12 +103,14 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
         // Flow Requirements (Table View)
         Route::get('/flows/{flow}/table', 'TableController@index')->name('admin.flows.table.index');
         Route::post('/flows/{flow}/table/datatable', 'TableController@datatable')->name('admin.flows.table.datatable');
-        Route::get('/flows/{flow}/table/{rule_reference}/edit', 'TableController@edit')->name('admin.flows.table.edit');
-        Route::post('/flows/{flow}/table', 'TableController@update')->name('admin.flows.table.update');
 
         // Flow Requirements (Kanban View)
         Route::get('/flows/{flow}/kanban', 'KanbanController@index')->name('admin.flows.kanban.index');
         Route::post('/flows/{flow}/kanban/status', 'KanbanController@changeStatus');
+
+        // Flow Requirements (Edit Form)
+        Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('admin.flows.requirements.edit');
+        Route::post('/flows/{flow}/requirements', 'RequirementController@update')->name('admin.flows.requirements.update');
 
     });
 
