@@ -82,17 +82,17 @@
                     </div> <!-- end card -->
                 </div><!-- end col-->
             </div><!-- end row-->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
 
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h4 class="page-title">Last version of requirements</h4>
-                                    </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="page-title">Last version of requirements</h4>
                                 </div>
-                                @if($versions->isNotEmpty())
+                            </div>
+                            @if($versions->isNotEmpty())
                                 <div class="row">
                                     <div class="col-12">
                                         <table id="basic-datatable" class="table nowrap w-100">
@@ -110,14 +110,14 @@
                                         </table>
                                     </div>
                                 </div>
-                                @endif
+                            @endif
 
 
-                            </div> <!-- end card body-->
-                        </div> <!-- end card -->
-                    </div><!-- end col-->
-                </div><!-- end row-->
-                <!-- /page content -->
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div><!-- end row-->
+            <!-- /page content -->
         </div>
 
     </div>
@@ -217,10 +217,10 @@
 
                     });
 
-                    // console log dataTable row
-                    $('#basic-datatable tbody').on('click', 'tr', function () {
-                        console.log(table.row(this).data());
-                    });
+                    // // console log dataTable row
+                    // $('#basic-datatable tbody').on('click', 'tr', function () {
+                    //     console.log(table.row(this).data());
+                    // });
 
                     // modal create
                     $('#createNewItem').click(function () {
@@ -245,6 +245,7 @@
                     // reset form alert
                     var resetForm = function () {
                         $(".alert-success").remove();
+                        $(".alert-danger").remove();
                         $(".text-danger").remove();
                         $("form").find("input").removeClass('is-invalid');
                     };
@@ -267,13 +268,28 @@
                             contentType: false,
                             processData: false,
                             success: function (data, textStatus, jqXHR) {
-                                console.log(data);
+
+                                // form errors
                                 if (data.success) {
                                     form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>');
                                     table.draw();
                                 } else {
                                     $.each(data.errors, function (input_name, input_error) {
                                         form.find("input[name='" + input_name + "']").addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
+                                    });
+                                }
+
+                                // file errors
+                                if (data.duplicate) {
+                                    $.each(data.duplicate, function (id, rule_reference) {
+                                        // console.log(rule_reference);
+                                        form.before('<div class="alert alert-danger" role="alert">The ' + rule_reference + ' field is duplicated. </div>');
+                                    });
+                                }
+                                if (data.empty) {
+                                    $.each(data.empty, function (index, element) {
+                                        // console.log(element.row);
+                                        form.before('<div class="alert alert-danger" role="alert">The Rule Reference field is empty on row - ' + element.row + '</div>');
                                     });
                                 }
                             },

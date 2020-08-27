@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Requirements\RequirementRequest;
+use App\Imports\RequirementsValidation;
 use Illuminate\Http\Request;
 use App\Models\Requirement;
 use App\Models\RequirementsData;
@@ -110,13 +111,33 @@ class RequirementController extends Controller
             ]);
         }
 
+        //> file data fields validation
+        $sheets = (new RequirementsImport)->toArray($request->file('user_file'));
+
+        // prepare file data
+        $requirements = (new RequirementsValidation())->prepare($sheets[1]);
+
+        // get empty rule_reference
+        $empty_requirements = (new RequirementsValidation())->empty($requirements);
+
+        // get rule_reference duplicates
+        $duplicates_requirements = (new RequirementsValidation())->duplicate($requirements);
+
+        // check if isset errors in file fields
+        if ($empty_requirements->isNotEmpty() || $duplicates_requirements->isNotEmpty()) {
+            return response()->json([
+                'empty' => $empty_requirements,
+                'duplicate' => $duplicates_requirements,
+            ]);
+        }
 
         //> upload file
         $file = $request->file('user_file');
         $file_name = 'import_' . date('d.m.Y_H:s') . '.' . $file->getClientOriginalExtension();
-        $file_path = $request->file('user_file')->storeAs('public/storage', $file_name);
+        $file_path = $request->file('user_file')->storeAs('public', $file_name);
 
-        $version =  DB::transaction(function () use ($request, $file_name, $file_path) {
+        //
+        $version = DB::transaction(function () use ($request, $file_name, $requirements) {
             //> store file info data
             $version = Requirement::create([
                 'title' => $request->title,
@@ -124,27 +145,19 @@ class RequirementController extends Controller
                 'file_name' => $file_name,
             ]);
 
-            //> import data from file
-            // get file data
-            $array = (new RequirementsImport)->toArray($file_path);
+            // save file data
+            foreach ($requirements as $item) {
 
-            // save file data (where array[key] is a sheet)
-            foreach ($array[1] as $item) {
-                if (!empty($item[0]) && !empty($item[1])) {
+                RequirementsData::create([
+                    'rule_section' => $item['rule_section'],
+                    'rule_group' => $item['rule_group'],
+                    'rule_reference' => $item['rule_reference'],
+                    'rule_title' => $item['rule_title'],
+                    'rule_manual_reference' => $item['rule_manual_reference'],
+                    'rule_chapter' => $item['rule_chapter'],
+                    'version_id' => $version->id
+                ]);
 
-                    if (!empty($item[2])) {
-                        $requirement[] = RequirementsData::create([
-                            'rule_section' => $item[0],
-                            'rule_group' => $item[1],
-                            'rule_reference' => $item[2],
-                            'rule_title' => $item[3],
-                            'rule_manual_reference' => $item[4],
-                            'rule_chapter' => $item[5],
-                            'version_id' => $version->id
-                        ]);
-                    }
-
-                }
             }
 
             return $version;
@@ -165,7 +178,7 @@ class RequirementController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function show(Requirement $requirement)
+    function show(Requirement $requirement)
     {
 
         // dataTable

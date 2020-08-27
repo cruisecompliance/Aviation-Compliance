@@ -6,6 +6,7 @@ use App\Models\RequirementsData;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+//use Maatwebsite\Excel\Concerns\WithValidation;
 
 class RequirementsImport implements ToModel, WithStartRow
 {
@@ -35,5 +36,14 @@ class RequirementsImport implements ToModel, WithStartRow
     {
         return 3;
     }
+
+//    public function rules(): array
+//    {
+//        return [
+//            '*.1' => ['required'], // rule_section
+//            '*.2' => ['required'], // rule_group
+//            '*.3' => ['required'], // rule_reference
+//        ];
+//    }
 
 }
