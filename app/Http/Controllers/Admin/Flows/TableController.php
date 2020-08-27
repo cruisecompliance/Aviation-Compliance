@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class RequirementController extends Controller
+class TableController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +22,6 @@ class RequirementController extends Controller
      */
     public function index(Flow $flow)
     {
-
         // load relation data
         $flow->load('company');
         $flow->load('requirement');
@@ -32,8 +31,8 @@ class RequirementController extends Controller
         $auditees = User::role(RoleName::AUDITEE)->whereCompanyId($flow->company->id)->get();
         $investigators = User::role(RoleName::INVESTIGATOR)->whereCompanyId($flow->company->id)->get();
 
-        // return view with data
-        return view('admin.flows.requirements', [
+        // return requirements table view with data
+        return view('admin.flows.table', [
             'flow' => $flow,
             'auditors' => $auditors,
             'auditees' => $auditees,

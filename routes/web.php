@@ -101,15 +101,15 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
         // Flows
         Route::resource('/flows', 'FlowController')->except(['create','show','destroy'])->names('admin.flows');
 
-        // Flow Requirements (Table View) // TODO rename - table (controller and view) and change AJAX routes
-        Route::get('/flows/{flow}/requirements', 'RequirementController@index')->name('admin.flows.requirements.index');
-        Route::post('/flows/{flow}/requirements/datatable', 'RequirementController@datatable')->name('admin.flows.requirements.datatable');
-        Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('admin.flows.requirements.edit');
-        Route::post('/flows/{flow}/requirements', 'RequirementController@update')->name('admin.flows.requirements.update');
+        // Flow Requirements (Table View)
+        Route::get('/flows/{flow}/table', 'TableController@index')->name('admin.flows.table.index');
+        Route::post('/flows/{flow}/table/datatable', 'TableController@datatable')->name('admin.flows.table.datatable');
+        Route::get('/flows/{flow}/table/{rule_reference}/edit', 'TableController@edit')->name('admin.flows.table.edit');
+        Route::post('/flows/{flow}/table', 'TableController@update')->name('admin.flows.table.update');
 
         // Flow Requirements (Kanban View)
-        Route::get('/flows/{flow}/requirements/kanban', 'KanbanController@index')->name('admin.flows.requirements.kanban.index');
-        Route::post('/flows/{flow}/requirements/kanban/status', 'KanbanController@changeStatus')->name('admin.flows.requirements.kanban.status');
+        Route::get('/flows/{flow}/kanban', 'KanbanController@index')->name('admin.flows.kanban.index');
+        Route::post('/flows/{flow}/kanban/status', 'KanbanController@changeStatus');
 
     });
 

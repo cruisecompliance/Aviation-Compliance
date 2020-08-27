@@ -298,7 +298,7 @@
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "{{ route('admin.flows.requirements.datatable', $flow) }}",
+                            url: "{{ route('admin.flows.table.datatable', $flow) }}",
                             type: 'POST',
                         },
                         columns: [
@@ -361,12 +361,12 @@
                     $('body').on('click', '.editItem', function () {
 
                         var rule_reference = $(this).data('rule_reference');
-                        var action = "{{ route('admin.flows.requirements.index', $flow->id) }}";
+                        var action = "{{ route('admin.flows.table.update', $flow->id) }}";
                         var method = "POST";
 
                         resetForm();
 
-                        $.get("{{ route('admin.flows.requirements.index', $flow->id) }}" + '/' + rule_reference + '/edit', function (data) {
+                        $.get("{{ route('admin.flows.table.index', $flow->id) }}" + '/' + rule_reference + '/edit', function (data) {
                             $('#modelHeading').html("Edit - " + data.resource.rule_reference); // modal header
                             $('#ItemForm').attr('action', action); // form action
                             $('#_method').val(method); // form method

@@ -170,7 +170,7 @@
                                 });
 
                                 $.ajax({
-                                    url: "{{ route('admin.flows.requirements.index', $flow->id) }}" + '/kanban/status',
+                                    url: '/admin/flows/' + {{ $flow->id }} + '/kanban/status', // KanbanController@changeStatus
                                     type: "POST",
                                     data: {item_id: item_id, list_name: list_name},
                                     success: function (data) {

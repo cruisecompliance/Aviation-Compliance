@@ -32,7 +32,7 @@ class KanbanController extends Controller
         // in_progress
         // completed
 
-        // return view with data
+        // return requirements kanban view with data
         return view('admin.flows.kanban', [
             'flow' => $flow,
             'flowData' => $flowData,
