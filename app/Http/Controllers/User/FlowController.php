@@ -21,14 +21,15 @@ class FlowController extends Controller
      */
     public function index()
     {
-
         // get latest company flow
         $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
 
         // check assigned users for flowData (Auditee, Auditor, Investigator)
-        if(Auth::user()->hasRole([RoleName::AUDITEE, RoleName::AUDITOR, RoleName::INVESTIGATOR])){
-            if (empty(FlowsData::assignedUser(Auth::user()->id, $flow->id))) {
-                return abort(403, 'User not assigned ');
+        if (!empty($flow)){
+            if(Auth::user()->hasRole([RoleName::AUDITEE, RoleName::AUDITOR, RoleName::INVESTIGATOR])){
+                if (empty(FlowsData::assignedUser(Auth::user()->id, $flow->id))) {
+                    return abort(403, 'User not assigned ');
+                }
             }
         }
 
