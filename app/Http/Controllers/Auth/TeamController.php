@@ -15,7 +15,7 @@ class TeamController extends Controller
         return view('auth.teams.login');
     }
 
-    
+
     public function start()
     {
         return view('auth.teams.start');
@@ -26,19 +26,25 @@ class TeamController extends Controller
         return view('auth.teams.end');
     }
 
-    public function getEmail(string $email)
+    /**
+     *
+     * @param string $azure_email
+     * @param string $azure_name
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function profile(string $azure_email, string $azure_name)
     {
-
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $azure_email)->first();
 
         if (!empty($user)) {
+
+            $user->update(['azure_name' => $azure_name]);
 
             auth()->login($user);
 
             return response()->json([
                 'success' => true,
                 'message' => "Auth user - {$user->email}.",
-                'user' => Auth::user(),
                 'role' => Auth::user()->roles->first(),
                 'sme' => RoleName::SME,
             ]);

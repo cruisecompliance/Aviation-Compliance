@@ -93,7 +93,21 @@
                 // $("#divProfile").show();
                 // $("#divError").hide();
 
-                $.get('/login/teams/email/' + profile.mail, function (data) {
+//				 $.ajax({
+//                    url: '/login/teams/profile/',
+//                    type: 'POST',
+//                    data: {email: profile.mail, name: profile.displayName},
+//                    success: function (data) {
+//                      	console.log(data);
+//                    },
+//                    error: function (data) {
+//                    	console.log('Error:', data);
+//                    }
+//				});
+
+
+                $.get('/login/teams/profile/' + profile.mail + '/name/' + profile.displayName, function (data) {
+                    console.log(data);
                     if (data.success) {
                         if (data.role.name == data.sme) {
                             window.location.href = window.location.origin + "/admin/home";
@@ -102,6 +116,7 @@
                         }
                     }
                 });
+
             },
             error: function (xhr, textStatus, errorThrown) {
                 console.log("textStatus: " + textStatus + ", errorThrown:" + errorThrown);
