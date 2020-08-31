@@ -37,6 +37,7 @@ class UserSeeder extends Seeder
         // riv4ik@gmail.com
         User::create([
             'name' => 'Vadim Kukharenko',
+            'azure_name' => 'Вадим Кухаренко',
             'email' => 'riv4ik@gmail.com',
             'password' => Hash::make('demo'),
             'company_id' => 2,
