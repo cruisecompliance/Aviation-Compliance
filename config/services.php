@@ -36,4 +36,8 @@ return [
         'redirect' => env('AZURE_REDIRECT_URI')
     ],
 
+    'teams' => [
+        'webhook_url' => env('TEAMS_WEBHOOK_URL'),
+    ],
+
 ];

@@ -29,10 +29,10 @@ class KanbanController extends Controller
         // in_progress
         // completed
 
-        // get users by roles (for select input)
-        $auditors = User::role(RoleName::AUDITOR)->whereCompanyId($flow->company->id)->get();
-        $auditees = User::role(RoleName::AUDITEE)->whereCompanyId($flow->company->id)->get();
-        $investigators = User::role(RoleName::INVESTIGATOR)->whereCompanyId($flow->company->id)->get();
+        // get users by roles (for select input) (ToDo:: Scope)
+        $auditors = User::role(RoleName::AUDITOR)->whereCompanyId($flow->company->id)->whereStatus(User::STATUS_ACTIVE)->get();
+        $auditees = User::role(RoleName::AUDITEE)->whereCompanyId($flow->company->id)->whereStatus(User::STATUS_ACTIVE)->get();
+        $investigators = User::role(RoleName::INVESTIGATOR)->whereCompanyId($flow->company->id)->whereStatus(User::STATUS_ACTIVE)->get();
 
         // return requirements kanban view with data
         return view('admin.flows.kanban', [

@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers\Admin\Flows;
 
+use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Models\Flow;
 use App\Models\FlowsData;
+use App\Notifications\Flows\EditTaskMailNotification;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\Flows\EditTaskTeamsNotification;
+use App\Notifications\Flows\EditTasMailNotification;
+
+
 
 class RequirementController extends Controller
 {
@@ -42,6 +51,7 @@ class RequirementController extends Controller
      */
     public function update(Flow $flow, Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'rule_section' => 'required|numeric',
             'rule_group' => 'required|string',
@@ -96,6 +106,30 @@ class RequirementController extends Controller
                 'rule_chapter'
             ));
 
+
+        $task = FlowsData::whereFlowId($flow->id)->whereRuleReference($request->rule_reference)->first();
+
+        // get mention users (MS Teams Notification)
+//        $mentionUsers[] = ($task->auditor->azure_name) ? "@" . $task->auditor->azure_name : NULL;
+//        $mentionUsers[] = ($task->auditee->name) ? "@" . $task->auditee->name : NULL;
+//        $mentionUsers[] = ($task->investigator->name) ? "@" . $task->investigator->name : NULL
+
+//        Notification::send(Auth::user(), new EditTaskTeamsNotification($request->rule_reference));
+
+        // get notification users (Email Notification)
+        $notificationUsers[] = $task->auditor;
+        $notificationUsers[] = $task->auditee;
+        $notificationUsers[] = $task->investigator;
+
+        $accountableManagers = User::role(RoleName::ACCOUNTABLE_MANAGER)->whereCompanyId($flow->company->id)->whereStatus(User::STATUS_ACTIVE)->get();
+        $complianceMonitoringManagers = User::role(RoleName::COMPLIANCE_MONITORING_MANAGER)->whereCompanyId($flow->company->id)->whereStatus(User::STATUS_ACTIVE)->get();
+
+        $notificationUsers = collect($notificationUsers)->merge($accountableManagers)->unique()->filter();
+        $notificationUsers = collect($notificationUsers)->merge($accountableManagers)->unique()->filter();
+        $notificationUsers = collect($notificationUsers)->merge($complianceMonitoringManagers)->unique()->filter();
+
+        Notification::send($notificationUsers, new EditTaskMailNotification($request->rule_reference));
+//
 //         $flow->flowData()->whereRuleReference($request->rule_reference)->update([
 //            'company_manual' => $request->company_manual,
 //            'company_chapter' => $request->company_chapter,

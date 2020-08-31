@@ -27,7 +27,7 @@ class FlowController extends Controller
         // check assigned users for flowData (Auditee, Auditor, Investigator)
         if (!empty($flow)){
             if(Auth::user()->hasRole([RoleName::AUDITEE, RoleName::AUDITOR, RoleName::INVESTIGATOR])){
-                if (empty(FlowsData::assignedUser(Auth::user()->id, $flow->id))) {
+                if (empty(FlowsData::checkAssignedUser(Auth::user()->id, $flow->id))) {
                     return abort(403, 'User not assigned ');
                 }
             }

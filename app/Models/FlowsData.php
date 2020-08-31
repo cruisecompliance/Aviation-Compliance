@@ -37,7 +37,7 @@ class FlowsData extends Model
         return $this->belongsTo(User::class, 'investigator_id', 'id');
     }
 
-    public static function assignedUser(int $user_id, $flow_id)
+    public static function checkAssignedUser(int $user_id, int $flow_id)
     {
         $data = self::query()
             ->orWhere('auditor_id', $user_id)
@@ -48,6 +48,5 @@ class FlowsData extends Model
 
         return ($data) ? true : false;
     }
-
 
 }

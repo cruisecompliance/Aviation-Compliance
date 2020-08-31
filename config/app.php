@@ -170,6 +170,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Lab404\Impersonate\ImpersonateServiceProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
+        NotificationChannels\MicrosoftTeams\MicrosoftTeamsServiceProvider::class,
         /*
          * Application Service Providers...
          */
