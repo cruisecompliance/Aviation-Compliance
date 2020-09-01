@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Enums\RoleName;
 use App\Models\Company;
 use Spatie\Permission\Models\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -46,9 +47,76 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeDisabled($query)
+    {
+        return $query->where('status', self::STATUS_DISABLED);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeAuditors($query)
+    {
+        return $query->role(RoleName::AUDITOR);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeAuditees($query)
+    {
+        return $query->role(RoleName::AUDITEE);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeInvestigators($query)
+    {
+        return $query->role(RoleName::INVESTIGATOR);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeAM($query)
+    {
+        return $query->role(RoleName::ACCOUNTABLE_MANAGER);
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeCMM($query)
+    {
+        return $query->role(RoleName::COMPLIANCE_MONITORING_MANAGER);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function company()
     {
         return $this->belongsTo(Company::class);
     }
+
 
 }

@@ -22,10 +22,10 @@ class TableController extends Controller
      */
     public function index(Flow $flow)
     {
-        // get users by roles (for select input) (ToDo:: Scope)
-        $auditors = User::role(RoleName::AUDITOR)->whereCompanyId($flow->company->id)->whereStatus(User::STATUS_ACTIVE)->get();
-        $auditees = User::role(RoleName::AUDITEE)->whereCompanyId($flow->company->id)->whereStatus(User::STATUS_ACTIVE)->get();
-        $investigators = User::role(RoleName::INVESTIGATOR)->whereCompanyId($flow->company->id)->whereStatus(User::STATUS_ACTIVE)->get();
+        // get users by roles (for select input)
+        $auditors = User::auditors()->active()->whereCompanyId($flow->company->id)->get();
+        $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
+        $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
 
         // return requirements table view with data
         return view('admin.flows.table', [

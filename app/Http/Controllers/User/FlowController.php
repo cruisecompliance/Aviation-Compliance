@@ -6,6 +6,7 @@ use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Models\Flow;
 use App\Models\FlowsData;
+use App\Services\Flows\NotificationService;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,9 +35,9 @@ class FlowController extends Controller
         }
 
         // get users by roles (for select input)
-        $auditors = User::role(RoleName::AUDITOR)->whereCompanyId(Auth::user()->company->id)->get();
-        $auditees = User::role(RoleName::AUDITEE)->whereCompanyId(Auth::user()->company->id)->get();
-        $investigators = User::role(RoleName::INVESTIGATOR)->whereCompanyId(Auth::user()->company->id)->get();
+        $auditors = User::auditors()->active()->whereCompanyId($flow->company->id)->get();
+        $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
+        $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
 
         // return view with data
         return view('user.flows.requirements', [
@@ -209,12 +210,21 @@ class FlowController extends Controller
                 'rule_chapter'
             ));
 
+        // get task data (FlowData)
+        $task = FlowsData::whereFlowId($flow->id)->whereRuleReference($request->requirements_rule)->first();
+
+        // send email notification
+        app(NotificationService::class)->sendEmailNotification($flow, $task);
+
+        // send teams notification
+        // app(NotificationService::class)->sendTeamsNotification($flow, $task);
+
         // return json response with data
         return response()->json([
             'success' => true,
             'message' => "{$request->requirements_rule} was update successfully.",
             'resource' => $flow,
-        ]);
+        ], 200);
 
     }
 
