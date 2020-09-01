@@ -10,20 +10,23 @@ use Illuminate\Support\Facades\Auth;
 use NotificationChannels\MicrosoftTeams\MicrosoftTeamsChannel;
 use NotificationChannels\MicrosoftTeams\MicrosoftTeamsMessage;
 
-class EditTaskTeamsNotification extends Notification
+class EditTaskTeamsNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
     private $rule_reference;
+    private $editor_name; // user name who changed task
 
     /**
      * Create a new notification instance.
      *
      * @param string $rule_reference
+     * @param string $editor_name
      */
-    public function __construct(string $rule_reference)
+    public function __construct(string $rule_reference, string $editor_name)
     {
         $this->rule_reference = $rule_reference;
+        $this->editor_name = $editor_name;
     }
 
     /**
@@ -58,8 +61,8 @@ class EditTaskTeamsNotification extends Notification
         return MicrosoftTeamsMessage::create()
             ->to(config('services.teams.webhook_url'))
             ->type('success')
-            ->title("{$this->rule_reference} was update successfully.")
-            ->content('The user ' . Auth::user()->name . ' has changed the Rule Reference.')
+            ->title("$this->rule_reference was update successfully.")
+            ->content("The user $this->editor_name  has changed the Rule Reference.")
             ->button('View', url('/user/flows'));
     }
 

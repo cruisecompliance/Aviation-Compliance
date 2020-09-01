@@ -16,14 +16,15 @@ class NotificationService
     /**
      * @param Flow $flow
      * @param FlowsData $task
+     * @param User $user (who change task)
      */
-    public function sendEmailNotification(Flow $flow, FlowsData $task): void
+    public function sendEmailNotification(Flow $flow, FlowsData $task, User $user): void
     {
         // get notification users
         $notificationUsers =  $this->getNotificationUsers($task, $flow->company->id);
 
         // send notification to email
-        Notification::send($notificationUsers, new EditTaskMailNotification($task->rule_reference));
+        Notification::send($notificationUsers, new EditTaskMailNotification($task->rule_reference, $user->name));
 
     }
 
@@ -31,15 +32,16 @@ class NotificationService
     /**
      * @param Flow $flow
      * @param FlowsData $task
+     * @param User $user
      */
-    public function sendTeamsNotification(Flow $flow, FlowsData $task): void
+    public function sendTeamsNotification(Flow $flow, FlowsData $task, User $user): void
     {
 
 //        $mentionUsers[] = ($task->auditor->azure_name) ? "@" . $task->auditor->azure_name : NULL;
 //        $mentionUsers[] = ($task->auditee->name) ? "@" . $task->auditee->name : NULL;
 //        $mentionUsers[] = ($task->investigator->name) ? "@" . $task->investigator->name : NULL;
 
-        Notification::send(Auth::user(), new EditTaskTeamsNotification($task->rule_reference));
+        Notification::send(Auth::user(), new EditTaskTeamsNotification($task->rule_reference, $user->name));
 
     }
 

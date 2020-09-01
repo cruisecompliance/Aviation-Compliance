@@ -7,6 +7,7 @@ use App\Models\Flow;
 use App\Models\FlowsData;
 use App\Services\Flows\NotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 use Throwable;
@@ -106,10 +107,10 @@ class RequirementController extends Controller
             $task = FlowsData::whereFlowId($flow->id)->whereRuleReference($request->rule_reference)->first();
 
             // send email notification
-            app(NotificationService::class)->sendEmailNotification($flow, $task);
+            app(NotificationService::class)->sendEmailNotification($flow, $task, Auth::user());
 
             // send teams notification
-            // app(NotificationService::class)->sendTeamsNotification($flow, $task);
+            // app(NotificationService::class)->sendTeamsNotification($flow, $task, Auth::user());
 
             return response()->json([
                 'success' => true,

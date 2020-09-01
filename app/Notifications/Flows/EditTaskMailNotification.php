@@ -8,20 +8,23 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 
-class EditTaskMailNotification extends Notification
+class EditTaskMailNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
     private $rule_reference;
+    private $editor_name; // user name who changed task
 
     /**
      * Create a new notification instance.
      *
      * @param string $rule_reference
+     * @param string $editor_name
      */
-    public function __construct(string $rule_reference)
+    public function __construct(string $rule_reference, string $editor_name)
     {
         $this->rule_reference = $rule_reference;
+        $this->editor_name = $editor_name;
     }
 
     /**
@@ -45,8 +48,8 @@ class EditTaskMailNotification extends Notification
     {
 
         return (new MailMessage)
-            ->greeting("{$this->rule_reference} was update successfully.")
-            ->line('The user ' . Auth::user()->name . ' has changed the Rule Reference.')
+            ->greeting("$this->rule_reference was update successfully.")
+            ->line("The user $this->editor_name has changed the Rule Reference.")
             ->action('View', url('/user/flows'))
             ->line('Thank you for using our app');
     }
