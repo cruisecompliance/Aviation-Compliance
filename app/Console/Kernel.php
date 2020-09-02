@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
 
-        $schedule->command('task:deadline')->everyMinute();
+        $schedule->command('task:deadline')->daily();
 
     }
 
