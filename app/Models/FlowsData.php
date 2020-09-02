@@ -17,9 +17,14 @@ class FlowsData extends Model
         'closed_date'
     ];
 
-    public function requirementData()
+//    public function requirementData()
+//    {
+//        return $this->belongsTo(RequirementsData::class);
+//    }
+
+    public function flow()
     {
-        return $this->belongsTo(RequirementsData::class);
+        return $this->belongsTo(Flow::class);
     }
 
     public function auditor()
