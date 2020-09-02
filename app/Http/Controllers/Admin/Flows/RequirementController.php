@@ -107,10 +107,10 @@ class RequirementController extends Controller
             $task = FlowsData::whereFlowId($flow->id)->whereRuleReference($request->rule_reference)->first();
 
             // send email notification
-            app(NotificationService::class)->sendEmailNotification($flow, $task, Auth::user());
+            app(NotificationService::class)->sendEditTaskMailNotification($flow, $task, Auth::user());
 
             // send teams notification
-            // app(NotificationService::class)->sendTeamsNotification($flow, $task, Auth::user());
+            // app(NotificationService::class)->sendEditTaskTeamsNotification($flow, $task, Auth::user());
 
             return response()->json([
                 'success' => true,

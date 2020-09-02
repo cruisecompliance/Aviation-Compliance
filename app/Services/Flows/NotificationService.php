@@ -44,7 +44,7 @@ class NotificationService
      * @param FlowsData $task
      * @param User $user (who change task)
      */
-    public function sendEmailNotification(Flow $flow, FlowsData $task, User $user): void
+    public function sendEditTaskMailNotification(Flow $flow, FlowsData $task, User $user): void
     {
         // get notification users
         $notificationUsers = $this->getNotificationUsers($task, $flow->company->id);
@@ -60,7 +60,7 @@ class NotificationService
      * @param FlowsData $task
      * @param User $user
      */
-    private function sendTeamsNotification(Flow $flow, FlowsData $task, User $user): void
+    public function sendEditTaskTeamsNotification(Flow $flow, FlowsData $task, User $user): void
     {
 
 //        $mentionUsers[] = ($task->auditor->azure_name) ? "@" . $task->auditor->azure_name : NULL;
