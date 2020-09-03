@@ -33,7 +33,7 @@
                                 @foreach($flowData[RequrementStatus::UPCOMING] as $item)
                                     <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
 {{--                                        <span class="badge bg-soft-danger text-danger float-right">High</span>--}}
-                                        <h5 class="mt-0"><a href="javascript: void(0)" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
+                                        <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
                                         <p>{{ $item->rule_title }}</p>
                                         <div class="clearfix"></div>
                                         <div class="row">
@@ -70,7 +70,7 @@
                                 @foreach($flowData[RequrementStatus::IN_PROGRESS] as $item)
                                     <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
 {{--                                        <span class="badge bg-soft-warning text-warning float-right">Medium</span>--}}
-                                        <h5 class="mt-0"><a href="javascript: void(0)" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
+                                        <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
                                         <p>{{ $item->rule_title }}</p>
                                         <div class="clearfix"></div>
                                         <div class="row">
@@ -104,7 +104,7 @@
                                 @foreach($flowData[RequrementStatus::COMPLETED] as $item)
                                     <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
 {{--                                        <span class="badge bg-soft-success text-success float-right">Low</span>--}}
-                                        <h5 class="mt-0"><a href="javascript: void(0)" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
+                                        <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
                                         <p>{{ $item->rule_title }}</p>
                                         <div class="clearfix"></div>
                                         <div class="row">
@@ -141,6 +141,21 @@
     @push('scripts')
         <script type="text/javascript">
 
+            // // link
+            // $(function () {
+            //     // modal edit
+            //     $('body').on('click', '.editItem', function () {
+            //
+            //         var url = window.location.href;
+            //         var hash = url.substring(url.indexOf("#")+1);
+            //
+            //         console.log(hash);
+            //
+            //
+            //     });
+            // });
+
+            // Kanban
             !function ($) {
                 "use strict";
 
