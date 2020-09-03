@@ -63,7 +63,7 @@ class EditTaskTeamsNotification extends Notification implements ShouldQueue
             ->type('success')
             ->title("$this->rule_reference was update successfully.")
             ->content("The user $this->editor_name  has changed the Rule Reference.")
-            ->button('View', url('/user/flows'));
+            ->button('View', url("/user/flows#$this->rule_reference"));
     }
 
     /**

@@ -435,12 +435,63 @@
                 //     console.log(table.row(this).data());
                 // });
 
+                // open modal if window has hash (rule_reference)
+                if(window.location.hash){
+                    getFormData();
+                }
+
+                // open modal if change hash in URL (rule_reference)
+                $(window).on('hashchange', function() {
+                    getFormData();
+                });
+
                 // modal edit
                 $('body').on('click', '.editItem', function () {
-                    var rule_reference = $(this).data('rule_reference');
+                    getFormData();
+
+                });
+
+                // ajax create | save
+                $('body').on('click', '#saveBtn', function (e) {
+                    e.preventDefault();
+
+                    resetForm();
+
+                    $("#ajaxModel").scrollTop(0);
+
+                    var form = $('#ItemForm');
+
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: form.attr('method'),
+                        data: form.serialize(),
+                        success: function (data) {
+                            if (data.success) {
+                                form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>');
+                                table.draw();
+                            } else {
+                                $.each(data.errors, function (input_name, input_error) {
+                                    $("#" + input_name).addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
+                                });
+                            }
+                        },
+                        error: function (data) {
+                            console.log('Error:', data);
+                        }
+                    });
+                });
+
+
+                // modal edit
+                function getFormData() {
+                    // get hash (rule_rerference)
+                    var editURL = window.location.href;
+                    var rule_reference = editURL.substring(editURL.indexOf("#")+1);
+
+                    // perpare form data
+                    // var rule_reference = $(this).data('rule_reference');
                     var action = "{{ route('user.flows.index') }}";
                     var method = "POST";
-
                     resetForm();
 
                     $.get("{{ route('user.flows.index') }}" + '/' + rule_reference + '/edit', function (data) {
@@ -496,11 +547,11 @@
                         $('#closed_date').val(data.resource.closed_date);
 
                         $('#ajaxModel').modal('show');
-                    })
-                });
+                    });
+                }
 
                 // reset form alert
-                var resetForm = function () {
+                function resetForm() {
                     var form = $('#ItemForm');
                     $(".alert-success").remove();
                     $(".text-danger").remove();
@@ -508,38 +559,7 @@
                     form.find("select").removeClass('is-invalid');
                     form.find("date").removeClass('is-invalid');
                     form.find("textarea").removeClass('is-invalid');
-                };
-
-
-                // ajax create | save
-                $('body').on('click', '#saveBtn', function (e) {
-                    e.preventDefault();
-
-                    resetForm();
-
-                    $("#ajaxModel").scrollTop(0);
-
-                    var form = $('#ItemForm');
-
-                    $.ajax({
-                        url: form.attr('action'),
-                        type: form.attr('method'),
-                        data: form.serialize(),
-                        success: function (data) {
-                            if (data.success) {
-                                form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>');
-                                table.draw();
-                            } else {
-                                $.each(data.errors, function (input_name, input_error) {
-                                    $("#" + input_name).addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
-                                });
-                            }
-                        },
-                        error: function (data) {
-                            console.log('Error:', data);
-                        }
-                    });
-                });
+                }
 
             });// end function
 

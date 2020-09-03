@@ -200,8 +200,12 @@
                 }
             });
 
+            // open modal if window has hash (rule_reference)
+            if(window.location.hash){
+                getFormData();
+            }
 
-            // change hash in URL (rule_reference)
+            // open modal if change hash in URL (rule_reference)
             $(window).on('hashchange', function() {
                 getFormData();
             });
@@ -242,6 +246,7 @@
                 });
             });
 
+            // modal edit
             function getFormData() {
 
                 // get hash (rule_rerference)

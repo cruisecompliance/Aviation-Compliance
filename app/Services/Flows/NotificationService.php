@@ -16,6 +16,12 @@ use App\Notifications\Flows\TaskDeadlineNotification;
 class NotificationService
 {
 
+    // https://teams.microsoft.com/l/entity/<appId>/<entityId>?webUrl=<entityWebUrl>&label=<entityLabel>&context=<context>
+
+    // https://teams.microsoft.com/l/entity/<321b4548-03f7-43d2-b123-ddf6af5f43a1>/<tabID>?webUrl=<https://compliance.maketry.xyz/admin/flows/1/kanban#ORO.GEN.005>&label=<flows/1>&context=<context>
+    // appid = 321b4548-03f7-43d2-b123-ddf6af5f43a1
+    // entityId = tabID
+
     /**
      *
      */

@@ -52,7 +52,7 @@ class TaskDeadlineNotification extends Notification implements ShouldQueue
             ->subject('Task Reminder Notification')
             ->greeting("Hi, $this->user_name")
             ->line("Your due-date date for $this->rule_reference expires on $this->due_date")
-            ->action('View', url('/user/flows'))
+            ->action('View', url("/user/flows#$this->rule_reference"))
             ->line('Thank you for using our application!');
     }
 

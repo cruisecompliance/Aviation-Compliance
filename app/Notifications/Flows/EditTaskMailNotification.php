@@ -50,7 +50,7 @@ class EditTaskMailNotification extends Notification implements ShouldQueue
         return (new MailMessage)
             ->greeting("$this->rule_reference was update successfully.")
             ->line("The user $this->editor_name has changed the Rule Reference.")
-            ->action('View', url('/user/flows'))
+            ->action('View', url("/user/flows#$this->rule_reference"))
             ->line('Thank you for using our app');
     }
 
