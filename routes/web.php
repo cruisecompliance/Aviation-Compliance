@@ -33,6 +33,14 @@ Route::get('/login/teams', 'Auth\TeamController@login')->name('auth.login.teams'
 Route::get('/login/teams-start', 'Auth\TeamController@start')->name('auth.login.teams_start');
 Route::get('/login/teams-end', 'Auth\TeamController@end')->name('auth.login.teams_end');
 Route::get('/login/teams/profile/{email}/name/{displayName?}', 'Auth\TeamController@profile')->name('auth.login.profile');
+
+/**
+ * Calendar
+ */
+Route::namespace('Calendar')->prefix('calendar')->group(function () {
+    Route::get('/{flow}', 'CalendarController@index')->name('calendar.index');
+});
+
 /*
  * Auth
  */
