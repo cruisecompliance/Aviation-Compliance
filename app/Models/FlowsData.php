@@ -17,6 +17,14 @@ class FlowsData extends Model
         'closed_date'
     ];
 
+    protected $casts = [
+        'due_date'  => 'date:Y-m-d', // format for correct display in form input
+        'effectiveness_review_date'  => 'date:Y-m-d', // format for correct display in form input
+        'response_date'  => 'date:Y-m-d', // format for correct display in form input
+        'extension_due_date'  => 'date:Y-m-d', // format for correct display in form input
+        'closed_date'  => 'date:Y-m-d', // format for correct display in form input
+    ];
+
 //    public function requirementData()
 //    {
 //        return $this->belongsTo(RequirementsData::class);
