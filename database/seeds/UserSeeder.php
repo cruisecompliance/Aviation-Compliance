@@ -43,13 +43,22 @@ class UserSeeder extends Seeder
             'company_id' => 2,
         ])->assignRole(RoleName::SME);
 
+        // Accountable Manager
+        User::create([
+            'name' => 'Вадим Кухаренко',
+            'azure_name' => '',
+            'email' => 'vadim.kukharenko@gmail.com',
+            'password' => Hash::make('demo'),
+            'company_id' => 2,
+        ])->assignRole(RoleName::ACCOUNTABLE_MANAGER());
+
         // darina.levchuk@gmail.com
         User::create([
             'name' => 'D Levchuk',
             'email' => 'darina.levchuk@gmail.com',
             'password' => Hash::make('demo'),
             'company_id' => 2,
-        ])->assignRole(RoleName::SME);
+        ])->assignRole(RoleName::AUDITOR);
 
         // eugene.pyvovarov@gmail.com
         User::create([
