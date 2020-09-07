@@ -50,7 +50,7 @@ class UserSeeder extends Seeder
             'email' => 'vadim.kukharenko@gmail.com',
             'password' => Hash::make('demo'),
             'company_id' => 2,
-        ])->assignRole(RoleName::ACCOUNTABLE_MANAGER());
+        ])->assignRole(RoleName::ACCOUNTABLE_MANAGER);
 
         // darina.levchuk@gmail.com
         User::create([
