@@ -23,6 +23,13 @@
             <!-- end page title -->
 
             <!-- page content -->
+
+            <div class="row mb-2">
+                <div class="col-5 offset-7 pl-3 text-right">
+                    @include('components.flows._iCal')
+                </div>
+            </div>
+
             <div class="row">
                 <!-- BLOCK 1 -->
                 <div class="col-lg-4">
@@ -32,7 +39,7 @@
                             @if(!empty($flowData[RequrementStatus::UPCOMING]))
                                 @foreach($flowData[RequrementStatus::UPCOMING] as $item)
                                     <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
-{{--                                        <span class="badge bg-soft-danger text-danger float-right">High</span>--}}
+                                        {{--                                        <span class="badge bg-soft-danger text-danger float-right">High</span>--}}
                                         <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
                                         <p>{{ $item->rule_title }}</p>
                                         <div class="clearfix"></div>
@@ -46,11 +53,11 @@
                                                         <div>Auditor: {{ ($item->auditor->name) ?? '-' }}</div>
                                                         <div>Auditee: {{ ($item->auditee->name) ?? '-' }}</div>
                                                         <div>Investigator: {{ ($item->investigator->name) ?? '-' }}</div>
-{{--                                                        <img src="{{ asset('images/users/user-1.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
+                                                        {{--                                                        <img src="{{ asset('images/users/user-1.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
                                                     </a>
-{{--                                                    <a href="javascript: void(0);" class="text-muted">--}}
-{{--                                                        <img src="{{ asset('images/users/user-3.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
-{{--                                                    </a>--}}
+                                                    {{--                                                    <a href="javascript: void(0);" class="text-muted">--}}
+                                                    {{--                                                        <img src="{{ asset('images/users/user-3.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
+                                                    {{--                                                    </a>--}}
                                                 </div>
                                             </div>
                                         </div>
@@ -69,7 +76,7 @@
                             @if(!empty($flowData[RequrementStatus::IN_PROGRESS]))
                                 @foreach($flowData[RequrementStatus::IN_PROGRESS] as $item)
                                     <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
-{{--                                        <span class="badge bg-soft-warning text-warning float-right">Medium</span>--}}
+                                        {{--                                        <span class="badge bg-soft-warning text-warning float-right">Medium</span>--}}
                                         <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
                                         <p>{{ $item->rule_title }}</p>
                                         <div class="clearfix"></div>
@@ -103,7 +110,7 @@
                             @if(!empty($flowData[RequrementStatus::COMPLETED]))
                                 @foreach($flowData[RequrementStatus::COMPLETED] as $item)
                                     <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
-{{--                                        <span class="badge bg-soft-success text-success float-right">Low</span>--}}
+                                        {{--                                        <span class="badge bg-soft-success text-success float-right">Low</span>--}}
                                         <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
                                         <p>{{ $item->rule_title }}</p>
                                         <div class="clearfix"></div>
@@ -135,25 +142,10 @@
         </div>
 
     </div>
-
     @include('admin.flows._form')
 
     @push('scripts')
         <script type="text/javascript">
-
-            // // link
-            // $(function () {
-            //     // modal edit
-            //     $('body').on('click', '.editItem', function () {
-            //
-            //         var url = window.location.href;
-            //         var hash = url.substring(url.indexOf("#")+1);
-            //
-            //         console.log(hash);
-            //
-            //
-            //     });
-            // });
 
             // Kanban
             !function ($) {
@@ -188,7 +180,7 @@
                                 });
 
                                 $.ajax({
-                                    url: '/admin/flows/' + {{ $flow->id }} + '/kanban/status', // KanbanController@changeStatus
+                                    url: '/admin/flows/' + {{ $flow->id }} +'/kanban/status', // KanbanController@changeStatus
                                     type: "POST",
                                     data: {item_id: item_id, list_name: list_name},
                                     success: function (data) {

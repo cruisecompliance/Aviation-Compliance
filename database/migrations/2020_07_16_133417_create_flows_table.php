@@ -15,8 +15,9 @@ class CreateFlowsTable extends Migration
     {
         Schema::create('flows', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->unique();
             $table->string('description')->nullable();
+            $table->string('hash')->nullable();
 
             $table->foreignId('requirement_id');
             $table->foreign('requirement_id')->references('id')->on('requirements')->onDelete('cascade');

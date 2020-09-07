@@ -38,7 +38,7 @@ Route::get('/login/teams/profile/{email}/name/{displayName?}', 'Auth\TeamControl
  * Calendar
  */
 Route::namespace('Calendar')->prefix('calendar')->group(function () {
-    Route::get('/{flow}', 'CalendarController@index')->name('calendar.index');
+    Route::get('/{hash}', 'CalendarController@index')->name('calendar.index');
 });
 
 /*

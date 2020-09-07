@@ -92,6 +92,7 @@ class FlowController extends Controller
             $flow = Flow::create([
                 'title' => $request->title,
                 'description' => $request->description,
+                'hash' => md5($request->title),
                 'company_id' => $request->company,
                 'requirement_id' => $request->requirements,
             ]);

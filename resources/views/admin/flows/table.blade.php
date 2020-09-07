@@ -23,17 +23,21 @@
             <!-- end page title -->
 
             <!-- page content -->
+
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
 
                             <div class="row">
-                                <div class="col-8">
+                                <div class="col-7">
                                     <h4 class="page-title mb-2">{{ $flow->title }}</h4>
                                     <div class="text-muted font-13">Company: <span class="font-weight-bold">{{ $flow->company->name }}</span></div>
                                     <div class="text-muted font-13">Requirements: <span class="font-weight-bold">version {{ $flow->requirement->id }}</span></div>
                                     <div class="text-muted font-13 mt-1">{{ $flow->description }}</div>
+                                </div>
+                                <div class="col-5 text-right">
+                                    @include('components.flows._iCal')
                                 </div>
 
                             </div>
