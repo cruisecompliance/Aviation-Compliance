@@ -22,7 +22,8 @@ class CalendarController extends Controller
     public function index(string $hash)
     {
         // get flowData
-        $flow = Flow::whereHash($hash)->first();
+        $flow = Flow::whereHash($hash)->firstOrFail();
+
 
         $flowData = FlowsData::whereFlowId($flow->id)
             ->whereNotNull('due_date')
