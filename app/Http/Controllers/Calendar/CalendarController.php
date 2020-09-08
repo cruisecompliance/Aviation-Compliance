@@ -39,25 +39,25 @@ class CalendarController extends Controller
                 ->endsAt($item->due_date)
 //                    ->transparent()
 //                    ->createdAt(Carbon::today())
-                ->alert(Alert::date(
-                    $alertTwoWeek = Carbon::parse($item->due_date)->addWeeks(-2),
-                    "The due-date for $item->rule_reference expires on $item->due_date"
-                ))
-                ->alert(Alert::date(
-                    $alertOneWeek = Carbon::parse($item->due_date)->addWeeks(-1),
-                    "The due-date for $item->rule_reference expires on $item->due_date"
-                ))
-                ->alert(Alert::date(
-                    $alertOneDay = Carbon::parse($item->due_date)->addDays(-1),
-                    "The due-date for $item->rule_reference expires on $item->due_date"
-                ))
+//                ->alert(Alert::date(
+//                    $alertTwoWeek = Carbon::parse($item->due_date)->addWeeks(-2),
+//                    "The due-date for $item->rule_reference expires on $item->due_date"
+//                ))
+//                ->alert(Alert::date(
+//                    $alertOneWeek = Carbon::parse($item->due_date)->addWeeks(-1),
+//                    "The due-date for $item->rule_reference expires on $item->due_date"
+//                ))
+//                ->alert(Alert::date(
+//                    $alertOneDay = Carbon::parse($item->due_date)->addDays(-1),
+//                    "The due-date for $item->rule_reference expires on $item->due_date"
+//                ))
                 ->fullDay();
         }
 
         // create calendar with events
         $calendar = Calendar::create()
             ->name($flow->company->name .": ".$flow->title)
-            ->refreshInterval(1)
+            ->refreshInterval(30)
             ->event($events);
 //            ->get();
 
