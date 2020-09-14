@@ -26,34 +26,35 @@ class FlowController extends Controller
         // get latest company flow
         $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
 
-        // check assigned users for flowData (Auditee, Auditor, Investigator)
         if (!empty($flow)){
+
+            // check assigned users for flowData (Auditee, Auditor, Investigator)
             if(Auth::user()->hasRole([RoleName::AUDITEE, RoleName::AUDITOR, RoleName::INVESTIGATOR])){
                 if (empty(FlowsData::checkAssignedUser(Auth::user()->id, $flow->id))) {
                     return abort(403, 'User not assigned ');
                 }
             }
+
+            // get data for edit task (form modal) ToDo - ajax load in _form.blade.php
+            $auditors = User::auditors()->active()->whereCompanyId($flow->company->id)->get();
+            $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
+            $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
+
+            // get filter data ToDo - ajax load in _filter.blade.php
+            $filters = Filter::whereUserId(Auth::user()->id)->get();
+            $users = array_merge($auditors->toArray(), $auditees->toArray(), $investigators->toArray());
         }
-
-        // get data for edit task (form modal) ToDo
-        $auditors = User::auditors()->active()->whereCompanyId($flow->company->id)->get();
-        $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
-        $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
-
-        // get filter data ToDo
-        $filters = Filter::whereUserId(Auth::user()->id)->get();
-        $users = array_merge($auditors->toArray(), $auditees->toArray(), $investigators->toArray());
 
         // return view with data
         return view('user.flows.requirements', [
             'flow' => $flow,
-            'auditors' => $auditors,
-            'auditees' => $auditees,
-            'investigators' => $investigators,
+            'auditors' => ($auditors) ?? NULL,
+            'auditees' => ($auditees) ?? NULL,
+            'investigators' => $investigators ?? NULL,
 
-            'filters' => $filters,
-            'flowData' => $flow->flowData,
-            'users' => $users,
+            'filters' => ($filters) ?? NULL,
+            'flowData' => ($flow->flowData) ?? NULL,
+            'users' => ($users) ?? NULL,
         ]);
 
     }
