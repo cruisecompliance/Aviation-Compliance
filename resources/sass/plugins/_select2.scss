@@ -1,6 +1,7 @@
 //
 // Select 2
 //
+@import '~select2/src/scss/core';
 
 .select2-container {
     width: 100%!important;
@@ -17,14 +18,23 @@
             color: $input-color;
         }
         .select2-selection__arrow {
+            //height: 34px;
+            //width: 34px;
+            //right: 3px;
             height: 34px;
-            width: 34px;
-            right: 3px;
+            width: 26px;
+            right: 0px;
             b {
                 border-color: $gray-500 transparent transparent transparent;
                 border-width: 6px 6px 0 6px;
             }
         }
+    }
+
+    .select2-selection__clear {
+        padding: 0px 6px;
+        height: 34px;
+        width: 26px;
     }
 
     input::placeholder {

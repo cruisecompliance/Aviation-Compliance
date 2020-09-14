@@ -119,6 +119,8 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
         Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('admin.flows.requirements.edit');
         Route::post('/flows/{flow}/requirements', 'RequirementController@update')->name('admin.flows.requirements.update');
 
+        // Flow Requirements (Filter)
+        Route::post('/flows/{flow}/filter/store', 'FilterController@store')->name('admin.flows.filters.store');
     });
 
 

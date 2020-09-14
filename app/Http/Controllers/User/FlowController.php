@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
+use App\Models\Filter;
 use App\Models\Flow;
 use App\Models\FlowsData;
 use App\Services\Flows\NotificationService;
@@ -34,10 +35,14 @@ class FlowController extends Controller
             }
         }
 
-        // get users by roles (for select input)
+        // get data for edit task (form modal) ToDo
         $auditors = User::auditors()->active()->whereCompanyId($flow->company->id)->get();
         $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
         $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
+
+        // get filter data ToDo
+        $filters = Filter::whereUserId(Auth::user()->id)->get();
+        $users = array_merge($auditors->toArray(), $auditees->toArray(), $investigators->toArray());
 
         // return view with data
         return view('user.flows.requirements', [
@@ -45,6 +50,10 @@ class FlowController extends Controller
             'auditors' => $auditors,
             'auditees' => $auditees,
             'investigators' => $investigators,
+
+            'filters' => $filters,
+            'flowData' => $flow->flowData,
+            'users' => $users,
         ]);
 
     }
@@ -112,6 +121,26 @@ class FlowController extends Controller
                 $btn = '<a href="#' . $row->rule_reference. '" data-toggle="tooltip"  data-rule_reference="' . $row->rule_reference . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
 //                    $btn = $btn. '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
                 return $btn;
+            })
+            ->filter(function ($query) use ($request, $flow) {
+
+                if (!empty($request->rule_reference)) {
+                    $query->where('rule_reference', "$request->rule_reference");
+                }
+                if (!empty($request->rule_section)) {
+                    $query->where('rule_section', "$request->rule_section");
+                }
+                if (!empty($request->assignee)) {
+                    $query->where('auditor_id', "$request->assignee");
+                }
+                if (!empty($request->assignee)) {
+
+                    $query->where(function ($assignee) use ($request) {
+                        $assignee->orWhere('auditor_id', "$request->assignee")
+                            ->orWhere('auditee_id', "$request->assignee")
+                            ->orWhere('investigator_id', "$request->assignee");
+                    });
+                }
             })
             ->rawColumns(['action'])
             ->make(true);

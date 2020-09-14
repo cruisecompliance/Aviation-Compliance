@@ -233,7 +233,7 @@
                     success: function (data) {
                         if (data.success) {
                             form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>');
-                            table.draw();
+                            $('#basic-datatable').DataTable().draw()
                         } else {
                             $.each(data.errors, function (input_name, input_error) {
                                 $("#" + input_name).addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');

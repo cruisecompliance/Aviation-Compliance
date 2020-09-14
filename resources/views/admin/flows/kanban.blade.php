@@ -23,21 +23,24 @@
             <!-- end page title -->
 
             <!-- page content -->
-
             <div class="row mb-2">
-                <div class="col-5 offset-7 pl-3 text-right">
+                <div class="col-8">
+                    @include('components.flows._filter')
+                </div>
+                <div class="col-4 pl-3 text-right">
                     @include('components.flows._iCal')
                 </div>
             </div>
 
             <div class="row">
+
                 <!-- BLOCK 1 -->
                 <div class="col-lg-4">
                     <div class="card-box">
                         <h4 class="header-title mb-3">Upcoming</h4>
                         <ul class="sortable-list tasklist list-unstyled" id="upcoming" data-list="{{ RequrementStatus::UPCOMING }}">
-                            @if(!empty($flowData[RequrementStatus::UPCOMING]))
-                                @foreach($flowData[RequrementStatus::UPCOMING] as $item)
+                            @if(!empty($kanbanData[RequrementStatus::UPCOMING]))
+                                @foreach($kanbanData[RequrementStatus::UPCOMING] as $item)
                                     <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
                                         {{--                                        <span class="badge bg-soft-danger text-danger float-right">High</span>--}}
                                         <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
@@ -73,8 +76,8 @@
                     <div class="card-box">
                         <h4 class="header-title mb-3">In Progress</h4>
                         <ul class="sortable-list tasklist list-unstyled" id="inprogress" data-list="{{ RequrementStatus::IN_PROGRESS }}">
-                            @if(!empty($flowData[RequrementStatus::IN_PROGRESS]))
-                                @foreach($flowData[RequrementStatus::IN_PROGRESS] as $item)
+                            @if(!empty($kanbanData[RequrementStatus::IN_PROGRESS]))
+                                @foreach($kanbanData[RequrementStatus::IN_PROGRESS] as $item)
                                     <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
                                         {{--                                        <span class="badge bg-soft-warning text-warning float-right">Medium</span>--}}
                                         <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
@@ -107,8 +110,8 @@
                     <div class="card-box">
                         <h4 class="header-title mb-3">Completed</h4>
                         <ul class="sortable-list tasklist list-unstyled" id="completed" data-list="{{ RequrementStatus::COMPLETED }}">
-                            @if(!empty($flowData[RequrementStatus::COMPLETED]))
-                                @foreach($flowData[RequrementStatus::COMPLETED] as $item)
+                            @if(!empty($kanbanData[RequrementStatus::COMPLETED]))
+                                @foreach($kanbanData[RequrementStatus::COMPLETED] as $item)
                                     <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
                                         {{--                                        <span class="badge bg-soft-success text-success float-right">Low</span>--}}
                                         <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>

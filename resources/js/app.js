@@ -25,6 +25,13 @@ require('datatables.net-select-bs4');
 require('jquery-datatables-checkboxes');
 require('./pages/datatables.init');
 
+// select2
+require('select2');
+// import select2 from 'select2';
+// //Hook up select2 to jQuery
+// select2($);
+// $('select2').select2();
+
 // Kanban
 import Sortable, { MultiDrag, Swap } from 'sortablejs'; //
 window.Sortable = Sortable; // // global export

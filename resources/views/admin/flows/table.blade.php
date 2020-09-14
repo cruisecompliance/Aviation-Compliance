@@ -35,6 +35,7 @@
                                     <div class="text-muted font-13">Company: <span class="font-weight-bold">{{ $flow->company->name }}</span></div>
                                     <div class="text-muted font-13">Requirements: <span class="font-weight-bold">version {{ $flow->requirement->id }}</span></div>
                                     <div class="text-muted font-13 mt-1">{{ $flow->description }}</div>
+                                    @include('components.flows._filter')
                                 </div>
                                 <div class="col-5 text-right">
                                     @include('components.flows._iCal')
@@ -110,6 +111,11 @@
                     ajax: {
                         url: "{{ route('admin.flows.table.datatable', $flow) }}",
                         type: 'POST',
+                        data: function (d) {
+                            d.rule_reference = $('input[name=rule_reference]').val();
+                            d.rule_section = $('input[name=rule_section]').val();
+                            d.assignee = $('input[name=assignee]').val();
+                        }
                     },
                     columns: [
                         // {data: 'DT_RowIndex', name: 'DT_RowIndex'},
