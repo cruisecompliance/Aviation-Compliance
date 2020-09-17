@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Flows;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Flow;
-use App\Models\FlowsData;
 use App\Models\Requirement;
 use App\Models\RequirementsData;
 use Illuminate\Http\Request;

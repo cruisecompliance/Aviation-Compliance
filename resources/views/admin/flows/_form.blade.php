@@ -26,6 +26,16 @@
                         <label for="rule_reference" class="control-label">Rule Reference</label>
                         <input type="text" class="form-control" id="rule_reference" name="rule_reference" value="" readonly>
                     </div>
+
+                    <!-- status -->
+                        <div class="form-group">
+                            <label for="task_status" class="control-label">Status</label>
+                            <select name="task_status" id="task_status" class="form-control">
+                            {{-- <option value="">...</option> --}}
+                            </select>
+                        </div>
+                    <!-- /status -->
+
                     <div class="form-group">
                         <label for="rule_title" class="control-label">Rule Title</label>
                         <input type="text" class="form-control" id="rule_title" name="rule_title" value="" readonly>
@@ -188,6 +198,7 @@
     </div>
 </div>
 <!-- /modal -->
+
 @push('scripts')
     <script type="text/javascript">
 
@@ -201,12 +212,12 @@
             });
 
             // open modal if window has hash (rule_reference)
-            if(window.location.hash){
+            if (window.location.hash) {
                 getFormData();
             }
 
             // open modal if change hash in URL (rule_reference)
-            $(window).on('hashchange', function() {
+            $(window).on('hashchange', function () {
                 getFormData();
             });
 
@@ -232,8 +243,10 @@
                     data: form.serialize(),
                     success: function (data) {
                         if (data.success) {
-                            form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>');
-                            $('#basic-datatable').DataTable().draw()
+                            getFormData(); // reload form data
+                            form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>'); // add success massage
+                            $('#basic-datatable').DataTable().draw(); // draw in datatable
+                            $('#load').load(location.href + ' #load'); // reload kanban board
                         } else {
                             $.each(data.errors, function (input_name, input_error) {
                                 $("#" + input_name).addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
@@ -251,16 +264,17 @@
 
                 // get hash (rule_rerference)
                 var editURL = window.location.href;
-                var rule_reference = editURL.substring(editURL.indexOf("#")+1);
+                var rule_reference = editURL.substring(editURL.indexOf("#") + 1);
 
-                // perpare form data
+                // prepare form data
                 // var rule_reference = $(this).data('rule_reference');
                 var action = "{{ route('admin.flows.requirements.update', $flow->id) }}";
                 var method = "POST";
 
                 resetForm();
 
-                $.get('/admin/flows/' + {{ $flow->id }} + '/requirements/' + rule_reference + '/edit', function (data) {
+                // get form data
+                $.get('/admin/flows/' + {{ $flow->id }} +'/requirements/' + rule_reference + '/edit', function (data) {
                     $('#modelHeading').html("Edit - " + data.resource.rule_reference); // modal header
                     $('#ItemForm').attr('action', action); // form action
                     $('#_method').val(method); // form method
@@ -270,6 +284,7 @@
                     $('#rule_section').val(data.resource.rule_section);
                     $('#rule_reference').val(data.resource.rule_reference);
                     $('#rule_title').val(data.resource.rule_title);
+
 
                     $('#rule_manual_reference').val(data.resource.rule_manual_reference);
                     $('#rule_chapter').val(data.resource.rule_chapter);
@@ -309,8 +324,31 @@
                     $('#extension_due_date').val(data.resource.extension_due_date);
                     $('#closed_date').val(data.resource.closed_date);
 
+                    // statuses
+                    if(data.transitions) {
+
+                        // merge task status and status transitions
+                        var statuses =  data.transitions.concat(data.resource.task_status);
+
+                        // remove option
+                        $('#task_status').find('option').remove().val();
+                        // $('#task_status').find('option').remove().end().append('<option value="">...</option>').val();
+
+                        // append option
+                        $.each(statuses, function (key, value) {
+                            $('#task_status').append('<option value="' + value + '">' + value + '</option>');
+                        });
+
+                        // selected option
+                        $('#task_status option[value="' + data.resource.task_status + '"]').prop('selected', true);
+
+                    }
+
                     $('#ajaxModel').modal('show');
+
                 });
+
+
             }
 
             // reset form alert

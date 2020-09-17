@@ -18,7 +18,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('user.flows.index') }}">
+                    <a href="{{ route('user.flows.kanban.index') }}">
                         <i data-feather="grid"></i>
                         <span> Flow </span>
                     </a>

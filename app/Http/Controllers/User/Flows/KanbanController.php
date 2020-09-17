@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Flows;
+namespace App\Http\Controllers\User\Flows;
 
 use App\Enums\RequrementStatus;
-use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Models\Filter;
-use App\User;
-use Illuminate\Http\Request;
 use App\Models\Flow;
 use App\Models\FlowsData;
+use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class KanbanController extends Controller
@@ -17,16 +16,19 @@ class KanbanController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Flow $flow
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Flow $flow, Request $request)
+    public function index(Request $request)
     {
+        // get latest company flow
+        $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
 
-        // filter
+        //> filter (whereIn() role statuses)
         $queryKanbanTasks = FlowsData::where('flow_id', $flow->id)
-            ->with('auditor', 'auditee', 'investigator');
+            ->with('auditor')
+            ->with('auditee')
+            ->with('investigator');
 
         if (!empty($request->rule_reference)) {
             $queryKanbanTasks->where('rule_reference', $request->rule_reference);
@@ -37,8 +39,8 @@ class KanbanController extends Controller
         }
 
         if (!empty($request->assignee)) {
-            $queryKanbanTasks->where(function ($assignee) use ($request){
-                $assignee->orWhere('auditor_id',"$request->assignee")
+            $queryKanbanTasks->where(function ($assignee) use ($request) {
+                $assignee->orWhere('auditor_id', "$request->assignee")
                     ->orWhere('auditee_id', "$request->assignee")
                     ->orWhere('investigator_id', "$request->assignee");
             });
@@ -46,30 +48,28 @@ class KanbanController extends Controller
         $kanbanData = $queryKanbanTasks->get();
         /////// <
 
-        // group by status
-//        $kanbanData = collect($flowData)->groupBy('status');
-
-
-        // get users by roles (for select input - edit rule reference)
+        // get users by roles (for select input - edit rule reference) ToDo
         $auditors = User::auditors()->active()->whereCompanyId($flow->company->id)->get();
         $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
         $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
 
-        // get filter list for auth users
+        // get filter list for auth users ToDo
         $filters = Filter::whereUserId(Auth::user()->id)->get();
         // get users (for select input - filter)
         $users = array_merge($auditors->toArray(), $auditees->toArray(), $investigators->toArray());
 
         // return requirements kanban view with data
-        return view('admin.flows.kanban', [
+        return view('user.flows.kanban', [
             'flow' => $flow,
-            'flowData' => $flow->flowData,
-            'kanbanData' => collect($kanbanData)->groupBy('task_status'),
-            'auditors' => $auditors,
-            'auditees' => $auditees,
-            'investigators' => $investigators,
-            'users' => $users,
-            'filters' => $filters,
+            'kanbanData' => collect($kanbanData)->groupBy('task_status'), // kanban board
+            'auditors' => $auditors, // edit form
+            'auditees' => $auditees, // edit form
+            'investigators' => $investigators, // edit form
+
+            'filters' => $filters, // filter
+            'flowData' => $flow->flowData, // filter
+            'users' => $users, // filter
+
         ]);
 
     }
@@ -77,12 +77,14 @@ class KanbanController extends Controller
 //    /**
 //     * Change of status in rule reference
 //     *
-//     * @param Flow $flow
 //     * @param Request $request
 //     * @return \Illuminate\Http\JsonResponse
 //     */
-//    public function changeStatus(Flow $flow, Request $request)
+//    public function changeStatus(Request $request)
 //    {
+//        // get latest company flow
+//        $flow = Auth::user()->company->flows->first();
+//
 //        // get rule reference
 //        $flowData = FlowsData::whereFlowId($flow->id)->whereId($request->item_id)->first();
 //

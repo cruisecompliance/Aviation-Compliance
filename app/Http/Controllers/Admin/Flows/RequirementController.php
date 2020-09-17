@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Flows;
 
+use App\Enums\RequrementStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Flow;
 use App\Models\FlowsData;
@@ -27,13 +28,18 @@ class RequirementController extends Controller
         // get rule reference data
         $flowData = FlowsData::whereFlowId($flow_id)->whereRuleReference($rule_reference)->first();
 
+        // get status transition
+        $statusTransition = RequrementStatus::getStatusTransitions($flowData->task_status);
+
+        // return response
         return response()->json([
             'success' => true,
             'resource' => $flowData,
             'auditor' => $flowData->auditor,
             'auditee' => $flowData->auditee,
             'investigator' => $flowData->investigator,
-        ]);
+            'transitions' => $statusTransition,
+        ], 200);
 
     }
 
@@ -47,6 +53,10 @@ class RequirementController extends Controller
     public function update(Flow $flow, Request $request)
     {
 
+        // task statuses (for validation)
+        $task_statuses = RequrementStatus::statusTransitions()->pluck('status_name');
+
+        // validate request data
         $validator = Validator::make($request->all(), [
             'rule_section' => 'required|numeric',
             'rule_group' => 'required|string',
@@ -79,6 +89,7 @@ class RequirementController extends Controller
             'response_date' => 'nullable|date', // date
             'extension_due_date' => 'nullable|date', // date
             'closed_date' => 'nullable|date', // date
+            'task_status' => 'required|in:' . $task_statuses,
         ]);
 
         if ($validator->fails()) {

@@ -23,26 +23,34 @@
             <!-- end page title -->
 
             <!-- page content -->
-
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
 
+                            <!-- table header -->
                             <div class="row">
                                 <div class="col-7">
                                     <h4 class="page-title mb-2">{{ $flow->title }}</h4>
                                     <div class="text-muted font-13">Company: <span class="font-weight-bold">{{ $flow->company->name }}</span></div>
                                     <div class="text-muted font-13">Requirements: <span class="font-weight-bold">version {{ $flow->requirement->id }}</span></div>
                                     <div class="text-muted font-13 mt-1">{{ $flow->description }}</div>
+                                </div>
+                            </div>
+                            <!-- /table header -->
+
+                            <!-- toolbar -->
+                            <div class="row mb-2">
+                                <div class="col-8">
                                     @include('components.flows._filter')
                                 </div>
-                                <div class="col-5 text-right">
+                                <div class="col-4 pl-3 text-right">
                                     @include('components.flows._iCal')
                                 </div>
-
                             </div>
+                            <!-- /toolbar -->
 
+                            <!-- datatable -->
                             <div class="row">
                                 <div class="col-12">
                                     <table id="basic-datatable" class="table nowrap w-100">
@@ -52,6 +60,7 @@
                                             <th scope="col" class="align-middle">Sec #</th>
                                             <th scope="col" class="align-middle">European rule <br>IR/AMC/GM</th>
                                             <th scope="col" class="align-middle">Rule Reference</th>
+                                            <th scope="col" class="align-middle">Status</th>
                                             <th scope="col" class="align-middle">Rule Title</th>
                                             <th scope="col" class="align-middle">AMC3 ORO.MLR.100 Manual Reference</th>
                                             <th scope="col" class="align-middle">AMC3 ORO.MLR.100 Chapter</th>
@@ -85,6 +94,7 @@
                                     </table>
                                 </div>
                             </div>
+                            <!-- /datatable -->
 
                         </div> <!-- end card body-->
                     </div> <!-- end card -->
@@ -97,7 +107,9 @@
 
     </div>
 
+    <!-- modal form -->
     @include('admin.flows._form')
+    <!-- /modal form -->
 
     @push('scripts')
         <script type="text/javascript">
@@ -123,6 +135,7 @@
                         {data: 'rule_section', name: 'rule_section'},
                         {data: 'rule_group', name: 'rule_group'},
                         {data: 'rule_reference', name: 'rule_reference'},
+                        {data: 'task_status', name: 'task_status'},
                         {data: 'rule_title', name: 'rule_title'},
                         {data: 'rule_manual_reference', name: 'rule_manual_reference'},
                         {data: 'rule_chapter', name: 'rule_chapter'},

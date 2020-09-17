@@ -71,7 +71,7 @@ class CreateFlowsDataTable extends Migration
             $table->dateTime('extension_due_date')->nullable();
             $table->dateTime('closed_date')->nullable();
 
-            $table->string('status')->default(RequrementStatus::UPCOMING);
+            $table->string('task_status')->default(RequrementStatus::CMM_Backlog);
             $table->timestamps();
         });
     }

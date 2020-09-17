@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.user')
 
 @section('content')
 
@@ -13,15 +13,20 @@
                     <div class="page-title-box">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('admin.flows.index') }}">Flows</a></li>
-                                <li class="breadcrumb-item active">Kanban</li>
+                                <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
+                                <li class="breadcrumb-item active">Flow - Kanban View</li>
                             </ol>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- end page title -->
+
+            <div class="row mb-2">
+                <div class="col-5 offset-7 text-right">
+                    <a href="{{ route('user.flows.table.index') }}" class="btn btn-success btn-sm mr-1">Table View</a>
+                </div>
+            </div>
 
             <!-- page content -->
 
@@ -34,7 +39,7 @@
                     @include('components.flows._iCal')
                 </div>
             </div>
-            <!-- /toolbar -->
+            <!-- toolbar -->
 
             <!-- kanban board -->
             <div class="container-fluid overflow-auto">
@@ -91,7 +96,10 @@
         </div>
 
     </div>
-    @include('admin.flows._form')
+
+    <!-- modal form -->
+    @include('user.flows._form')
+    <!-- /modal form -->
 
     @push('scripts')
         <script type="text/javascript">
@@ -111,12 +119,19 @@
                             group: 'shared',
                             animation: 150,
                             ghostClass: 'bg-ghost',
-                            sort: false, // To disable sorting: set sort to false
-                            disabled: true, // Disables the sortable if set to true.
-                            // put: false, // Do not allow items to be put into this list
+                            sort: false, //
+                            disabled: false, //
                             dataIdAttr: 'data-id',
 
                             onChoose: function (evt) {
+                                var item_el = evt.item;  // dragged HTMLElement
+                                var item_id = item_el.dataset.id;
+
+                                var list_to = evt.to;    // target list
+                                var list_name = list_to.dataset.list;
+
+                                {{--var status_transitions = "{{ RequrementStatus::statusTransitions() }}";--}}
+                                {{--console.log('choose', status_transition);--}}
                             },
                             onStart: function (evt) {
                             },
@@ -126,6 +141,7 @@
 
                                 var list_to = evt.to;    // target list
                                 var list_name = list_to.dataset.list;
+                                console.log('end', list_to);
 
                                 // csrf token
                                 $.ajaxSetup({
@@ -135,7 +151,7 @@
                                 });
 
                                 $.ajax({
-                                    url: '/admin/flows/' + {{ $flow->id }} +'/kanban/status', // KanbanController@changeStatus
+                                    url: '/user/flows/kanban/status', // KanbanController@changeStatus
                                     type: "POST",
                                     data: {item_id: item_id, list_name: list_name},
                                     success: function (data) {

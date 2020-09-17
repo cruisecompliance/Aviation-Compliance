@@ -60,11 +60,22 @@ Route::namespace('User')->prefix('user')->middleware('auth', 'role:'.RoleName::A
     /**
      * Flows
      */
-    Route::get('/flows/', 'FlowController@index')->name('user.flows.index');
-    Route::post('/flows/datatable', 'FlowController@datatable')->name('user.flows.datatable');
-    Route::get('/flows/{rule_reference}/edit', 'FlowController@edit')->name('user.flows.edit');
-    Route::post('/flows/', 'FlowController@update')->name('user.flows.update');
+    Route::namespace('Flows')->group(function () {
 
+        // Flow Requirements (Table View)
+        Route::get('/flows/table', 'TableController@index')->name('user.flows.table.index');
+        Route::post('/flows/datatable', 'TableController@datatable')->name('user.flows.table.datatable');
+
+        // Flow Requirements (Kanban View)
+        Route::get('/flows/kanban', 'KanbanController@index')->name('user.flows.kanban.index');
+        // Route::post('/flows/kanban/status', 'KanbanController@changeStatus');
+
+        // Flow Requirements (Edit Form)
+        Route::get('/flows/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('user.flows.requirements.edit'); // ToDo user.flows.requirements.edit
+        Route::post('/flows/requirements/', 'RequirementController@update')->name('user.flows.requirements.update'); // ToDO user.flows.requirements.update
+
+
+    });
 });
 
 
@@ -113,7 +124,7 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
 
         // Flow Requirements (Kanban View)
         Route::get('/flows/{flow}/kanban', 'KanbanController@index')->name('admin.flows.kanban.index');
-        Route::post('/flows/{flow}/kanban/status', 'KanbanController@changeStatus');
+//        Route::post('/flows/{flow}/kanban/status', 'KanbanController@changeStatus');
 
         // Flow Requirements (Edit Form)
         Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('admin.flows.requirements.edit');
