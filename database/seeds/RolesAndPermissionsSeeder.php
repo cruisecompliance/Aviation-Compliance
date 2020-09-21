@@ -89,6 +89,7 @@ class RolesAndPermissionsSeeder extends Seeder
             PermissionName::EDIT_MONTH_QUARTER,
             PermissionName::EDIT_ASSIGNED_AUDITOR,
             PermissionName::EDIT_ASSIGNED_AUDITEE,
+            PermissionName::EDIT_DUE_DATE,
         ]);
 
         // Auditor

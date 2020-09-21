@@ -249,7 +249,7 @@
 
 
                     <!-- status -->
-                    <div class="form-group">
+                    <div class="form-group" id="statuses-wrapper">
                         <label for="task_status" class="control-label">Status</label>
                         <select name="task_status" id="task_status" class="form-control">
                             <option value="">...</option>
@@ -395,11 +395,13 @@
                     $('#extension_due_date').val(data.resource.extension_due_date);
                     $('#closed_date').val(data.resource.closed_date);
 
-                    // statuses
-                    if(data.transitions) {
-
+                    // statuses list (add select option)
+                    if (data.transitions) {
+                        // console.log(data.resource.task_status);
+                        // console.log(data.role_statuses);
+                        // console.log(data.status_permission);
                         // merge task status and status transitions
-                        var statuses =  data.transitions.concat(data.resource.task_status);
+                        var statuses = data.transitions.concat(data.resource.task_status);
 
                         // remove option
                         $('#task_status').find('option').remove().val();
@@ -415,9 +417,38 @@
 
                     }
 
+                    // statuses role permission
+                    if (!data.status_permission) {
+                        $('#statuses-wrapper').hide();
+                    } else {
+                        $('#statuses-wrapper').show();
+                    }
+
                     $('#ajaxModel').modal('show');
                 });
             }
+
+            // //
+            // function addRow() {
+            //     const div = document.createElement('div');
+            //
+            //     // div.className = 'row';
+            //
+            //     div.innerHTML = `
+            //                 <label for="task_status" class="control-label">Status</label>
+            //                 <select name="task_status" id="task_status" class="form-control">
+            //                     <option value="">...</option>
+            //                 </select>
+            //             `;
+            //
+            //     document.getElementById('statuses-wrapper').appendChild(div);
+            // }
+            //
+            // //
+            // function removeRow(input) {
+            //     document.getElementById('statuses-wrapper').removeChild(input.parentNode);
+            // }
+
 
             // reset form alert
             function resetForm() {

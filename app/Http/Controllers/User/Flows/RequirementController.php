@@ -24,6 +24,12 @@ class RequirementController extends Controller
         // get status transition
         $statusTransition = RequrementStatus::getStatusTransitions($flowData->task_status);
 
+        // get role status
+        $roleStatuses = RequrementStatus::getRoleStatuses(Auth::user()->roles()->first()->name);
+
+        // check if role has permission to change statuses
+        $statuses_permission = in_array($flowData->task_status, $roleStatuses);
+
         // return json response with data
         return response()->json([
             'success' => true,
@@ -32,6 +38,7 @@ class RequirementController extends Controller
             'auditee' => $flowData->auditee,
             'investigator' => $flowData->investigator,
             'transitions' => $statusTransition,
+            'status_permission' => $statuses_permission,
         ]);
 
     }
@@ -74,7 +81,7 @@ class RequirementController extends Controller
             'response_date' => 'sometimes|nullable|date', // date
             'extension_due_date' => 'sometimes|nullable|date', // date
             'closed_date' => 'sometimes|nullable|date', // date
-            'task_status' => 'required|string|in:'.$task_statuses,
+            'task_status' => 'required|string|in:' . $task_statuses,
         ]);
 
         if ($validator->fails()) {
