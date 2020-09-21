@@ -41,9 +41,6 @@ class TableController extends Controller
             $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
             $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
 
-            // get filter data ToDo - ajax load in _filter.blade.php
-            $filters = Filter::whereUserId(Auth::user()->id)->get();
-            $users = array_merge($auditors->toArray(), $auditees->toArray(), $investigators->toArray());
         }
 
         // return view with data
@@ -52,10 +49,6 @@ class TableController extends Controller
             'auditors' => ($auditors) ?? NULL,
             'auditees' => ($auditees) ?? NULL,
             'investigators' => $investigators ?? NULL,
-
-            'filters' => ($filters) ?? NULL,
-            'flowData' => ($flow->flowData) ?? NULL,
-            'users' => ($users) ?? NULL,
         ]);
 
     }
@@ -133,15 +126,13 @@ class TableController extends Controller
                     $query->where('rule_section', "$request->rule_section");
                 }
                 if (!empty($request->assignee)) {
-                    $query->where('auditor_id', "$request->assignee");
-                }
-                if (!empty($request->assignee)) {
+                    // get user role name
+                    $roleName = User::findOrFail($request->assignee)->roles()->first()->name;
+                    // get role statuses
+                    $roleStatuses = RequrementStatus::getRoleStatuses($roleName);
+                    // get task for role
+                    $query->whereIn('task_status', $roleStatuses);
 
-                    $query->where(function ($assignee) use ($request) {
-                        $assignee->orWhere('auditor_id', "$request->assignee")
-                            ->orWhere('auditee_id', "$request->assignee")
-                            ->orWhere('investigator_id', "$request->assignee");
-                    });
                 }
             })
             ->rawColumns(['action'])

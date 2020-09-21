@@ -39,12 +39,20 @@ class KanbanController extends Controller
         }
 
         if (!empty($request->assignee)) {
-            $queryKanbanTasks->where(function ($assignee) use ($request) {
-                $assignee->orWhere('auditor_id', "$request->assignee")
-                    ->orWhere('auditee_id', "$request->assignee")
-                    ->orWhere('investigator_id', "$request->assignee");
-            });
+            // get user role name
+            $roleName = User::findOrFail($request->assignee)->roles()->first()->name;
+            // get role statuses
+            $roleStatuses = RequrementStatus::getRoleStatuses($roleName);
+            // get task for role
+            $queryKanbanTasks->whereIn('task_status', $roleStatuses);
+
+//            $queryKanbanTasks->where(function ($assignee) use ($request) {
+//                $assignee->orWhere('auditor_id', "$request->assignee")
+//                    ->orWhere('auditee_id', "$request->assignee")
+//                    ->orWhere('investigator_id', "$request->assignee");
+//            });
         }
+
         $kanbanData = $queryKanbanTasks->get();
         /////// <
 
@@ -53,11 +61,6 @@ class KanbanController extends Controller
         $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
         $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
 
-        // get filter list for auth users ToDo
-        $filters = Filter::whereUserId(Auth::user()->id)->get();
-        // get users (for select input - filter)
-        $users = array_merge($auditors->toArray(), $auditees->toArray(), $investigators->toArray());
-
         // return requirements kanban view with data
         return view('user.flows.kanban', [
             'flow' => $flow,
@@ -65,11 +68,6 @@ class KanbanController extends Controller
             'auditors' => $auditors, // edit form
             'auditees' => $auditees, // edit form
             'investigators' => $investigators, // edit form
-
-            'filters' => $filters, // filter
-            'flowData' => $flow->flowData, // filter
-            'users' => $users, // filter
-
         ]);
 
     }

@@ -41,6 +41,20 @@ Route::namespace('Calendar')->prefix('calendar')->group(function () {
     Route::get('/{hash}', 'CalendarController@index')->name('calendar.index');
 });
 
+/**
+ * Components
+ */
+Route::namespace('Components')->group(function () {
+
+    /**
+     * Flow Requirements (Filter - table, kanban)
+     */
+    Route::get('/flows/{flow?}/filter/show', 'Flows\FilterController@showFilterForm')->name('components.flows.filters.show');
+    Route::post('/flows/{flow}/filter/store', 'Flows\FilterController@store')->name('components.flows.filters.store');
+
+});
+
+
 /*
  * Auth
  */
@@ -130,8 +144,6 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
         Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('admin.flows.requirements.edit');
         Route::post('/flows/{flow}/requirements', 'RequirementController@update')->name('admin.flows.requirements.update');
 
-        // Flow Requirements (Filter)
-        Route::post('/flows/{flow}/filter/store', 'FilterController@store')->name('admin.flows.filters.store');
     });
 
 

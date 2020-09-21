@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Flows;
 
+use App\Enums\RequrementStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Filter;
 use App\Models\Flow;
@@ -26,20 +27,12 @@ class TableController extends Controller
         $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
         $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
 
-        // get filter data ToDo
-        $filters = Filter::whereUserId(Auth::user()->id)->get();
-        $users = array_merge($auditors->toArray(), $auditees->toArray(), $investigators->toArray());
-
         // return requirements table view with data
         return view('admin.flows.table', [
             'flow' => $flow->load('company', 'requirement'),
-            'auditors' => $auditors,
-            'auditees' => $auditees,
-            'investigators' => $investigators,
-
-            'filters' => $filters,
-            'flowData' => $flow->flowData,
-            'users' => $users,
+            'auditors' => $auditors, // edit form todo
+            'auditees' => $auditees, // edit form todo
+            'investigators' => $investigators, // edit form todo
         ]);
 
     }
@@ -115,15 +108,12 @@ class TableController extends Controller
                     $query->where('rule_section', "$request->rule_section");
                 }
                 if (!empty($request->assignee)) {
-                    $query->where('auditor_id', "$request->assignee");
-                }
-                if (!empty($request->assignee)) {
-
-                    $query->where(function ($assignee) use ($request) {
-                        $assignee->orWhere('auditor_id', "$request->assignee")
-                            ->orWhere('auditee_id', "$request->assignee")
-                            ->orWhere('investigator_id', "$request->assignee");
-                    });
+                    // get user role name
+                    $roleName = User::findOrFail($request->assignee)->roles()->first()->name;
+                    // get role statuses
+                    $roleStatuses = RequrementStatus::getRoleStatuses($roleName);
+                    // get task for role
+                    $query->whereIn('task_status', $roleStatuses);
                 }
             })
             ->rawColumns(['action'])

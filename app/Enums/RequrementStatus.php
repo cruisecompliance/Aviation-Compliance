@@ -123,50 +123,52 @@ final class RequrementStatus extends Enum
 //        ]);
 //    }
 //
-//    public static function roleStatuses()
-//    {
-//        return collect([
-//            [
-//                'role_name' => RoleName::COMPLIANCE_MONITORING_MANAGER,
-//                'role_statuses' => [
-//                    self::CMM_Backlog,
-//                    self::CMM_Extension_Review,
-//                    self::CMM_Review,
-//                    self::CMM_Done,
-//                ]
-//            ], [
-//                'role_name' => RoleName::AUDITOR,
-//                'role_statuses' => [
-//                    self::Auditor_Review,
-//                ]
-//            ], [
-//                'role_name' => RoleName::AUDITEE,
-//                'role_statuses' => [
-//                    self::Auditee_Review,
-//                ]
-//            ], [
-//                'role_name' => RoleName::INVESTIGATOR,
-//                'role_statuses' => [
-//                    self::Investigator_Review,
-//                ]
-//            ], [
-//                'role_name' => RoleName::ACCOUNTABLE_MANAGER,
-//                'role_statuses' => [
-//                    self::AM_Extension_Review,
-//                ]
-//            ]
-//        ]);
-//    }
+    public static function roleStatuses()
+    {
+        return collect([
+            [
+                'role_name' => RoleName::COMPLIANCE_MONITORING_MANAGER,
+                'role_statuses' => [
+                    self::CMM_Backlog,
+                    self::CMM_Extension_Review,
+                    self::CMM_Review,
+                    self::CMM_Done,
+                ]
+            ], [
+                'role_name' => RoleName::AUDITOR,
+                'role_statuses' => [
+                    self::Auditor_Review,
+                ]
+            ], [
+                'role_name' => RoleName::AUDITEE,
+                'role_statuses' => [
+                    self::Auditee_Review,
+                ]
+            ], [
+                'role_name' => RoleName::INVESTIGATOR,
+                'role_statuses' => [
+                    self::Investigator_Review,
+                ]
+            ], [
+                'role_name' => RoleName::ACCOUNTABLE_MANAGER,
+                'role_statuses' => [
+                    self::AM_Extension_Review,
+                ]
+            ]
+        ]);
+    }
 
-//    public static function getRoleStatuses(string $role_name)
-//    {
-//        return self::roleStatuses()->where('role_name', $role_name)->first()['role_statuses'];
-//    }
+
 //
 //    public static function getRoleTransitions(string $role_name)
 //    {
 //        return self::roleTransitions()->where('role_name', $role_name)->first()['role_transitions'];
 //    }
+
+    public static function getRoleStatuses(string $role_name)
+    {
+        return self::roleStatuses()->where('role_name', $role_name)->first()['role_statuses'];
+    }
 
     public static function getStatusTransitions(string $status_name)
     {

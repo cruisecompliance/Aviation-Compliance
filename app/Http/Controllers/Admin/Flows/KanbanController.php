@@ -37,39 +37,36 @@ class KanbanController extends Controller
         }
 
         if (!empty($request->assignee)) {
-            $queryKanbanTasks->where(function ($assignee) use ($request){
-                $assignee->orWhere('auditor_id',"$request->assignee")
-                    ->orWhere('auditee_id', "$request->assignee")
-                    ->orWhere('investigator_id', "$request->assignee");
-            });
+            // get user role name
+            $roleName = User::findOrFail($request->assignee)->roles()->first()->name;
+            // get role statuses
+            $roleStatuses = RequrementStatus::getRoleStatuses($roleName);
+            // get task for role
+            $queryKanbanTasks->whereIn('task_status', $roleStatuses);
+
+//            $queryKanbanTasks->where(function ($assignee) use ($roleStatuses){
+//
+//                $assignee->orWhere('auditor_id',"$request->assignee")
+//                    ->orWhere('auditee_id', "$request->assignee")
+//                    ->orWhere('investigator_id', "$request->assignee");
+//            });
         }
+
         $kanbanData = $queryKanbanTasks->get();
         /////// <
 
-        // group by status
-//        $kanbanData = collect($flowData)->groupBy('status');
-
-
-        // get users by roles (for select input - edit rule reference)
+        // get users by roles (for select input - edit rule reference) ToDo
         $auditors = User::auditors()->active()->whereCompanyId($flow->company->id)->get();
         $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
         $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
 
-        // get filter list for auth users
-        $filters = Filter::whereUserId(Auth::user()->id)->get();
-        // get users (for select input - filter)
-        $users = array_merge($auditors->toArray(), $auditees->toArray(), $investigators->toArray());
-
         // return requirements kanban view with data
         return view('admin.flows.kanban', [
             'flow' => $flow,
-            'flowData' => $flow->flowData,
             'kanbanData' => collect($kanbanData)->groupBy('task_status'),
-            'auditors' => $auditors,
-            'auditees' => $auditees,
-            'investigators' => $investigators,
-            'users' => $users,
-            'filters' => $filters,
+            'auditors' => $auditors, // edit form todo
+            'auditees' => $auditees, // edit form todo
+            'investigators' => $investigators, // edit form todo
         ]);
 
     }

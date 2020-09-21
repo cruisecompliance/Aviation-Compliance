@@ -6,46 +6,26 @@
             <div class="btn-group">
                 <button type="button" class="btn btn-primary dropdown-toggle" style="width: 120px;" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-filter-variant"></i> Filters <i class="mdi mdi-chevron-down"></i></button>
 
-                <div class="dropdown-menu">
-                    @if($filters->isNotEmpty())
-                        @foreach($filters as $filter)
-                            <a class="dropdown-item {{ (request()->filter_name == $filter->name) ? 'btn-block' : '' }}" href="{{ route(Route::currentRouteName(), $flow->id) }}?{{ $filter->params }}">{{ $filter->name }}</a>
-                        @endforeach
-                    @endif
+                <div class="dropdown-menu" id="filter_list">
+                    {{-- <a class="dropdown-item {{ (request()->filter_name == $filter->name) ? 'btn-block' : '' }}" href="{{ route(Route::currentRouteName(), $flow->id) }}?{{ $filter->params }}">{{ $filter->name }}</a>--}}
                 </div>
             </div>
             <!-- /filter list -->
         </div>
         <div class="form-group col-lg-3">
-
-            <select name="rule_reference" class="form-control float-left" data-toggle="select2" data-placeholder="Rule Reference" onchange="select()">
+            <select name="rule_reference" id="filter_tasks" class="form-control float-left" data-toggle="select2" data-placeholder="Rule Reference" onchange="submit()">
                 <option></option>
-                @if($flowData->isNotEmpty())
-                    @foreach($flowData as $item)
-                        <option value="{{ $item->rule_reference }}" {{ (request()->rule_reference == $item->rule_reference) ? 'selected' : '' }}>{{ $item->rule_reference }} </option>
-                    @endforeach
-                @endif
             </select>
 
         </div>
         <div class="form-group col-lg-2">
-            <select name="rule_section" class="form-control" data-toggle="select2" data-placeholder="Rule Section" onchange="select()">
+            <select name="rule_section" id="filter_sections" class="form-control" data-toggle="select2" data-placeholder="Rule Section" onchange="submit()">
                 <option></option>
-                @if($flowData->isNotEmpty())
-                    @foreach($flowData->pluck('rule_section')->unique() as $rule_section)
-                        <option value="{{ $rule_section }}" {{ (request()->rule_section == $rule_section) ? 'selected' : '' }}>{{ $rule_section }}</option>
-                    @endforeach
-                @endif
             </select>
         </div>
         <div class="form-group col-lg-2">
-            <select name="assignee" class="form-control" data-toggle="select2" data-placeholder="Assignee" onchange="select()">
+            <select name="assignee" id="filter_users" class="form-control" data-toggle="select2" data-placeholder="Assignee" onchange="submit()">
                 <option></option>
-                @if(collect($users)->isNotEmpty())
-                    @foreach($users as $user)
-                        <option value="{{ $user['id'] }}" {{ (request()->assignee == $user['id']) ? 'selected' : '' }}>{{ $user['name'] }}</option>
-                    @endforeach
-                @endif
             </select>
         </div>
 
@@ -65,7 +45,7 @@
                 <h4 class="modal-title" id="mySmallModalLabel">Save Filter</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <form action="{{ route('admin.flows.filters.store', $flow->id) }}" method="POST">
+            <form action="{{ route('components.flows.filters.store', $flow->id) }}" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
@@ -90,8 +70,50 @@
 @push('scripts')
     <script type="text/javascript">
 
-
         $(document).ready(function () {
+
+            // get filter form data
+            $.get("{{ route('components.flows.filters.show', $flow->id) }}", function (data) {
+
+                // filter list
+                if (jQuery.isEmptyObject(data.filters)) {
+                    $('#filter_list').hide();
+                } else {
+                    $.each(data.filters, function (key, filter) {
+                        $('#filter_list').append('<a href="{{ route(Route::currentRouteName(), $flow->id) }}?' + filter.params + '" class="dropdown-item" id="filter_link" title="' + filter.name + '">' + filter.name + '</a>');
+                        {{--// <a class="dropdown-item {{ (request()->filter_name == $filter->name) ? 'btn-block' : '' }}" href="{{ route(Route::currentRouteName(), $flow->id) }}?{{ $filter->params }}">{{ $filter->name }}</a>--}}
+                    });
+                }
+
+                // rule_reference input
+                $.each(data.tasks, function (key, task) {
+                    $('#filter_tasks').append('<option value="' + task + '">' + task + '</option>');
+                });
+
+                // rule_section input
+                $.each(data.sections, function (key, sections) {
+                    $('#filter_sections').append('<option value="' + sections + '">' + sections + '</option>');
+                });
+
+                // assignee input
+                $.each(data.users, function (key, user) {
+                    $('#filter_users').append('<option value="' + user.id + '">' + user.name + '</option>');
+                });
+
+                // filter list active link
+                $('#filter_list a[title="{{ request()->filter_name }}"]').addClass('active');
+
+                // rule_reference selected option
+                $('#filter_tasks option[value="{{ request()->rule_reference }}"]').prop('selected', true);
+
+                // rule_section selected option
+                $('#filter_sections option[value="{{ request()->rule_section }}"]').prop('selected', true);
+
+                // assignee selected option
+                $('#filter_users option[value="{{ request()->assignee }}"]').prop('selected', true);
+
+
+            });
 
             // select2
             $('[data-toggle="select2"]').select2({
@@ -106,15 +128,11 @@
 
             });
 
-            //
-            // $.get('action', function (data) {
-            //
-            // });
-
         });
 
-        // select submit
-        function select() {
+
+        // select submit (on change)
+        function submit() {
             $('#filterForm').submit();
         }
 
