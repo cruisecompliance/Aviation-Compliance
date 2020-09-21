@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Calendar;
+namespace App\Http\Controllers\Components\Flows;
 
 use App\Http\Controllers\Controller;
 use App\Models\Flow;
@@ -21,10 +21,10 @@ class CalendarController extends Controller
 {
     public function index(string $hash)
     {
-        // get flowData
+        // get flow
         $flow = Flow::whereHash($hash)->firstOrFail();
 
-
+        // get flow data
         $flowData = FlowsData::whereFlowId($flow->id)
             ->whereNotNull('due_date')
             ->get();

@@ -34,12 +34,6 @@ Route::get('/login/teams-start', 'Auth\TeamController@start')->name('auth.login.
 Route::get('/login/teams-end', 'Auth\TeamController@end')->name('auth.login.teams_end');
 Route::get('/login/teams/profile/{email}/name/{displayName?}', 'Auth\TeamController@profile')->name('auth.login.profile');
 
-/**
- * Calendar
- */
-Route::namespace('Calendar')->prefix('calendar')->group(function () {
-    Route::get('/{hash}', 'CalendarController@index')->name('calendar.index');
-});
 
 /**
  * Components
@@ -47,11 +41,17 @@ Route::namespace('Calendar')->prefix('calendar')->group(function () {
 Route::namespace('Components')->group(function () {
 
     /**
-     * Flow Requirements (Filter - table, kanban)
+     * Flow Requirements
      */
-    Route::get('/flows/{flow?}/filter/show', 'Flows\FilterController@showFilterForm')->name('components.flows.filters.show');
-    Route::post('/flows/{flow}/filter/store', 'Flows\FilterController@store')->name('components.flows.filters.store');
+    Route::namespace('Flows')->group(function () {
+        // Flow Filter
+        Route::get('/flows/{flow?}/filter/show', 'FilterController@showFilterForm')->name('components.flows.filters.show');
+        Route::post('/flows/{flow}/filter/store', 'FilterController@store')->name('components.flows.filters.store');
 
+        // Flow Calendar
+        Route::get('/calendar/{hash}', 'CalendarController@index')->name('components.flows.calendar.index');
+
+    });
 });
 
 
@@ -64,7 +64,7 @@ Auth::routes(['register' => false]);
 /**
  * User panel
  */
-Route::namespace('User')->prefix('user')->middleware('auth', 'role:'.RoleName::ACCOUNTABLE_MANAGER.'|'.RoleName::COMPLIANCE_MONITORING_MANAGER.'|'.RoleName::AUDITOR.'|'.RoleName::AUDITEE.'|'.RoleName::INVESTIGATOR.'')->group(function () {
+Route::namespace('User')->prefix('user')->middleware('auth', 'role:' . RoleName::ACCOUNTABLE_MANAGER . '|' . RoleName::COMPLIANCE_MONITORING_MANAGER . '|' . RoleName::AUDITOR . '|' . RoleName::AUDITEE . '|' . RoleName::INVESTIGATOR . '')->group(function () {
 
     /**
      * User homepage
@@ -96,7 +96,7 @@ Route::namespace('User')->prefix('user')->middleware('auth', 'role:'.RoleName::A
 /**
  * Admin panel
  */
-Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName::SME)->group(function () {
+Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:' . RoleName::SME)->group(function () {
 
     /**
      * Admin homepage
@@ -106,14 +106,14 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
     /**
      * Users
      **/
-    Route::resource('/users', 'UserController')->except(['create','show','destroy'])->names('admin.users');
+    Route::resource('/users', 'UserController')->except(['create', 'show', 'destroy'])->names('admin.users');
     Route::get('/users/impersonate/login/{user_id}', 'Users\ImpersonateController@login')->name('admin.users.impersonate.login');
-    Route::get('/users/impersonate/logout/', 'Users\ImpersonateController@logout')->name('admin.users.impersonate.logout')->withoutMiddleware('role:'.RoleName::SME);
+    Route::get('/users/impersonate/logout/', 'Users\ImpersonateController@logout')->name('admin.users.impersonate.logout')->withoutMiddleware('role:' . RoleName::SME);
 
     /**
      * Companies
      **/
-    Route::resource('/companies', 'CompanyController')->except(['create','show','destroy'])->names('admin.companies');
+    Route::resource('/companies', 'CompanyController')->except(['create', 'show', 'destroy'])->names('admin.companies');
 
     /**
      * Requirements
@@ -130,7 +130,7 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:'.RoleName:
     Route::namespace('Flows')->group(function () {
 
         // Flows
-        Route::resource('/flows', 'FlowController')->except(['create','show','destroy'])->names('admin.flows');
+        Route::resource('/flows', 'FlowController')->except(['create', 'show', 'destroy'])->names('admin.flows');
 
         // Flow Requirements (Table View)
         Route::get('/flows/{flow}/table', 'TableController@index')->name('admin.flows.table.index');
