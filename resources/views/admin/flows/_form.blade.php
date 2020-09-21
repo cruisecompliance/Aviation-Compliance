@@ -8,6 +8,8 @@
 
             </div>
             <div class="modal-body" id="">
+
+                <!-- form -->
                 <form id="ItemForm" action="" name="ItemForm" class="form-horizontal" method="POST">
 
                     <input type="hidden" name="_method" id="_method" value="">
@@ -193,11 +195,18 @@
                     </div>
 
                 </form>
+                <!-- /form -->
+
+                <!-- comments -->
+                @include('components.flows._comments')
+                <!--/comments -->
             </div>
         </div>
     </div>
 </div>
 <!-- /modal -->
+
+
 
 @push('scripts')
     <script type="text/javascript">
