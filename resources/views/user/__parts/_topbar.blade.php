@@ -166,7 +166,7 @@
 
         <!-- LOGO -->
         <div class="logo-box">
-            <a href="{{ route('admin.dashboard') }}" class="logo logo-dark text-center">
+            <a href="{{ route('user.dashboard') }}" class="logo logo-dark text-center">
                 <span class="logo-sm">
                     <img src="{{ asset('images/logo-sm.png') }}" alt="" height="22">
                     <!-- <span class="logo-lg-text-light">UBold</span> -->
@@ -177,7 +177,7 @@
                 </span>
             </a>
 
-            <a href="{{ route('admin.dashboard') }}" class="logo logo-light text-center">
+            <a href="{{ route('user.dashboard') }}" class="logo logo-light text-center">
                 <span class="logo-sm">
                     <img src="{{ asset('images/logo-sm.png') }}" alt="" height="22">
                 </span>
