@@ -39,7 +39,7 @@ class RequirementController extends Controller
     public function update(Request $request)
     {
         // task statuses (for validation)
-        $task_statuses = RequrementStatus::statusTransitions()->pluck('status_name');
+        $task_statuses = RequrementStatus::statusTransitions()->implode('status_name', ',');
 
         // validate request data
         $validator = Validator::make($request->all(), [
@@ -74,7 +74,7 @@ class RequirementController extends Controller
             'response_date' => 'sometimes|nullable|date', // date
             'extension_due_date' => 'sometimes|nullable|date', // date
             'closed_date' => 'sometimes|nullable|date', // date
-            'task_status' => 'required|in:' . $task_statuses,
+            'task_status' => 'required|string|in:'.$task_statuses,
         ]);
 
         if ($validator->fails()) {
