@@ -119,8 +119,9 @@
                             group: 'shared',
                             animation: 150,
                             ghostClass: 'bg-ghost',
-                            sort: false, //
-                            disabled: false, //
+                            sort: false, // To disable sorting: set sort to false
+                            disabled: true, // Disables the sortable if set to true.
+                            // put: false, // Do not allow items to be put into this list
                             dataIdAttr: 'data-id',
 
                             onChoose: function (evt) {

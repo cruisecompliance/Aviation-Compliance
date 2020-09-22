@@ -24,7 +24,7 @@ class KanbanController extends Controller
         // get latest company flow
         $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
 
-        //> filter (whereIn() role statuses)
+        //> filter
         $queryKanbanTasks = FlowsData::where('flow_id', $flow->id)
             ->with('auditor')
             ->with('auditee')
@@ -56,18 +56,10 @@ class KanbanController extends Controller
         $kanbanData = $queryKanbanTasks->get();
         /////// <
 
-        // get users by roles (for select input - edit rule reference) ToDo
-        $auditors = User::auditors()->active()->whereCompanyId($flow->company->id)->get();
-        $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
-        $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
-
         // return requirements kanban view with data
         return view('user.flows.kanban', [
             'flow' => $flow,
             'kanbanData' => collect($kanbanData)->groupBy('task_status'), // kanban board
-            'auditors' => $auditors, // edit form
-            'auditees' => $auditees, // edit form
-            'investigators' => $investigators, // edit form
         ]);
 
     }

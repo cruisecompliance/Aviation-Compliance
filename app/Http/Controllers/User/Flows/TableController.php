@@ -35,20 +35,11 @@ class TableController extends Controller
                     return abort(403, 'User not assigned ');
                 }
             }
-
-            // get data for edit task (form modal - select input) ToDo - ajax load in _form.blade.php
-            $auditors = User::auditors()->active()->whereCompanyId($flow->company->id)->get();
-            $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
-            $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
-
         }
 
         // return view with data
         return view('user.flows.table', [
             'flow' => $flow,
-            'auditors' => ($auditors) ?? NULL,
-            'auditees' => ($auditees) ?? NULL,
-            'investigators' => $investigators ?? NULL,
         ]);
 
     }

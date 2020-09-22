@@ -90,11 +90,6 @@
                             <label for="assigned_auditor" class="control-label">Assignee Auditor</label>
                             <select name="auditor_id" id="assigned_auditor" class="form-control">
                                 <option value="">...</option>
-                                @if($auditors->isNotEmpty())
-                                    @foreach($auditors as $auditor)
-                                        <option value="{{ $auditor->id }}">{{ $auditor->name }}</option>
-                                    @endforeach
-                                @endif
                             </select>
                         </div>
                     @endcan
@@ -103,11 +98,6 @@
                             <label for="assigned_auditee" class="control-label">Assignee Auditee</label>
                             <select name="auditee_id" id="assigned_auditee" class="form-control">
                                 <option value="">...</option>
-                                @if($auditees->isNotEmpty())
-                                    @foreach($auditees as $auditee)
-                                        <option value="{{ $auditee->id }}">{{ $auditee->name }}</option>
-                                    @endforeach
-                                @endif
                             </select>
                         </div>
                     @endcan
@@ -172,11 +162,6 @@
                             <label for="assigned_investigator" class="control-label">Assignee Investigator</label>
                             <select name="investigator_id" id="assigned_investigator" class="form-control">
                                 <option value="">...</option>
-                                @if($investigators->isNotEmpty())
-                                    @foreach($investigators as $investigator)
-                                        <option value="{{ $investigator->id }}">{{ $investigator->name }}</option>
-                                    @endforeach
-                                @endif
                             </select>
                         </div>
                     @endcan
@@ -193,6 +178,7 @@
                                 2. Why?
                                 3. Why?
                                 4. Why?
+                                5. Why?
                             </label>
                             <textarea class="form-control" id="rootcause" name="rootcause" rows="3" placeholder=""></textarea>
                         </div>
@@ -364,12 +350,6 @@
 
                     $('#frequency').val(data.resource.frequency);
                     $('#month_quarter').val(data.resource.month_quarter);
-                    if (data.auditor) {
-                        $('#assigned_auditor option[value=' + data.auditor.id + ']').prop('selected', true); // form data - selected user company
-                    }
-                    if (data.auditee) {
-                        $('#assigned_auditee option[value=' + data.auditee.id + ']').prop('selected', true); // form data - selected user company
-                    }
 
                     $('#comments').val(data.resource.comments);
                     $('#finding').val(data.resource.finding);
@@ -380,9 +360,6 @@
                     $('#due_date').val(data.resource.due_date);
                     $('#repetitive_finding_ref_number').val(data.resource.repetitive_finding_ref_number);
 
-                    if (data.investigator) {
-                        $('#assigned_investigator option[value=' + data.investigator.id + ']').prop('selected', true); // form data - selected user company
-                    }
                     $('#corrections').val(data.resource.corrections);
                     $('#rootcause').val(data.resource.rootcause);
                     $('#corrective_actions_plan').val(data.resource.corrective_actions_plan);
@@ -422,6 +399,44 @@
                         $('#statuses-wrapper').hide();
                     } else {
                         $('#statuses-wrapper').show();
+                    }
+
+                    // auditors input
+                    if(data.auditors) {
+                        // remove option
+                        $('#assigned_auditor').find('option').remove().end().append('<option value="">...</option>').val();
+                        // append option
+                        $.each(data.auditors, function (key, auditor) {
+                            $('#assigned_auditor').append('<option value="' + auditor.id + '">' + auditor.name + '</option>');
+                        });
+                        // selected option
+                        $('#assigned_auditor option[value="' + data.resource.auditor_id + '"]').prop('selected', true);
+                    }
+
+                    // auditee input
+                    if (data.auditees) {
+                        // remove option
+                        $('#assigned_auditee').find('option').remove().end().append('<option value="">...</option>').val();
+                        // append option
+                        $.each(data.auditees, function (key, auditee) {
+                            $('#assigned_auditee').append('<option value="' + auditee.id + '">' + auditee.name + '</option>');
+                        });
+                        // selected option
+                        $('#assigned_auditee option[value="' + data.resource.auditee_id + '"]').prop('selected', true);
+                    }
+
+                    // investigator input
+                    if (data.investigators) {
+                        // $('#assigned_investigator option[value=' + data.investigator.id + ']').prop('selected', true); // form data - selected user company
+                        // remove option
+                        $('#assigned_investigator').find('option').remove().end().append('<option value="">...</option>').val();
+                        // append option
+                        $.each(data.investigators, function (key, investigator) {
+                            $('#assigned_investigator').append('<option value="' + investigator.id + '">' + investigator.name + '</option>');
+                        });
+                        // selected option
+                        $('#assigned_investigator option[value="' + data.resource.investigator_id + '"]').prop('selected', true);
+
                     }
 
                     $('#ajaxModel').modal('show');

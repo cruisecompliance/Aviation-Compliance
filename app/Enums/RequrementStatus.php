@@ -78,8 +78,7 @@ final class RequrementStatus extends Enum
             ], [
                 'status_name' => self::CMM_Done,
                 'status_transitions' => [
-//                    self::Auditor_Review,
-//                    self::CMM_Done,
+                    self::Auditee_Review,
                 ]
             ]
         ]);
