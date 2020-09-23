@@ -6,12 +6,11 @@ use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Models\Filter;
 use App\Models\Flow;
-use App\Models\FlowsData;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 
 class FilterController extends Controller
 {
@@ -51,7 +50,7 @@ class FilterController extends Controller
                 'tasks' => $tasks,
                 'sections' => $sections,
                 'users' => $users,
-            ],200);
+            ], 200);
 
         } catch (Exception $e) {
             return response()->json([
@@ -71,13 +70,46 @@ class FilterController extends Controller
     public function store(Flow $flow, Request $request)
     {
 
-        $filter = Filter::create([
-            'name' => $request->name,
-            'params' => "filter_name=$request->name&rule_reference=$request->rule_reference&rule_section=$request->rule_section&assignee=$request->assignee",
-            'user_id' => Auth::user()->id,
+        // validate request data
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|min:2|max:26',
+            'rule_reference' => 'sometimes|nullable|string',
+            'rule_section' => 'sometimes|nullable|numeric',
+            'assignee' => 'sometimes|nullable|numeric',
         ]);
 
-        return redirect("$request->route?$filter->params");
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        try {
+
+            $filter = Filter::create([
+                'name' => $request->name,
+                'params' => "filter_name=$request->name&rule_reference=$request->rule_reference&rule_section=$request->rule_section&assignee=$request->assignee",
+                'user_id' => Auth::user()->id,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => "{$filter->name} was create successfully.",
+                'filter' => $filter,
+                'redirect' => "$request->route?$filter->params",
+            ], 200);
+
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => true,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+        // redirect back with filter query
+        // return redirect("$request->route?$filter->params");
     }
 
 }
