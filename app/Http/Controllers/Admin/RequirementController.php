@@ -79,6 +79,11 @@ class RequirementController extends Controller
         // get requirement history
         $history = RequirementsData::where('rule_reference', $rule_reference)->latest()->get();
 
+        // check if exist history
+        if($history->isEmpty()){
+            abort(404);
+        }
+
         // color diff
         // $historyColorDiff = (new ColorDiff())->ColorDiff($history);
 

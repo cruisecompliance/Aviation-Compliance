@@ -22,7 +22,7 @@ class KanbanController extends Controller
     public function index(Request $request)
     {
         // get latest company flow
-        $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
+        $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->firstOrFail();
 
         //> filter
         $queryKanbanTasks = FlowsData::where('flow_id', $flow->id)
