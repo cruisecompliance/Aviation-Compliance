@@ -30,7 +30,7 @@ class FilterController extends Controller
             $tasks = $flow->flowData->pluck('rule_reference');
 
             // get rule sections of flow
-            $sections = $flow->flowData->pluck('rule_section')->unique();
+            $sections = $flow->flowData->unique('rule_section')->sortBy('rule_section')->pluck('rule_section');
 
             // get company users
             $users = User::whereCompanyId(Auth::user()->company_id)

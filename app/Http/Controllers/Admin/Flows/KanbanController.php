@@ -30,6 +30,7 @@ class KanbanController extends Controller
 
         if (!empty($request->rule_reference)) {
             $queryKanbanTasks->where('rule_reference', $request->rule_reference);
+            // $queryKanbanTasks->where('rule_reference', 'like', "%{$request->rule_reference}%");
         }
 
         if (!empty($request->rule_section)) {

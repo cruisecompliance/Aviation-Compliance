@@ -39337,6 +39337,7 @@ table[data-toggle=table] {
   border: 1px solid #e9f0f4;
   box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
   background-color: #fff;
+  z-index: inherit;
 }
 
 .select2-container--default .select2-search--dropdown {
