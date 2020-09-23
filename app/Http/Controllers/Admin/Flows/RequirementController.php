@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Flow;
 use App\Models\FlowsData;
 use App\Services\Flows\NotificationService;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -25,22 +26,34 @@ class RequirementController extends Controller
      */
     public function edit(int $flow_id, string $rule_reference)
     {
-        // get rule reference data
-        $flowData = FlowsData::whereFlowId($flow_id)->whereRuleReference($rule_reference)->first();
+        try {
+            // get rule reference data
+            $flowData = FlowsData::whereFlowId($flow_id)->whereRuleReference($rule_reference)->first();
 
-        // get status transition
-        $statusTransition = RequrementStatus::getStatusTransitions($flowData->task_status);
+            // get status transition
+            $statusTransition = RequrementStatus::getStatusTransitions($flowData->task_status);
 
-        // return response
-        return response()->json([
-            'success' => true,
-            'resource' => $flowData,
-            'auditor' => $flowData->auditor,
-            'auditee' => $flowData->auditee,
-            'investigator' => $flowData->investigator,
-            'transitions' => $statusTransition,
-        ], 200);
+            // get company users (by roles for select input )
+            $auditors = User::auditors()->active()->whereCompanyId(Auth::user()->company->id)->get();
+            $auditees = User::auditees()->active()->whereCompanyId(Auth::user()->company->id)->get();
+            $investigators = User::investigators()->active()->whereCompanyId(Auth::user()->company->id)->get();
 
+            // return response
+            return response()->json([
+                'success' => true,
+                'resource' => $flowData,
+                'transitions' => $statusTransition,
+                'auditors' => $auditors,
+                'auditees' => $auditees,
+                'investigators' => $investigators,
+            ], 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => true,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**

@@ -22,19 +22,10 @@ class TableController extends Controller
      */
     public function index(Flow $flow)
     {
-        // get data for edit task (form modal) ToDo
-        $auditors = User::auditors()->active()->whereCompanyId($flow->company->id)->get();
-        $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
-        $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
-
         // return requirements table view with data
         return view('admin.flows.table', [
             'flow' => $flow->load('company', 'requirement'),
-            'auditors' => $auditors, // edit form todo
-            'auditees' => $auditees, // edit form todo
-            'investigators' => $investigators, // edit form todo
         ]);
-
     }
 
     /**

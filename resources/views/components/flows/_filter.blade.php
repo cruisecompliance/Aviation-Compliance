@@ -45,12 +45,13 @@
                 <h4 class="modal-title" id="mySmallModalLabel">Save Filter</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <form action="{{ route('components.flows.filters.store', $flow->id) }}" method="POST">
+            <form id="FilterModalForm" action="{{ route('components.flows.filters.store', $flow->id) }}" method="POST">
+                {{--            <form id="FilterModalForm" method="POST">--}}
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="control-label">Filter name*</label>
-                        <input type="text" class="form-control" name="name" value="" required>
+                        <input type="text" id="filter_name" class="form-control" name="name" value="" required>
                         <input type="text" name="route" value="{{ route(Route::currentRouteName(), $flow->id) }}" hidden>
                         @foreach(request()->query() as $query => $value)
                             <input type="text" name="{{ $query }}" value="{{ $value }}" hidden>
@@ -58,7 +59,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" id="FilterSubmit">Submit</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </form>
@@ -74,7 +75,7 @@
 
             // get filter form data
             $.get("{{ route('components.flows.filters.show', $flow->id) }}", function (data) {
-
+console.log(data.sections);
                 // filter list
                 if (jQuery.isEmptyObject(data.filters)) {
                     $('#filter_list').hide();
@@ -120,16 +121,49 @@
                 allowClear: true,
             });
 
-            // save filter (modal form)
-            $(function () {
-                $("#show-filter-modal").click(function () {
-                    $('#filter-modal').modal('show');
+            // show filter modal form
+            $("#show-filter-modal").click(function () {
+                $('#filter-modal').modal('show');
+            });
+
+            // save filter
+            $('body').on('click', '#FilterSubmit', function (e) {
+                e.preventDefault();
+
+                resetForm();
+
+                var form = $('#FilterModalForm');
+
+                $.ajax({
+                    url: form.attr('action'),
+                    type: form.attr('method'),
+                    data: form.serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            window.location.replace(data.redirect);
+                        } else {
+                            $.each(data.errors, function (input_name, input_error) {
+                                // $("#" + input_name).addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
+                                $("#filter_name").addClass('is-invalid').after('<span class="text-danger">' + input_error + '</br></span>');
+                            });
+                        }
+                    }
                 });
 
             });
 
         });
 
+        // reset form alert
+        function resetForm() {
+            var form = $('#ItemForm');
+            $(".alert-success").remove();
+            $(".text-danger").remove();
+            form.find("input").removeClass('is-invalid');
+            form.find("select").removeClass('is-invalid');
+            form.find("date").removeClass('is-invalid');
+            form.find("textarea").removeClass('is-invalid');
+        }
 
         // select submit (on change)
         function submit() {

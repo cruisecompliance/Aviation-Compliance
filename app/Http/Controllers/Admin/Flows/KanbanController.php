@@ -30,6 +30,7 @@ class KanbanController extends Controller
 
         if (!empty($request->rule_reference)) {
             $queryKanbanTasks->where('rule_reference', $request->rule_reference);
+            // $queryKanbanTasks->where('rule_reference', 'like', "%{$request->rule_reference}%");
         }
 
         if (!empty($request->rule_section)) {
@@ -43,30 +44,15 @@ class KanbanController extends Controller
             $roleStatuses = RequrementStatus::getRoleStatuses($roleName);
             // get task for role
             $queryKanbanTasks->whereIn('task_status', $roleStatuses);
-
-//            $queryKanbanTasks->where(function ($assignee) use ($roleStatuses){
-//
-//                $assignee->orWhere('auditor_id',"$request->assignee")
-//                    ->orWhere('auditee_id', "$request->assignee")
-//                    ->orWhere('investigator_id', "$request->assignee");
-//            });
         }
 
         $kanbanData = $queryKanbanTasks->get();
         /////// <
 
-        // get users by roles (for select input - edit rule reference) ToDo
-        $auditors = User::auditors()->active()->whereCompanyId($flow->company->id)->get();
-        $auditees = User::auditees()->active()->whereCompanyId($flow->company->id)->get();
-        $investigators = User::investigators()->active()->whereCompanyId($flow->company->id)->get();
-
         // return requirements kanban view with data
         return view('admin.flows.kanban', [
             'flow' => $flow,
             'kanbanData' => collect($kanbanData)->groupBy('task_status'),
-            'auditors' => $auditors, // edit form todo
-            'auditees' => $auditees, // edit form todo
-            'investigators' => $investigators, // edit form todo
         ]);
 
     }
