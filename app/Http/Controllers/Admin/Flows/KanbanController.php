@@ -29,8 +29,8 @@ class KanbanController extends Controller
             ->with('auditor', 'auditee', 'investigator');
 
         if (!empty($request->rule_reference)) {
-            $queryKanbanTasks->where('rule_reference', $request->rule_reference);
-            // $queryKanbanTasks->where('rule_reference', 'like', "%{$request->rule_reference}%");
+//            $queryKanbanTasks->where('rule_reference', $request->rule_reference);
+             $queryKanbanTasks->where('rule_reference', 'like', "%{$request->rule_reference}%");
         }
 
         if (!empty($request->rule_section)) {

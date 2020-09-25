@@ -6,6 +6,7 @@ use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Models\Filter;
 use App\Models\Flow;
+use App\Models\FlowsData;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -111,5 +112,26 @@ class FilterController extends Controller
         // redirect back with filter query
         // return redirect("$request->route?$filter->params");
     }
+
+//    public function search(Flow $flow, Request $request)
+//    {
+//
+//        // get flow (if flow !empty - filter in admin page (SME) else filter in company page)
+//        if (empty($flow)) {
+//            $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
+//        }
+//
+//        // get rule references of flow
+////        $tasks = $flow->flowData->pluck('rule_reference');
+//        $rule_reference = $flow->flowData()
+//            ->where('rule_reference', 'like', "%{$request->rule_reference}%")
+//            ->get()
+//            ->pluck('rule_reference');
+//
+//        return response()->json([
+//            'success' => true,
+//            'tasks' => $rule_reference,
+//        ], 200);
+//    }
 
 }
