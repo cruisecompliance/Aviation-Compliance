@@ -108,7 +108,7 @@
     </div>
 
     <!-- modal form -->
-    @include('admin.flows._form')
+    @include('admin.flows._modal')
     <!-- /modal form -->
 
     @push('scripts')
@@ -145,7 +145,7 @@
                         {data: 'month_quarter', name: 'month_quarter'},
                         {data: 'auditor', name: 'auditor.name'},
                         {data: 'auditee', name: 'auditee.name'},
-                        {data: 'comments', name: 'comments'},
+                        {data: 'questions', name: 'questions'},
                         {data: 'finding', name: 'finding'},
                         {data: 'deviation_statement', name: 'deviation_statement'},
                         {data: 'evidence_reference', name: 'evidence_reference'},

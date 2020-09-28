@@ -107,8 +107,8 @@
                     @endrole
                     @can(PermissionName::EDIT_COMMENTS)
                         <div class="form-group">
-                            <label for="comments" class="control-label">Comments / Questions</label>
-                            <input type="text" class="form-control" id="comments" name="comments" value="">
+                            <label for="questions" class="control-label">Comments / Questions</label>
+                            <input type="text" class="form-control" id="questions" name="questions" value="">
                         </div>
                     @endcan
                     @can(PermissionName::EDIT_FINDING)
@@ -351,7 +351,7 @@
                     $('#frequency').val(data.resource.frequency);
                     $('#month_quarter').val(data.resource.month_quarter);
 
-                    $('#comments').val(data.resource.comments);
+                    $('#questions').val(data.resource.questions);
                     $('#finding').val(data.resource.finding);
                     $('#deviation_statement').val(data.resource.deviation_statement);
                     $('#evidence_reference').val(data.resource.evidence_reference);

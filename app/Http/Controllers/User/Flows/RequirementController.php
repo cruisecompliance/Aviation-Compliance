@@ -75,7 +75,7 @@ class RequirementController extends Controller
             'month_quarter' => 'sometimes|nullable|string',
             'assigned_auditor' => 'sometimes|nullable|numeric', // assigned
             'assigned_auditee' => 'sometimes|nullable|numeric', // assigned
-            'comments' => 'sometimes|nullable|string',
+            'questions' => 'sometimes|nullable|string',
             'finding' => 'sometimes|nullable|string',
             'deviation_statement' => 'sometimes|nullable|string',
             'evidence_reference' => 'sometimes|nullable|string',

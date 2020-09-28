@@ -46,7 +46,7 @@ class CreateFlowsDataTable extends Migration
 
 
             // Auditors Input
-            $table->string('comments')->nullable();
+            $table->string('questions')->nullable();
             $table->string('finding')->nullable();
             $table->string('deviation_statement')->nullable();
             $table->string('evidence_reference')->nullable();

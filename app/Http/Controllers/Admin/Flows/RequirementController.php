@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Flows;
 
 use App\Enums\RequrementStatus;
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Flow;
 use App\Models\FlowsData;
 use App\Services\Flows\NotificationService;
@@ -38,6 +39,10 @@ class RequirementController extends Controller
             $auditees = User::auditees()->active()->whereCompanyId(Auth::user()->company->id)->get();
             $investigators = User::investigators()->active()->whereCompanyId(Auth::user()->company->id)->get();
 
+            // get comments
+//            $comments = $flowData->comments;
+            $flowData->load('comments.user');
+
             // return response
             return response()->json([
                 'success' => true,
@@ -46,6 +51,7 @@ class RequirementController extends Controller
                 'auditors' => $auditors,
                 'auditees' => $auditees,
                 'investigators' => $investigators,
+                'comments' => $flowData->comments,
             ], 200);
 
         } catch (Exception $e) {
@@ -83,7 +89,7 @@ class RequirementController extends Controller
             'month_quarter' => 'nullable|string',
             'assigned_auditor' => 'nullable|numeric', // assigned
             'assigned_auditee' => 'nullable|numeric', // assigned
-            'comments' => 'nullable|string',
+            'questions' => 'nullable|string',
             'finding' => 'nullable|string',
             'deviation_statement' => 'nullable|string',
             'evidence_reference' => 'nullable|string',
@@ -123,7 +129,8 @@ class RequirementController extends Controller
                     'rule_reference',
                     'rule_title',
                     'rule_manual_reference',
-                    'rule_chapter'
+                    'rule_chapter',
+                    'rule_id'
                 ));
 
 

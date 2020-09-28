@@ -50,6 +50,11 @@ class FlowsData extends Model
         return $this->belongsTo(User::class, 'investigator_id', 'id');
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'rule_id', 'id');
+    }
+
     public static function checkAssignedUser(int $user_id, int $flow_id)
     {
         $data = self::query()

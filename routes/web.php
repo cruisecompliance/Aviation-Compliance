@@ -51,6 +51,9 @@ Route::namespace('Components')->group(function () {
         // Flow Calendar
         Route::get('/calendar/{hash}', 'CalendarController@index')->name('components.flows.calendar.index');
 
+        // Flow comment
+        Route::get('/flow/{rule_id}/comments', 'CommentController@index')->name('components.flows.comments.index');
+        Route::post('/flow/{flow?}/comment/store', 'CommentController@store')->name('components.flows.comments.store');
     });
 });
 

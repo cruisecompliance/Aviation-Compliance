@@ -75,7 +75,7 @@
 
             // get filter form data
             $.get("{{ route('components.flows.filters.show', $flow->id) }}", function (data) {
-console.log(data.sections);
+
                 // filter list
                 if (jQuery.isEmptyObject(data.filters)) {
                     $('#filter_list').hide();
@@ -112,7 +112,6 @@ console.log(data.sections);
 
                 // assignee selected option
                 $('#filter_users option[value="{{ request()->assignee }}"]').prop('selected', true);
-
 
             });
 

@@ -160,7 +160,7 @@
                         {data: 'month_quarter', name: 'month_quarter'},
                         {data: 'auditor', name: 'auditor.name'},
                         {data: 'auditee', name: 'auditee.name'},
-                        {data: 'comments', name: 'comments'},
+                        {data: 'questions', name: 'questions'},
                         {data: 'finding', name: 'finding'},
                         {data: 'deviation_statement', name: 'deviation_statement'},
                         {data: 'evidence_reference', name: 'evidence_reference'},

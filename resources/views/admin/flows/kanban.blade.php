@@ -91,7 +91,7 @@
         </div>
 
     </div>
-    @include('admin.flows._form')
+    @include('admin.flows._modal')
 
     @push('scripts')
         <script type="text/javascript">
