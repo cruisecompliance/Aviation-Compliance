@@ -27,16 +27,6 @@ class TableController extends Controller
         // get latest company flow
         $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
 
-        if (!empty($flow)){
-
-            // check assigned users for flowData (Auditee, Auditor, Investigator)
-            if(Auth::user()->hasRole([RoleName::AUDITEE, RoleName::AUDITOR, RoleName::INVESTIGATOR])){
-                if (empty(FlowsData::checkAssignedUser(Auth::user()->id, $flow->id))) {
-                    return abort(403, 'User not assigned ');
-                }
-            }
-        }
-
         // return view with data
         return view('user.flows.table', [
             'flow' => $flow,

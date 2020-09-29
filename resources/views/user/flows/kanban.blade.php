@@ -7,92 +7,107 @@
 
         <div class="container-fluid">
 
+        @if(!empty($flow))
+
             <!-- start page title -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="page-title-box">
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
-                                <li class="breadcrumb-item active">Flow - Kanban View</li>
-                            </ol>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
+                                    <li class="breadcrumb-item active">Flow - Kanban View</li>
+                                </ol>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- end page title -->
+                <!-- end page title -->
 
-            <div class="row mb-2">
-                <div class="col-5 offset-7 text-right">
-                    <a href="{{ route('user.flows.table.index') }}" class="btn btn-success btn-sm mr-1">Table View</a>
+                <div class="row mb-2">
+                    <div class="col-5 offset-7 text-right">
+                        <a href="{{ route('user.flows.table.index') }}" class="btn btn-success btn-sm mr-1">Table View</a>
+                    </div>
                 </div>
-            </div>
 
-            <!-- page content -->
+                <!-- page content -->
 
-            <!-- toolbar -->
-            <div class="row mb-2">
-                <div class="col-8">
-                    @include('components.flows._filter')
+                <!-- toolbar -->
+                <div class="row mb-2">
+                    <div class="col-8">
+                        @include('components.flows._filter')
+                    </div>
+                    <div class="col-4 pl-3 text-right">
+                        @include('components.flows._iCal')
+                    </div>
                 </div>
-                <div class="col-4 pl-3 text-right">
-                    @include('components.flows._iCal')
-                </div>
-            </div>
-            <!-- toolbar -->
+                <!-- toolbar -->
 
-            <!-- kanban board -->
-            <div class="container-fluid overflow-auto">
-                <div class="row flex-nowrap" id="load">
+                <!-- kanban board -->
+                <div class="container-fluid overflow-auto">
+                    <div class="row flex-nowrap" id="load">
 
-                    <!-- start block -->
-                    @foreach(RequrementStatus::statusTransitions() as $status)
-                        <div class="col-3">
-                            <div class="card-box">
-                                <h4 class="header-title mb-3">{{ $status['status_name'] }}</h4>
-                                <ul class="sortable-list tasklist list-unstyled" id="upcoming" data-list="{{ $status['status_name'] }}">
+                        <!-- start block -->
+                        @foreach(RequrementStatus::statusTransitions() as $status)
+                            <div class="col-3">
+                                <div class="card-box">
+                                    <h4 class="header-title mb-3">{{ $status['status_name'] }}</h4>
+                                    <ul class="sortable-list tasklist list-unstyled" id="upcoming" data-list="{{ $status['status_name'] }}">
 
-                                    @if(!empty($kanbanData[$status['status_name']]))
-                                        @foreach($kanbanData[$status['status_name']] as $item)
-                                            <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
-                                                {{--                                        <span class="badge bg-soft-danger text-danger float-right">High</span>--}}
-                                                <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
-                                                <p>{{ $item->rule_title }}</p>
-                                                <div class="clearfix"></div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date->format('d.m.Y') : '-' }}</p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="text-right">
-                                                            <a href="javascript: void(0);" class="text-muted">
-                                                                <div>Auditor: {{ ($item->auditor->name) ?? '-' }}</div>
-                                                                <div>Auditee: {{ ($item->auditee->name) ?? '-' }}</div>
-                                                                <div>Investigator: {{ ($item->investigator->name) ?? '-' }}</div>
-                                                                {{--                                                        <img src="{{ asset('images/users/user-1.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
-                                                            </a>
-                                                            {{--                                                    <a href="javascript: void(0);" class="text-muted">--}}
-                                                            {{--                                                        <img src="{{ asset('images/users/user-3.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
-                                                            {{--                                                    </a>--}}
+                                        @if(!empty($kanbanData[$status['status_name']]))
+                                            @foreach($kanbanData[$status['status_name']] as $item)
+                                                <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
+                                                    {{--                                        <span class="badge bg-soft-danger text-danger float-right">High</span>--}}
+                                                    <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
+                                                    <p>{{ $item->rule_title }}</p>
+                                                    <div class="clearfix"></div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date->format('d.m.Y') : '-' }}</p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="text-right">
+                                                                <a href="javascript: void(0);" class="text-muted">
+                                                                    <div>Auditor: {{ ($item->auditor->name) ?? '-' }}</div>
+                                                                    <div>Auditee: {{ ($item->auditee->name) ?? '-' }}</div>
+                                                                    <div>Investigator: {{ ($item->investigator->name) ?? '-' }}</div>
+                                                                    {{--                                                        <img src="{{ asset('images/users/user-1.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
+                                                                </a>
+                                                                {{--                                                    <a href="javascript: void(0);" class="text-muted">--}}
+                                                                {{--                                                        <img src="{{ asset('images/users/user-3.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
+                                                                {{--                                                    </a>--}}
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    @endif
+                                                </li>
+                                            @endforeach
+                                        @endif
 
-                                </ul>
+                                    </ul>
+                                </div>
+                            </div>
+                    @endforeach
+                    <!-- /end block -->
+
+                    </div>
+                </div>
+                <!-- /kanban board -->
+
+                <!-- /page content -->
+            @else
+            <!-- page content -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <p>The flow has not been created yet.</p>
                             </div>
                         </div>
-                @endforeach
-                <!-- /end block -->
-
+                    </div>
                 </div>
-            </div>
-            <!-- /kanban board -->
+                <!-- /page content -->
 
-            <!-- /page content -->
-
+            @endif
         </div>
 
     </div>

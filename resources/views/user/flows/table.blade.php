@@ -104,7 +104,7 @@
                     </div><!-- end col-->
                 </div><!-- end row-->
                 <!-- /page content -->
-        @else
+            @else
             <!-- page content -->
                 <div class="row">
                     <div class="col-12">

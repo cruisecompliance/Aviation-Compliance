@@ -55,16 +55,4 @@ class FlowsData extends Model
         return $this->hasMany(Comment::class, 'rule_id', 'id');
     }
 
-    public static function checkAssignedUser(int $user_id, int $flow_id)
-    {
-        $data = self::query()
-            ->orWhere('auditor_id', $user_id)
-            ->orWhere('auditee_id', $user_id)
-            ->orWhere('investigator_id', $user_id)
-            ->where('flow_id', $flow_id)
-            ->first();
-
-        return ($data) ? true : false;
-    }
-
 }

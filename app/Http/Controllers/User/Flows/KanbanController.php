@@ -22,44 +22,42 @@ class KanbanController extends Controller
     public function index(Request $request)
     {
         // get latest company flow
-        $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->firstOrFail();
+        $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
 
         //> filter
-        $queryKanbanTasks = FlowsData::where('flow_id', $flow->id)
-            ->with('auditor')
-            ->with('auditee')
-            ->with('investigator');
+        if (!empty($flow)) {
 
-        if (!empty($request->rule_reference)) {
-            $queryKanbanTasks->where('rule_reference', $request->rule_reference);
+            $queryKanbanTasks = FlowsData::where('flow_id', $flow->id)
+                ->with('auditor')
+                ->with('auditee')
+                ->with('investigator');
+
+            if (!empty($request->rule_reference)) {
+                $queryKanbanTasks->where('rule_reference', $request->rule_reference);
+            }
+
+            if (!empty($request->rule_section)) {
+                $queryKanbanTasks->where('rule_section', $request->rule_section);
+            }
+
+            if (!empty($request->assignee)) {
+                // get user role name
+                $roleName = User::findOrFail($request->assignee)->roles()->first()->name;
+                // get role statuses
+                $roleStatuses = RequrementStatus::getRoleStatuses($roleName);
+                // get task for role
+                $queryKanbanTasks->whereIn('task_status', $roleStatuses);
+            }
+
+            $kanbanData = $queryKanbanTasks->get();
+            $kanbanData = collect($kanbanData)->groupBy('task_status');
         }
-
-        if (!empty($request->rule_section)) {
-            $queryKanbanTasks->where('rule_section', $request->rule_section);
-        }
-
-        if (!empty($request->assignee)) {
-            // get user role name
-            $roleName = User::findOrFail($request->assignee)->roles()->first()->name;
-            // get role statuses
-            $roleStatuses = RequrementStatus::getRoleStatuses($roleName);
-            // get task for role
-            $queryKanbanTasks->whereIn('task_status', $roleStatuses);
-
-//            $queryKanbanTasks->where(function ($assignee) use ($request) {
-//                $assignee->orWhere('auditor_id', "$request->assignee")
-//                    ->orWhere('auditee_id', "$request->assignee")
-//                    ->orWhere('investigator_id', "$request->assignee");
-//            });
-        }
-
-        $kanbanData = $queryKanbanTasks->get();
-        /////// <
+        //<
 
         // return requirements kanban view with data
         return view('user.flows.kanban', [
             'flow' => $flow,
-            'kanbanData' => collect($kanbanData)->groupBy('task_status'), // kanban board
+            'kanbanData' => ($kanbanData) ?? NULL,
         ]);
 
     }
