@@ -55,7 +55,11 @@
     <h2>Audit Structure</h2>
     <div class="form-group">
         <label for="frequency" class="control-label">Frequency</label>
-        <input type="text" class="form-control" id="frequency" name="frequency" value="">
+        <select name="frequency" id="frequency" class="form-control">
+             <option value="">...</option>
+             <option value="annual">annual</option>
+             <option value="performance">performance</option>
+        </select>
     </div>
     <div class="form-group">
         <label for="month_quarter" class="control-label">Month / Quarter</label>

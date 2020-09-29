@@ -85,7 +85,7 @@ class RequirementController extends Controller
             'rule_chapter' => 'nullable|string',
             'company_manual' => 'nullable|string',
             'company_chapter' => 'nullable|string',
-            'frequency' => 'nullable|string',
+            'frequency' => 'required|string|in:annual,performance',
             'month_quarter' => 'nullable|string',
             'assigned_auditor' => 'nullable|numeric', // assigned
             'assigned_auditee' => 'nullable|numeric', // assigned

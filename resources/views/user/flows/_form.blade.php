@@ -76,7 +76,11 @@
                     @can(PermissionName::EDIT_FREQUENCY)
                         <div class="form-group">
                             <label for="frequency" class="control-label">Frequency</label>
-                            <input type="text" class="form-control" id="frequency" name="frequency" value="">
+                            <select name="frequency" id="frequency" class="form-control">
+                                <option value="">...</option>
+                                <option value="annual">annual</option>
+                                <option value="performance">performance</option>
+                            </select>
                         </div>
                     @endcan
                     @can(PermissionName::EDIT_MONTH_QUARTER)
@@ -232,7 +236,6 @@
                             <input type="date" class="form-control" id="closed_date" name="closed_date" value="">
                         </div>
                     @endcan
-
 
                     <!-- status -->
                     <div class="form-group" id="statuses-wrapper">
