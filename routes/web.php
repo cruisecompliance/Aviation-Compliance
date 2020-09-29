@@ -18,7 +18,7 @@ use App\Enums\PermissionName;
 /**
  * Main page (login form)
  */
-Route::get('/', 'Auth\LoginController@showLoginForm');
+Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
 
 /**
  * login microsoft azure ad
