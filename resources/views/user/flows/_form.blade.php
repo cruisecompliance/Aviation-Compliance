@@ -87,7 +87,7 @@
                     @endcan
                     @can(PermissionName::EDIT_ASSIGNED_AUDITOR)
                         <div class="form-group">
-                            <label for="assigned_auditor" class="control-label">Assignee Auditor</label>
+                            <label for="assigned_auditor" class="control-label">Assigned Auditor</label>
                             <select name="auditor_id" id="assigned_auditor" class="form-control">
                                 <option value="">...</option>
                             </select>
@@ -95,7 +95,7 @@
                     @endcan
                     @can(PermissionName::EDIT_ASSIGNED_AUDITEE)
                         <div class="form-group">
-                            <label for="assigned_auditee" class="control-label">Assignee Auditee</label>
+                            <label for="assigned_auditee" class="control-label">Assigned Auditee</label>
                             <select name="auditee_id" id="assigned_auditee" class="form-control">
                                 <option value="">...</option>
                             </select>
@@ -159,7 +159,7 @@
                     @endrole
                     @can(PermissionName::EDIT_ASSIGNED_INVESTIGATOR)
                         <div class="form-group">
-                            <label for="assigned_investigator" class="control-label">Assignee Investigator</label>
+                            <label for="assigned_investigator" class="control-label">Assigned Investigator</label>
                             <select name="investigator_id" id="assigned_investigator" class="form-control">
                                 <option value="">...</option>
                             </select>
