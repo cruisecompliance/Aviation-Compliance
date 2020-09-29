@@ -48,14 +48,14 @@
                     <div class="row flex-nowrap" id="load">
 
                         <!-- start block -->
-                        @foreach(RequrementStatus::statusTransitions() as $status)
+                        @foreach(RequrementStatus::kanbanStatuses() as $status)
                             <div class="col-3">
                                 <div class="card-box">
-                                    <h4 class="header-title mb-3">{{ $status['status_name'] }}</h4>
-                                    <ul class="sortable-list tasklist list-unstyled" id="upcoming" data-list="{{ $status['status_name'] }}">
+                                    <h4 class="header-title mb-3">{{ $status }}</h4>
+                                    <ul class="sortable-list tasklist list-unstyled" id="upcoming" data-list="{{ $status }}">
 
-                                        @if(!empty($kanbanData[$status['status_name']]))
-                                            @foreach($kanbanData[$status['status_name']] as $item)
+                                        @if(!empty($kanbanData[$status]))
+                                            @foreach($kanbanData[$status] as $item)
                                                 <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
                                                     {{--                                        <span class="badge bg-soft-danger text-danger float-right">High</span>--}}
                                                     <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
