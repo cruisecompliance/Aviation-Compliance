@@ -5,13 +5,10 @@ namespace App\Http\Controllers\Admin\Flows;
 use App\Enums\RequrementStatus;
 use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
-use App\Models\Comment;
-use App\Models\Filter;
 use App\User;
 use Illuminate\Http\Request;
 use App\Models\Flow;
 use App\Models\FlowsData;
-use Illuminate\Support\Facades\Auth;
 
 class KanbanController extends Controller
 {
@@ -24,7 +21,6 @@ class KanbanController extends Controller
      */
     public function index(Flow $flow, Request $request)
     {
-
         //> filter
         $queryKanbanTasks = FlowsData::where('flow_id', $flow->id)
             ->whereNotIn('task_status', [RequrementStatus::CMM_Backlog])

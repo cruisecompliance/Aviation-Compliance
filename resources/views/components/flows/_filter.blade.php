@@ -46,7 +46,6 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <form id="FilterModalForm" action="{{ route('components.flows.filters.store', $flow->id) }}" method="POST">
-                {{--            <form id="FilterModalForm" method="POST">--}}
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
