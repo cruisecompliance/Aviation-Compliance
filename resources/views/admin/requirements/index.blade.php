@@ -244,10 +244,13 @@
 
                     // reset form alert
                     var resetForm = function () {
+                        var form = $('#ItemForm');
+                        form.find("input").removeClass('is-invalid');
+                        form.find("select").removeClass('is-invalid');
+                        form.find("textarea").removeClass('is-invalid');
                         $(".alert-success").remove();
                         $(".alert-danger").remove();
                         $(".text-danger").remove();
-                        $("form").find("input").removeClass('is-invalid');
                     };
 
 
@@ -275,7 +278,7 @@
                                     table.draw();
                                 } else {
                                     $.each(data.errors, function (input_name, input_error) {
-                                        form.find("input[name='" + input_name + "']").addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
+                                        form.find("[name='" + input_name + "']").addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
                                     });
                                 }
 

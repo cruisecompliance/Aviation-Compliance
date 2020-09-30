@@ -202,6 +202,7 @@
                         form.find("select").removeClass('is-invalid');
                         form.find("textarea").removeClass('is-invalid');
                         $(".alert-success").remove();
+                        $(".alert-danger").remove();
                         $(".text-danger").remove();
                     };
 
@@ -221,7 +222,7 @@
                                     table.draw();
                                 } else {
                                     $.each(data.errors, function (input_name, input_error) {
-                                        $("#" + input_name).addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
+                                        form.find("[name='" + input_name + "']").addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
                                     });
                                 }
                             },

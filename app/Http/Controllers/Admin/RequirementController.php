@@ -105,7 +105,7 @@ class RequirementController extends Controller
         //> request validation
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|min:4|unique:requirements',
-            'description' => 'nullable|string|min:4',
+            'description' => 'nullable|string|min:4|max:255',
             'user_file' => 'required|file|mimes:xlsx'
         ]);
 
