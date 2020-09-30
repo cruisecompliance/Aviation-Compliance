@@ -106,7 +106,7 @@ class TableController extends Controller
                     // get task for role
                     $query->whereIn('task_status', $roleStatuses);
                 }
-            })
+            }, true)
             ->rawColumns(['action'])
             ->make(true);
 

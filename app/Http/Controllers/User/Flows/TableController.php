@@ -115,7 +115,7 @@ class TableController extends Controller
                     $query->whereIn('task_status', $roleStatuses);
 
                 }
-            })
+            }, true)
             ->rawColumns(['action'])
             ->make(true);
     }
