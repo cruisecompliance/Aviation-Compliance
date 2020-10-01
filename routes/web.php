@@ -34,6 +34,16 @@ Route::get('/login/teams-start', 'Auth\TeamController@start')->name('auth.login.
 Route::get('/login/teams-end', 'Auth\TeamController@end')->name('auth.login.teams_end');
 Route::get('/login/teams/profile/{email}/name/{displayName?}', 'Auth\TeamController@profile')->name('auth.login.profile');
 
+/**
+ * Pages
+ */
+Route::get('/privacy', function() {
+    return view('pages.privacy');
+});
+
+Route::get('/terms', function() {
+    return view('pages.terms');
+});
 
 /**
  * Components
