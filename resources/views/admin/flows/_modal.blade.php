@@ -75,7 +75,6 @@
                     }
                 );
 
-
                 // open modal if window has hash (rule_reference)
                 if (window.location.hash) {
                     getModalData();

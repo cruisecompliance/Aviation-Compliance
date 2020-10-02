@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FlowsData;
 use App\Services\Flows\NotificationService;
 use App\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +82,7 @@ class RequirementController extends Controller
             'evidence_reference' => 'sometimes|nullable|string',
             'deviation_level' => 'sometimes|nullable|string',
             'safety_level_before_action' => 'sometimes|nullable|string',
-            'due_date' => 'sometimes|nullable|date', // date
+            'due_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
             'repetitive_finding_ref_number' => 'sometimes|nullable|string',
             'assigned_investigator' => 'sometimes|nullable|numeric', // assigned
             'corrections' => 'sometimes|nullable|string',
@@ -90,10 +91,10 @@ class RequirementController extends Controller
             'preventive_actions' => 'sometimes|nullable|string',
             'action_implemented_evidence' => 'sometimes|nullable|string',
             'safety_level_after_action' => 'sometimes|nullable|string',
-            'effectiveness_review_date' => 'sometimes|nullable|date', // date
-            'response_date' => 'sometimes|nullable|date', // date
-            'extension_due_date' => 'sometimes|nullable|date', // date
-            'closed_date' => 'sometimes|nullable|date', // date
+            'effectiveness_review_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
+            'response_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
+            'extension_due_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
+            'closed_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
             'task_status' => 'required|string|in:' . $task_statuses,
         ]);
 
@@ -108,10 +109,8 @@ class RequirementController extends Controller
             // get latest company flow
             $flow = Auth::user()->company->flows->first();
 
-            // update flow requirements data
-            $flow->flowData()
-                ->whereRuleReference($request->requirements_rule)
-                ->update($request->except(
+            $flowData = FlowsData::whereFlowId($flow->id)->whereRuleReference($request->requirements_rule)->first();
+            $flowData->update($request->except(
                     'requirements_rule',
                     '_token',
                     '_method',

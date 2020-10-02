@@ -148,7 +148,7 @@
                     @can(PermissionName::EDIT_DUE_DATE)
                         <div class="form-group">
                             <label for="due_date" class="control-label">Due-Date</label>
-                            <input type="date" class="form-control" id="due_date" name="due_date" value="">
+                            <input type="text" class="form-control picker" id="due_date" name="due_date" value="" placeholder="dd.mm.yyyy">
                         </div>
                     @endcan
                     @can(PermissionName::EDIT_REPETITIVE_FINDING_REF_NUMBER)
@@ -214,26 +214,26 @@
                     @can(PermissionName::EDIT_EFFECTIVENESS_REVIEW_DATE)
                         <div class="form-group">
                             <label for="effectiveness_review_date" class="control-label">Effectiveness Review date</label>
-                            <input type="date" class="form-control" id="effectiveness_review_date" name="effectiveness_review_date" value="">
+                            <input type="text" class="form-control picker" id="effectiveness_review_date" name="effectiveness_review_date" value="" placeholder="dd.mm.yyyy">
                         </div>
                     @endcan
                     @can(PermissionName::EDIT_RESPONSE_DATE)
                         <div class="form-group">
                             <label for="response_date" class="control-label">Response date</label>
-                            <input type="date" class="form-control" id="response_date" name="response_date" value="">
+                            <input type="text" class="form-control picker" id="response_date" name="response_date" value="" placeholder="dd.mm.yyyy">
                         </div>
                     @endcan
 
                     @can(PermissionName::EDIT_EXTENSION_DUE_DATE)
                         <div class="form-group">
                             <label for="extension_due_date" class="control-label">Extension Due-Date</label>
-                            <input type="date" class="form-control" id="extension_due_date" name="extension_due_date" value="">
+                            <input type="text" class="form-control picker" id="extension_due_date" name="extension_due_date" value="" placeholder="dd.mm.yyyy">
                         </div>
                     @endcan
                     @can(PermissionName::EDIT_CLOSED_DATE)
                         <div class="form-group">
                             <label for="closed_date" class="control-label">Closed date</label>
-                            <input type="date" class="form-control" id="closed_date" name="closed_date" value="">
+                            <input type="text" class="form-control picker" id="closed_date" name="closed_date" value="" placeholder="dd.mm.yyyy">
                         </div>
                     @endcan
 
@@ -269,6 +269,24 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            // datepicker
+            $(".picker").datepicker({
+                format: 'dd.mm.yyyy',
+                startDate: '+0d',
+            });
+            // datepicker modal scroll
+            var t;
+            $(document).on(
+                'DOMMouseScroll mousewheel scroll',
+                '#ajaxModel',
+                function () {
+                    window.clearTimeout(t);
+                    t = window.setTimeout(function () {
+                        $('.picker').datepicker('place')
+                    });
+                }
+            );
 
             // open modal if window has hash (rule_reference)
             if (window.location.hash) {
@@ -308,7 +326,8 @@
                             $('#load').load(location.href + ' #load'); // reload kanban board
                         } else {
                             $.each(data.errors, function (input_name, input_error) {
-                                $("#" + input_name).addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
+                                var errors = input_error.join('<br/>');
+                                $("#" + input_name).addClass('is-invalid').after('<span class="text-danger">' + errors + '<br/></span>');
                             });
                         }
                     },
