@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Flows;
 
 use App\Enums\RequrementStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Flows\RequirementRequest;
 use App\Models\Comment;
 use App\Models\Flow;
 use App\Models\FlowsData;
@@ -70,81 +71,22 @@ class RequirementController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Flow $flow, Request $request)
+    public function update(Flow $flow, RequirementRequest $request)
     {
-
-        // task statuses (for validation)
-        $task_statuses = RequrementStatus::statusTransitions()->implode('status_name', ',');
-
-        // validate request data
-        $validator = Validator::make($request->all(), [
-            'rule_section' => 'required|numeric',
-            'rule_group' => 'required|string',
-            'rule_reference' => 'required|string',
-            'rule_title' => 'required|string',
-            'rule_manual_reference' => 'nullable|string',
-            'rule_chapter' => 'nullable|string',
-            'company_manual' => 'nullable|string',
-            'company_chapter' => 'nullable|string',
-            'frequency' => 'required|string|in:annual,performance',
-            'month_quarter' => 'nullable|string',
-            'assigned_auditor' => 'nullable|numeric', // assigned
-            'assigned_auditee' => 'nullable|numeric', // assigned
-            'questions' => 'nullable|string',
-            'finding' => 'nullable|string',
-            'deviation_statement' => 'nullable|string',
-            'evidence_reference' => 'nullable|string',
-            'deviation_level' => 'nullable|string',
-            'safety_level_before_action' => 'nullable|string',
-            'due_date' => 'nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
-            'repetitive_finding_ref_number' => 'nullable|string',
-            'assigned_investigator' => 'nullable|numeric', // assigned
-            'corrections' => 'nullable|string',
-            'rootcause' => 'nullable|string',
-            'corrective_actions_plan' => 'nullable|string',
-            'preventive_actions' => 'nullable|string',
-            'action_implemented_evidence' => 'nullable|string',
-            'safety_level_after_action' => 'nullable|string',
-            'effectiveness_review_date' => 'nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
-            'response_date' => 'nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
-            'extension_due_date' => 'nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
-            'closed_date' => 'nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
-            'task_status' => 'required|string|in:'.$task_statuses,
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
-
         try {
-//            $flow->flowData()
-//                ->whereRuleReference($request->rule_reference)
-//                ->update($request->except(
-//                    '_token',
-//                    '_method',
-//                    'rule_section',
-//                    'rule_group',
-//                    'rule_reference',
-//                    'rule_title',
-//                    'rule_manual_reference',
-//                    'rule_chapter',
-//                    'rule_id'
-//                ));
             $flowData = FlowsData::whereFlowId($flow->id)->whereRuleReference($request->rule_reference)->first();
+
             $flowData->update($request->except(
-                    '_token',
-                    '_method',
-                    'rule_section',
-                    'rule_group',
-                    'rule_reference',
-                    'rule_title',
-                    'rule_manual_reference',
-                    'rule_chapter',
-                    'rule_id'
-                ));
+                '_token',
+                '_method',
+                'rule_section',
+                'rule_group',
+                'rule_reference',
+                'rule_title',
+                'rule_manual_reference',
+                'rule_chapter',
+                'rule_id'
+            ));
 
 
             // get task data (FlowData)

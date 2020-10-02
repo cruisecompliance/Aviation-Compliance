@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Components\Flows;
 
 use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Flows\FilterRequest;
 use App\Models\Filter;
 use App\Models\Flow;
 use App\User;
@@ -67,23 +68,8 @@ class FilterController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Flow $flow, Request $request)
+    public function store(Flow $flow, FilterRequest $request)
     {
-
-        // validate request data
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:2|max:26',
-            'rule_reference' => 'sometimes|nullable|string',
-            'rule_section' => 'sometimes|nullable|numeric',
-            'assignee' => 'sometimes|nullable|numeric',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
 
         try {
 

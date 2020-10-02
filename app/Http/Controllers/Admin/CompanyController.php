@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Companies\CompanyRequest;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use Illuminate\Support\Facades\Validator;
@@ -42,32 +43,21 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CompanyRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:4|unique:companies,name',
-            'url' => 'required|string|url|min:4|unique:companies,url',
-            'status' => 'required|boolean',
-        ]);
-
-        if($validator->fails()){
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
-
+        // create company
         $company = Company::create([
             'name' => $request->name,
             'url' => $request->url,
             'status' => $request->status,
         ]);
 
+        // return response with data and success status
         return response()->json([
             'success' => true,
-            'message' => "Company {$company->name} was added successfully.",
+            'message' => "Company {$company->name} was created successfully.",
             'resource' => $company,
-        ]);
+        ], 200);
     }
 
     /**
@@ -78,11 +68,11 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        // return JSON company data
+        // return JSON company data (for modal form)
         return response()->json([
             'success' => true,
             'company' => $company,
-        ]);
+        ], 200);
 
     }
 
@@ -93,32 +83,21 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(CompanyRequest $request, Company $company)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:4|unique:companies,name,' . $company->id,
-            'url' => 'required|string|url|min:4|unique:companies,url,' . $company->id,
-            'status' => 'required|boolean',
-        ]);
-
-        if($validator->fails()){
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
-
+        // update company data
         $company->update([
             'name' => $request->name,
             'url' => $request->url,
             'status' => $request->status,
         ]);
 
+        // return response with data and success status
         return response()->json([
             'success' => true,
-            'message' => "Company {$company->name} was update successfully.",
+            'message' => "Company {$company->name} was updated successfully.",
             'resource' => $company,
-        ]);
+        ], 200);
 
     }
 
