@@ -44,25 +44,29 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        $email = null;
-
         // method post for create
         if ($this->isMethod('POST')) {
-            $email = 'required|string|email|min:4|unique:users,email';
+            return [
+                'name' => 'required|string|min:4|max:64',
+                'email' => 'required|string|email|min:4|unique:users,email',
+                'password' =>'required|string|min:8|max:64',
+                'status' => 'required|boolean',
+                'company' => 'required|numeric',
+                'role' => 'required|string',
+            ];
+
         }
 
         // method patch for update
         if ($this->isMethod('PATCH')) {
-            $email = 'required|string|email|min:4|unique:users,email,' . $this->user->id;
+            return [
+                'name' => 'required|string|min:4|max:64',
+                'email' => 'required|string|email|min:4|unique:users,email,' . $this->user->id,
+                'status' => 'required|boolean',
+                'company' => 'required|numeric',
+                'role' => 'required|string',
+            ];
         }
 
-        return [
-            'name' => 'required|string|min:4|max:64',
-            'email' => $email,
-            'password' => 'required|string|min:8|max:64',
-            'status' => 'required|boolean',
-            'company' => 'required|numeric',
-            'role' => 'required|string',
-        ];
     }
 }
