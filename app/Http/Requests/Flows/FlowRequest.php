@@ -26,7 +26,6 @@ class FlowRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
@@ -36,7 +35,6 @@ class FlowRequest extends FormRequest
             ])
         );
     }
-
 
     /**
      * Get the validation rules that apply to the request.

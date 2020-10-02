@@ -99,23 +99,8 @@ class RequirementController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RequirementRequest $request)
     {
-
-        //> request validation
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|min:4|unique:requirements',
-            'description' => 'nullable|string|min:4|max:255',
-            'user_file' => 'required|file|mimes:xlsx'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
-
         //> file data fields validation
         $sheets = (new RequirementsImport)->toArray($request->file('user_file'));
 
