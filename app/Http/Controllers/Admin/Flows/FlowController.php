@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Flows;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Flows\FlowRequest;
 use App\Models\Company;
 use App\Models\Flow;
 use App\Models\Requirement;
@@ -68,22 +69,8 @@ class FlowController extends Controller
      * @param \App\Http\Requests\Flows\FlowRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FlowRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|min:4|unique:flows',
-            'description' => 'nullable|string|min:4|max:255',
-            'company' => 'required|numeric',
-            'requirements' => 'required|numeric',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
-
         return DB::transaction(function () use ($request) {
 
             // create new flow
@@ -140,26 +127,11 @@ class FlowController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\User $user
+     * @param Flow $flow
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Flow $flow)
+    public function update(FlowRequest $request, Flow $flow)
     {
-
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|min:4|unique:flows,title,' . $flow->id,
-            'description' => 'nullable|string|min:4',
-            'company' => 'required|numeric',
-            'requirements' => 'required|numeric',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
-
         $flow->update([
             'title' => $request->title,
             'description' => $request->description,
