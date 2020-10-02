@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class FlowsData extends Model
@@ -18,12 +19,23 @@ class FlowsData extends Model
     ];
 
     protected $casts = [
-        'due_date'  => 'date:Y-m-d', // format for correct display in form input
-        'effectiveness_review_date'  => 'date:Y-m-d', // format for correct display in form input
-        'response_date'  => 'date:Y-m-d', // format for correct display in form input
-        'extension_due_date'  => 'date:Y-m-d', // format for correct display in form input
-        'closed_date'  => 'date:Y-m-d', // format for correct display in form input
+        'due_date'  => 'date:d.m.Y',
+        'effectiveness_review_date'  => 'date:d.m.Y',
+        'response_date'  => 'date:d.m.Y',
+        'extension_due_date'  => 'date:d.m.Y',
+        'closed_date'  => 'date:d.m.Y',
     ];
+
+
+//    public function setDueDateAttribute($value)
+//    {
+//        if(!empty($value)){
+//            $this->attributes['due_date'] = Carbon::parse($value)->format('Y-m-d');
+//        } else {
+//            $this->attributes['due_date'] = null;
+//        }
+//    }
+
 
 //    public function requirementData()
 //    {

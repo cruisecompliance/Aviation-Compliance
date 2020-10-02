@@ -105,7 +105,8 @@
     </div>
     <div class="form-group">
         <label for="due_date" class="control-label">Due-Date</label>
-        <input type="date" class="form-control" id="due_date" name="due_date" value="">
+        <input type="text" class="form-control picker" id="due_date" name="due_date" value="" placeholder="dd.mm.yyyy">
+
     </div>
     <div class="form-group">
         <label for="repetitive_finding_ref_number" class="control-label">Repetitive Finding ref Number</label>
@@ -151,20 +152,20 @@
     </div>
     <div class="form-group">
         <label for="effectiveness_review_date" class="control-label">Effectiveness Review date</label>
-        <input type="date" class="form-control" id="effectiveness_review_date" name="effectiveness_review_date" value="">
+        <input type="text" class="form-control picker" id="effectiveness_review_date" name="effectiveness_review_date" value="" placeholder="dd.mm.yyyy">
     </div>
     <div class="form-group">
         <label for="response_date" class="control-label">Response date</label>
-        <input type="date" class="form-control" id="response_date" name="response_date" value="">
+        <input type="text" class="form-control picker" id="response_date" name="response_date" value="" placeholder="dd.mm.yyyy">
     </div>
 
     <div class="form-group">
         <label for="extension_due_date" class="control-label">Extension Due-Date</label>
-        <input type="date" class="form-control" id="extension_due_date" name="extension_due_date" value="">
+        <input type="text" class="form-control picker" id="extension_due_date" name="extension_due_date" value="" placeholder="dd.mm.yyyy">
     </div>
     <div class="form-group">
         <label for="closed_date" class="control-label">Closed date</label>
-        <input type="date" class="form-control" id="closed_date" name="closed_date" value="">
+        <input type="text" class="form-control picker" id="closed_date" name="closed_date" value="" placeholder="dd.mm.yyyy">
     </div>
 
     <div class="modal-footer">

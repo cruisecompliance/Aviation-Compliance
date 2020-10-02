@@ -57,6 +57,25 @@
                     }
                 });
 
+                // datepicker
+                $(".picker").datepicker({
+                    format: 'dd.mm.yyyy',
+                    startDate: '+0d',
+                });
+                // datepicker modal scroll
+                var t;
+                $(document).on(
+                    'DOMMouseScroll mousewheel scroll',
+                    '#ajaxModel',
+                    function () {
+                        window.clearTimeout(t);
+                        t = window.setTimeout(function () {
+                            $('.picker').datepicker('place')
+                        });
+                    }
+                );
+
+
                 // open modal if window has hash (rule_reference)
                 if (window.location.hash) {
                     getModalData();
@@ -97,7 +116,8 @@
                                 $('#load').load(location.href + ' #load'); // reload kanban board
                             } else {
                                 $.each(data.errors, function (input_name, input_error) {
-                                    $("#" + input_name).addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
+                                    var errors = input_error.join('<br/>');
+                                    $("#" + input_name).addClass('is-invalid').after('<span class="text-danger">' + errors + '<br/></span>');
                                 });
                             }
                         },

@@ -9,6 +9,7 @@ use App\Models\Flow;
 use App\Models\FlowsData;
 use App\Services\Flows\NotificationService;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -95,7 +96,7 @@ class RequirementController extends Controller
             'evidence_reference' => 'nullable|string',
             'deviation_level' => 'nullable|string',
             'safety_level_before_action' => 'nullable|string',
-            'due_date' => 'nullable|date', // date
+            'due_date' => 'nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
             'repetitive_finding_ref_number' => 'nullable|string',
             'assigned_investigator' => 'nullable|numeric', // assigned
             'corrections' => 'nullable|string',
@@ -104,10 +105,10 @@ class RequirementController extends Controller
             'preventive_actions' => 'nullable|string',
             'action_implemented_evidence' => 'nullable|string',
             'safety_level_after_action' => 'nullable|string',
-            'effectiveness_review_date' => 'nullable|date', // date
-            'response_date' => 'nullable|date', // date
-            'extension_due_date' => 'nullable|date', // date
-            'closed_date' => 'nullable|date', // date
+            'effectiveness_review_date' => 'nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
+            'response_date' => 'nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
+            'extension_due_date' => 'nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
+            'closed_date' => 'nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
             'task_status' => 'required|string|in:'.$task_statuses,
         ]);
 
@@ -119,9 +120,21 @@ class RequirementController extends Controller
         }
 
         try {
-            $flow->flowData()
-                ->whereRuleReference($request->rule_reference)
-                ->update($request->except(
+//            $flow->flowData()
+//                ->whereRuleReference($request->rule_reference)
+//                ->update($request->except(
+//                    '_token',
+//                    '_method',
+//                    'rule_section',
+//                    'rule_group',
+//                    'rule_reference',
+//                    'rule_title',
+//                    'rule_manual_reference',
+//                    'rule_chapter',
+//                    'rule_id'
+//                ));
+            $flowData = FlowsData::whereFlowId($flow->id)->whereRuleReference($request->rule_reference)->first();
+            $flowData->update($request->except(
                     '_token',
                     '_method',
                     'rule_section',

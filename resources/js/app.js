@@ -41,6 +41,11 @@ window.Sortable = Sortable; // // global export
 const feather = require('feather-icons');
 feather.replace();
 
+// datepicker
+require('bootstrap-datepicker');
+
+// require('flatpickr');
+
 // require('waypoints'); // ??
 require('classnames'); // ??
 

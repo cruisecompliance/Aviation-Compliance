@@ -1,6 +1,9 @@
 //
-// Datepicker
+// Datepickers
 //
+//@import '~bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.min.css';
+@import '~bootstrap-datepicker/dist/css/bootstrap-datepicker.css';
+
 .datepicker {
     padding: 10px !important;
     animation: none;

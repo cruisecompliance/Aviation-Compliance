@@ -52,7 +52,7 @@ class CreateFlowsDataTable extends Migration
             $table->string('evidence_reference')->nullable();
             $table->string('deviation_level')->nullable();
             $table->string('safety_level_before_action')->nullable();
-            $table->dateTime('due_date')->nullable();
+            $table->date('due_date')->nullable();
             $table->string('repetitive_finding_ref_number')->nullable();
 
             // Auditee Input (NP)
@@ -65,11 +65,11 @@ class CreateFlowsDataTable extends Migration
             $table->string('preventive_actions')->nullable();
             $table->string('action_implemented_evidence')->nullable();
             $table->string('safety_level_after_action')->nullable();
-            $table->dateTime('effectiveness_review_date')->nullable();
-            $table->dateTime('response_date')->nullable();
+            $table->date('effectiveness_review_date')->nullable();
+            $table->date('response_date')->nullable();
 
-            $table->dateTime('extension_due_date')->nullable();
-            $table->dateTime('closed_date')->nullable();
+            $table->date('extension_due_date')->nullable();
+            $table->date('closed_date')->nullable();
 
             $table->string('task_status')->default(RequrementStatus::CMM_Backlog);
             $table->timestamps();
