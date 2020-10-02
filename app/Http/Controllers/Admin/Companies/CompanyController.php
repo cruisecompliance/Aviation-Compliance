@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Companies;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Companies\CompanyRequest;
-use Illuminate\Http\Request;
 use App\Models\Company;
-use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {

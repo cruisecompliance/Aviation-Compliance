@@ -99,7 +99,7 @@ class FlowController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "Flow {$flow->title} was added successfully.",
+                'message' => "Flow {$flow->title} was created successfully.",
                 'resource' => $flow,
             ]);
         });
@@ -141,7 +141,7 @@ class FlowController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => "Flow {$flow->title} was update successfully.",
+            'message' => "Flow {$flow->title} was updated successfully.",
             'resource' => $flow,
         ]);
     }

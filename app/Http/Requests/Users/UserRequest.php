@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Users;
 
+use App\Enums\RequrementStatus;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -52,13 +53,13 @@ class UserRequest extends FormRequest
 
         // method patch for update
         if ($this->isMethod('PATCH')) {
-            $email = 'required|string|email|min:4|unique:users,email,' . $this->id;
+            $email = 'required|string|email|min:4|unique:users,email,' . $this->user->id;
         }
 
         return [
-            'name' => 'required|string|min:4',
+            'name' => 'required|string|min:4|max:64',
             'email' => $email,
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|max:64',
             'status' => 'required|boolean',
             'company' => 'required|numeric',
             'role' => 'required|string',

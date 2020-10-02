@@ -1,19 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Requirements;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Requirements\RequirementRequest;
 use App\Imports\RequirementsValidation;
-use Illuminate\Http\Request;
 use App\Models\Requirement;
 use App\Models\RequirementsData;
 use App\Imports\RequirementsImport;
 use App\Services\ColorDiff;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
-use Carbon\Carbon;
 
 class RequirementController extends Controller
 {
@@ -155,7 +152,7 @@ class RequirementController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => "File {$file->getClientOriginalName()} was imported successfully.",
+            'message' => "File {$file->getClientOriginalName()} imported successfully.",
             'resource' => $version,
         ]);
 

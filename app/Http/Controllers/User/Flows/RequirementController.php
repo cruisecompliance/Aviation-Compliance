@@ -8,11 +8,8 @@ use App\Http\Requests\Flows\RequirementRequest;
 use App\Models\FlowsData;
 use App\Services\Flows\NotificationService;
 use App\User;
-use Carbon\Carbon;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class RequirementController extends Controller
 {
@@ -92,7 +89,7 @@ class RequirementController extends Controller
             // return json response with data
             return response()->json([
                 'success' => true,
-                'message' => "{$request->requirements_rule} was update successfully.",
+                'message' => "{$request->requirements_rule} was updated successfully.",
                 'resource' => $flow,
             ], 200);
 

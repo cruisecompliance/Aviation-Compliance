@@ -52,7 +52,7 @@ class FlowRequest extends FormRequest
 
         // method patch for update
         if ($this->isMethod('PATCH')) {
-            $title = 'required|string|min:4|unique:flows,title,' . $this->id;
+            $title = 'required|string|min:4|unique:flows,title,' . $this->flow->id;
         }
 
         return [

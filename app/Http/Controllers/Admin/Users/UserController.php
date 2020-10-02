@@ -1,19 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Users;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\UserRequest;
-use Illuminate\Http\Request;
 use App\Models\Company;
 use App\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-
 
 class UserController extends Controller
 {
@@ -83,7 +79,7 @@ class UserController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "User {$user->email} was added successfully.",
+                'message' => "User {$user->email} was created successfully.",
                 'resource' => $user,
             ]);
         });
@@ -129,7 +125,7 @@ class UserController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "User {$user->email} was update successfully.",
+                'message' => "User {$user->email} was updated successfully.",
                 'resource' => $user,
             ]);
         });

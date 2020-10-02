@@ -119,23 +119,29 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:' . RoleNam
     /**
      * Users
      **/
-    Route::resource('/users', 'UserController')->except(['create', 'show', 'destroy'])->names('admin.users');
-    Route::get('/users/impersonate/login/{user_id}', 'Users\ImpersonateController@login')->name('admin.users.impersonate.login');
-    Route::get('/users/impersonate/logout/', 'Users\ImpersonateController@logout')->name('admin.users.impersonate.logout')->withoutMiddleware('role:' . RoleName::SME);
+    Route::namespace('Users')->group(function () {
+        Route::resource('/users', 'UserController')->except(['create', 'show', 'destroy'])->names('admin.users');
+        Route::get('/users/impersonate/login/{user_id}', 'ImpersonateController@login')->name('admin.users.impersonate.login');
+        Route::get('/users/impersonate/logout/', 'ImpersonateController@logout')->name('admin.users.impersonate.logout')->withoutMiddleware('role:' . RoleName::SME);
+    });
 
     /**
      * Companies
      **/
-    Route::resource('/companies', 'CompanyController')->except(['create', 'show', 'destroy'])->names('admin.companies');
+    Route::namespace('Companies')->group(function() {
+        Route::resource('/companies', 'CompanyController')->except(['create', 'show', 'destroy'])->names('admin.companies');
+    });
 
     /**
      * Requirements
      */
-    //Route::resource('/admin/requirements', 'RequirementController')->names('admin.requirements');
-    Route::get('/requirements', 'RequirementController@index')->name('admin.requirements.index');
-    Route::post('/requirements/store', 'RequirementController@store')->name('admin.requirements.store');
-    Route::get('/requirements/{requirement}', 'RequirementController@show')->name('admin.requirements.show');
-    Route::get('/requirements/history/{rule_reference}', 'RequirementController@history')->name('admin.requirements.history');
+    Route::namespace('Requirements')->group(function (){
+        //Route::resource('/admin/requirements', 'RequirementController')->names('admin.requirements');
+        Route::get('/requirements', 'RequirementController@index')->name('admin.requirements.index');
+        Route::post('/requirements/store', 'RequirementController@store')->name('admin.requirements.store');
+        Route::get('/requirements/{requirement}', 'RequirementController@show')->name('admin.requirements.show');
+        Route::get('/requirements/history/{rule_reference}', 'RequirementController@history')->name('admin.requirements.history');
+    });
 
     /**
      * Flows

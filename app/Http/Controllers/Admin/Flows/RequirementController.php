@@ -5,15 +5,11 @@ namespace App\Http\Controllers\Admin\Flows;
 use App\Enums\RequrementStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Flows\RequirementRequest;
-use App\Models\Comment;
 use App\Models\Flow;
 use App\Models\FlowsData;
 use App\Services\Flows\NotificationService;
 use App\User;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Exception;
 use Throwable;
 
@@ -100,7 +96,7 @@ class RequirementController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "{$request->rule_reference} was update successfully.",
+                'message' => "{$request->rule_reference} was updated successfully.",
                 'resource' => $flow,
             ], 200);
 

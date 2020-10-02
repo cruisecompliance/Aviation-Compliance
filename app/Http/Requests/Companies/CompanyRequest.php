@@ -45,20 +45,23 @@ class CompanyRequest extends FormRequest
     {
 
         $name = null;
+        $url = null;
 
         // method post for create
         if ($this->isMethod('POST')) {
             $name = 'required|string|min:4|max:50|unique:companies,name';
+            $url = 'required|string|url|min:4|unique:companies,url';
         }
 
         // method patch for update
         if ($this->isMethod('PATCH')) {
-            $name = 'required|string|min:4|max:50|unique:companies,name,' . $this->id;
+            $name = 'required|string|min:4|max:50|unique:companies,name,' . $this->company->id;
+            $url = 'required|string|url|min:4|unique:companies,url,' . $this->company->id;;
         }
 
         return [
             'name' => $name,
-            'url' => 'required|string|url|min:4|unique:companies,url',
+            'url' => $url,
             'status' => 'required|boolean',
         ];
     }
