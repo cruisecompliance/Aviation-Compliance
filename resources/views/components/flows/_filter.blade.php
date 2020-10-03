@@ -80,8 +80,7 @@
                     $('#filter_list').hide();
                 } else {
                     $.each(data.filters, function (key, filter) {
-                        $('#filter_list').append('<a href="{{ route(Route::currentRouteName(), $flow->id) }}?' + filter.params + '" class="dropdown-item" id="filter_link" title="' + filter.name + '">' + filter.name + '</a>');
-                        {{--// <a class="dropdown-item {{ (request()->filter_name == $filter->name) ? 'btn-block' : '' }}" href="{{ route(Route::currentRouteName(), $flow->id) }}?{{ $filter->params }}">{{ $filter->name }}</a>--}}
+                        $('#filter_list').append('<a href="{{ (request()->is('admin/*')) ? route(Route::currentRouteName(), $flow->id) : route(Route::currentRouteName()) }}?' + filter.params + '" class="dropdown-item" id="filter_link" title="' + filter.name + '">' + filter.name + '</a>');
                     });
                 }
 
@@ -121,6 +120,8 @@
 
             // show filter modal form
             $("#show-filter-modal").click(function () {
+                resetForm();
+                $('#filter_name').val('');
                 $('#filter-modal').modal('show');
             });
 
@@ -154,7 +155,7 @@
 
         // reset form alert
         function resetForm() {
-            var form = $('#ItemForm');
+            var form = $('#FilterModalForm');
             $(".alert-success").remove();
             $(".text-danger").remove();
             form.find("input").removeClass('is-invalid');

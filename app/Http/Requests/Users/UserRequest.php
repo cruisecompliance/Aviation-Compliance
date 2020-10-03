@@ -48,7 +48,7 @@ class UserRequest extends FormRequest
         if ($this->isMethod('POST')) {
             return [
                 'name' => 'required|string|min:4|max:64',
-                'email' => 'required|string|email|min:4|unique:users,email',
+                'email' => 'required|string|email|min:4|max:200|unique:users,email',
                 'password' =>'required|string|min:8|max:64',
                 'status' => 'required|boolean',
                 'company' => 'required|numeric',
@@ -61,7 +61,7 @@ class UserRequest extends FormRequest
         if ($this->isMethod('PATCH')) {
             return [
                 'name' => 'required|string|min:4|max:64',
-                'email' => 'required|string|email|min:4|unique:users,email,' . $this->user->id,
+                'email' => 'required|string|email|min:4|max:200|unique:users,email,' . $this->user->id,
                 'status' => 'required|boolean',
                 'company' => 'required|numeric',
                 'role' => 'required|string',
