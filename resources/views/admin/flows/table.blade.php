@@ -127,6 +127,7 @@
                             d.rule_reference = $('input[name=rule_reference]').val();
                             d.rule_section = $('input[name=rule_section]').val();
                             d.assignee = $('input[name=assignee]').val();
+                            d.status = $('input[name=status]').val();
                         }
                     },
                     columns: [

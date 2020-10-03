@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Components\Flows;
 
+use App\Enums\RequrementStatus;
 use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Flows\FilterRequest;
@@ -11,7 +12,6 @@ use App\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class FilterController extends Controller
 {
@@ -44,6 +44,10 @@ class FilterController extends Controller
                 ])
                 ->get();
 
+            // get statuses (table and kanban view)
+            $tableStatuses = RequrementStatus::tableStatuses();
+            $kanbanStatuses = RequrementStatus::kanbanStatuses();
+
             // return json data
             return response()->json([
                 'success' => true,
@@ -51,6 +55,8 @@ class FilterController extends Controller
                 'tasks' => $tasks,
                 'sections' => $sections,
                 'users' => $users,
+                'kanbanStatuses' => $kanbanStatuses,
+                'tableStatuses' => $tableStatuses,
             ], 200);
 
         } catch (Exception $e) {
@@ -75,7 +81,7 @@ class FilterController extends Controller
 
             $filter = Filter::create([
                 'name' => $request->name,
-                'params' => "filter_name=$request->name&rule_reference=$request->rule_reference&rule_section=$request->rule_section&assignee=$request->assignee",
+                'params' => "filter_name=$request->name&rule_reference=$request->rule_reference&rule_section=$request->rule_section&status=$request->status&assignee=$request->assignee",
                 'user_id' => Auth::user()->id,
             ]);
 

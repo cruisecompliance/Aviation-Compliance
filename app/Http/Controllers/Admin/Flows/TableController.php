@@ -91,7 +91,6 @@ class TableController extends Controller
                 return $btn;
             })
             ->filter(function ($query) use ($request, $flow) {
-
                 if (!empty($request->rule_reference)) {
                     $query->where('rule_reference', "$request->rule_reference");
                 }
@@ -105,6 +104,9 @@ class TableController extends Controller
                     $roleStatuses = RequrementStatus::getRoleStatuses($roleName);
                     // get task for role
                     $query->whereIn('task_status', $roleStatuses);
+                }
+                if (!empty($request->status)) {
+                    $query->where('task_status', "$request->status");
                 }
             }, true)
             ->rawColumns(['action'])

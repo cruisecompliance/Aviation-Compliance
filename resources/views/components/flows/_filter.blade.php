@@ -1,35 +1,38 @@
 <form id="filterForm" action="{{ route(Route::currentRouteName(), $flow->id) }}" name="FilterForm" class="form-horizontal">
-    <div class="form-row">
 
-        <div class="form-group col-lg-2" style="min-width: 120px">
+    <div class="d-flex flex-row form-row">
+        <div class="form-group p-1">
             <!-- filter list -->
             <div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle" style="width: 120px;" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-filter-variant"></i> Filters <i class="mdi mdi-chevron-down"></i></button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-filter-variant"></i> Filters <i class="mdi mdi-chevron-down"></i></button>
 
                 <div class="dropdown-menu" id="filter_list">
-                    {{-- <a class="dropdown-item {{ (request()->filter_name == $filter->name) ? 'btn-block' : '' }}" href="{{ route(Route::currentRouteName(), $flow->id) }}?{{ $filter->params }}">{{ $filter->name }}</a>--}}
+                    {{-- <a class="dropdown-item" href=""></a>--}}
                 </div>
             </div>
             <!-- /filter list -->
         </div>
-        <div class="form-group col-lg-3">
+        <div class="form-group p-1">
             <select name="rule_reference" id="filter_tasks" class="form-control float-left" data-toggle="select2" data-placeholder="Rule Reference" onchange="submit()">
                 <option></option>
             </select>
-
         </div>
-        <div class="form-group col-lg-2">
+        <div class="form-group p-1">
             <select name="rule_section" id="filter_sections" class="form-control" data-toggle="select2" data-placeholder="Rule Section" onchange="submit()">
                 <option></option>
             </select>
         </div>
-        <div class="form-group col-lg-2">
+        <div class="form-group p-1">
             <select name="assignee" id="filter_users" class="form-control" data-toggle="select2" data-placeholder="Assignee" onchange="submit()">
                 <option></option>
             </select>
         </div>
-
-        <div class="form-group col-lg-2">
+        <div class="form-group p-1">
+            <select name="status" id="filter_statuses" class="form-control" data-toggle="select2" data-placeholder="Status" onchange="submit()">
+                <option></option>
+            </select>
+        </div>
+        <div class="form-group p-1">
             <button type="submit" class="btn btn-primary" hidden></button>
             <button type="button" id="show-filter-modal" class="btn btn-primary"><i class="mdi mdi-content-save-outline"></i> Save</button>
         </div>
@@ -99,6 +102,19 @@
                     $('#filter_users').append('<option value="' + user.id + '">' + user.name + '</option>');
                 });
 
+                // statuses input (kanban and table)
+                var route = "{{ Route::currentRouteName() }}";
+
+                if(route.indexOf('kanban') > -1){
+                    $.each(data.kanbanStatuses, function (key, status) {
+                        $('#filter_statuses').append('<option value="' + status + '">' + status + '</option>');
+                    });
+                } else {
+                    $.each(data.tableStatuses, function (key, status) {
+                        $('#filter_statuses').append('<option value="' + status + '">' + status + '</option>');
+                    });
+                }
+
                 // filter list active link
                 $('#filter_list a[title="{{ request()->filter_name }}"]').addClass('active');
 
@@ -110,6 +126,10 @@
 
                 // assignee selected option
                 $('#filter_users option[value="{{ request()->assignee }}"]').prop('selected', true);
+
+                // statuses selected option
+                $('#filter_statuses option[value="{{ request()->status }}"]').prop('selected', true);
+
 
             });
 

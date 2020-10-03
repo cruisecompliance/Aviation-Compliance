@@ -34,6 +34,20 @@ final class RequrementStatus extends Enum
         ]);
     }
 
+    public static function tableStatuses(): object
+    {
+        return collect([
+            self::CMM_Backlog,
+            self::Auditor_Review,
+            self::Auditee_Review,
+            self::Investigator_Review,
+            self::CMM_Extension_Review,
+            self::AM_Extension_Review,
+            self::CMM_Review,
+            self::CMM_Done,
+        ]);
+    }
+
     /**
      * Status transitions
      * Backlog -> Auditor Review (CMM)

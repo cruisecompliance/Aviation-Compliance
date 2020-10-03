@@ -45,6 +45,11 @@ class KanbanController extends Controller
             // get task for role
             $queryKanbanTasks->whereIn('task_status', $roleStatuses);
         }
+
+        if (!empty($request->status)) {
+            $queryKanbanTasks->where('task_status', $request->status);
+        }
+
         $kanbanData = $queryKanbanTasks->get();
         $kanbanData = collect($kanbanData)->groupBy('task_status');
         //<

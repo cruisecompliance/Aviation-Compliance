@@ -26,7 +26,7 @@
 
                 <div class="row mb-2">
                     <div class="col-5 offset-7 text-right">
-                        <a href="{{ route('user.flows.table.index', ['rule_reference' => '', 'rule_section' => '', 'assignee' => Auth::user()->id]) }}" class="btn btn-success btn-sm mr-1">Table View</a>
+                        <a href="{{ route('user.flows.table.index', ['rule_reference' => '', 'rule_section' => '', 'assignee' => Auth::user()->id, 'status' => '']) }}" class="btn btn-success btn-sm mr-1">Table View</a>
                     </div>
                 </div>
 

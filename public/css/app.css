@@ -39813,7 +39813,8 @@ table[data-toggle=table] {
 }
 
 .select2-container {
-  width: 100% !important;
+  min-width: 130px;
+  max-width: 150px;
 }
 
 .select2-container .select2-selection--single {
@@ -39832,7 +39833,7 @@ table[data-toggle=table] {
 
 .select2-container .select2-selection--single .select2-selection__arrow {
   height: 34px;
-  width: 26px;
+  width: 34px;
   right: 0px;
 }
 
