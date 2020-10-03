@@ -78,8 +78,8 @@
                             <label for="frequency" class="control-label">Frequency</label>
                             <select name="frequency" id="frequency" class="form-control">
                                 <option value="">...</option>
-                                <option value="annual">annual</option>
-                                <option value="performance">performance</option>
+                                <option value="annual">Annual</option>
+                                <option value="performance">Performance</option>
                             </select>
                         </div>
                     @endcan
