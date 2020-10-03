@@ -53,13 +53,14 @@ class FilterRequest extends FormRequest
         ];
 
         return [
-            'name' =>
+            'name' => [
                 'required', 'string', 'min:2', 'max:26',
-                'name' => Rule::unique('filters')->where(function ($query) use ($filter) {
+                Rule::unique('filters')->where(function ($query) use ($filter) {
                     return $query
                         ->where('name', $filter['name'])
                         ->where('user_id', $filter['user_id']);
                 }),
+            ],
             'rule_reference' => 'sometimes|nullable|string',
             'rule_section' => 'sometimes|nullable|numeric',
             'assignee' => 'sometimes|nullable|numeric',
