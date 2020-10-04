@@ -47,7 +47,7 @@ class RequirementRequest extends FormRequest
 
         // method post for create
         if ($this->isMethod('POST')) {
-            $title = 'required|string|min:4|unique:requirements';
+            $title = 'required|string|min:4|unique:requirements,title';
         }
 
         return [
