@@ -112,7 +112,7 @@
                     @can(PermissionName::EDIT_COMMENTS)
                         <div class="form-group">
                             <label for="questions" class="control-label">Comments / Questions</label>
-                            <input type="text" class="form-control" id="questions" name="questions" value="">
+                            <textarea class="form-control" id="questions" name="questions" rows="3" placeholder=""></textarea>
                         </div>
                     @endcan
                     @can(PermissionName::EDIT_FINDING)

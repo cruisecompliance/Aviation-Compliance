@@ -81,7 +81,7 @@
     <h2>Auditors Input</h2>
     <div class="form-group">
         <label for="questions" class="control-label">Comments / Questions</label>
-        <input type="text" class="form-control" id="questions" name="questions" value="">
+        <textarea class="form-control" id="questions" name="questions" rows="3" placeholder=""></textarea>
     </div>
     <div class="form-group">
         <label for="finding" class="control-label">Finding / Observation</label>
