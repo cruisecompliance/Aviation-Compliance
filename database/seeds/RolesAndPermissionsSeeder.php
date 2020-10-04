@@ -40,7 +40,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => PermissionName::EDIT_ASSIGNED_AUDITEE]);
 
         // Auditors Input
-        Permission::create(['name' => PermissionName::EDIT_COMMENTS]);
+        Permission::create(['name' => PermissionName::EDIT_QUESTIONS]);
         Permission::create(['name' => PermissionName::EDIT_FINDING]);
         Permission::create(['name' => PermissionName::EDIT_DEVIATION_STATEMENT]);
         Permission::create(['name' => PermissionName::EDIT_EVIDENCE_REFERENCE]);
@@ -94,7 +94,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Auditor
         Role::create(['name' => RoleName::AUDITOR])->givePermissionTo([
-            PermissionName::EDIT_COMMENTS,
+            PermissionName::EDIT_QUESTIONS,
             PermissionName::EDIT_FINDING,
             PermissionName::EDIT_DEVIATION_STATEMENT,
             PermissionName::EDIT_EVIDENCE_REFERENCE,

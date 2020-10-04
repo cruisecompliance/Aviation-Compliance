@@ -109,7 +109,7 @@
                     @role(RoleName::AUDITOR.'|'.RoleName::INVESTIGATOR)
                     <h2>Auditors Input</h2>
                     @endrole
-                    @can(PermissionName::EDIT_COMMENTS)
+                    @can(PermissionName::EDIT_QUESTIONS)
                         <div class="form-group">
                             <label for="questions" class="control-label">Comments / Questions</label>
                             <textarea class="form-control" id="questions" name="questions" rows="3" placeholder=""></textarea>

@@ -33,7 +33,7 @@ final class PermissionName extends Enum
     const EDIT_ASSIGNED_AUDITEE = 'edit_assigned_auditee'; // ROLE
 
     // Auditors Input
-    const EDIT_COMMENTS = 'edit_comments';
+    const EDIT_QUESTIONS = 'edit_questions';
     const EDIT_FINDING = 'edit_finding';
     const EDIT_DEVIATION_STATEMENT = 'edit_deviation_statement';
     const EDIT_EVIDENCE_REFERENCE = 'edit_evidence_reference';
