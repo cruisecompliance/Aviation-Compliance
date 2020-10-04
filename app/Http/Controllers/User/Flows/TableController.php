@@ -88,7 +88,7 @@ class TableController extends Controller
                 $query->whereRaw("DATE_FORMAT(extension_due_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
             })
             ->editColumn('closed_date', function (FlowsData $flowsData) {
-                return !empty($flowsData->closed_date) ? $flowsData->closed_date->format('d.m.Y') : '';
+                return !empty($flowsData->closed_date) ? $flowsData->closed_date->format('d.m.Y H:i:s') : '';
             })
             ->filterColumn('closed_date', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(closed_date,'%d.%m.%Y') like ?", ["%$keyword%"]);

@@ -165,7 +165,7 @@
     </div>
     <div class="form-group">
         <label for="closed_date" class="control-label">Closed date</label>
-        <input type="text" class="form-control picker" id="closed_date" name="closed_date" value="" placeholder="dd.mm.yyyy">
+        <input type="text" class="form-control picker" id="closed_date" name="closed_date" value="" placeholder="dd.mm.yyyy" readonly>
     </div>
 
     <div class="modal-footer">

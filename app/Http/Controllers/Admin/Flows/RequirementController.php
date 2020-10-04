@@ -9,6 +9,7 @@ use App\Models\Flow;
 use App\Models\FlowsData;
 use App\Services\Flows\NotificationService;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 use Throwable;
@@ -70,8 +71,10 @@ class RequirementController extends Controller
     public function update(Flow $flow, RequirementRequest $request)
     {
         try {
+            // get flowData for update
             $flowData = FlowsData::whereFlowId($flow->id)->whereRuleReference($request->rule_reference)->first();
 
+            // update task (flowData)
             $flowData->update($request->except(
                 '_token',
                 '_method',
@@ -81,9 +84,16 @@ class RequirementController extends Controller
                 'rule_title',
                 'rule_manual_reference',
                 'rule_chapter',
-                'rule_id'
+                'rule_id',
+                'closed_date'
             ));
 
+            // update closed_date
+            if ($request->task_status == RequrementStatus::CMM_Done) {
+                $flowData->update(['closed_date' => Carbon::now()]);
+            } else {
+                $flowData->update(['closed_date' => NULL]);
+            }
 
             // get task data (FlowData)
             $task = FlowsData::whereFlowId($flow->id)->whereRuleReference($request->rule_reference)->first();

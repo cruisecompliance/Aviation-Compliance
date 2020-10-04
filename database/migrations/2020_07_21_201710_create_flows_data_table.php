@@ -69,7 +69,7 @@ class CreateFlowsDataTable extends Migration
             $table->date('response_date')->nullable();
 
             $table->date('extension_due_date')->nullable();
-            $table->date('closed_date')->nullable();
+            $table->dateTime('closed_date')->nullable();
 
             $table->string('task_status')->default(RequrementStatus::CMM_Backlog);
             $table->timestamps();

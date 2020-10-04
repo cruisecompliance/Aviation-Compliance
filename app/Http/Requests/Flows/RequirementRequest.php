@@ -79,7 +79,7 @@ class RequirementRequest extends FormRequest
             'effectiveness_review_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
             'response_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
             'extension_due_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
-            'closed_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
+            'closed_date' => 'sometimes|nullable|date_format:d.m.Y H:i:s', // date
             'task_status' => 'required|string|in:' . $task_statuses,
         ];
     }

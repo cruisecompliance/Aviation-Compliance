@@ -23,7 +23,7 @@ class FlowsData extends Model
         'effectiveness_review_date'  => 'date:d.m.Y',
         'response_date'  => 'date:d.m.Y',
         'extension_due_date'  => 'date:d.m.Y',
-        'closed_date'  => 'date:d.m.Y',
+        'closed_date'  => 'date:d.m.Y H:i:s',
     ];
 
 
