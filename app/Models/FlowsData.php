@@ -103,6 +103,7 @@ class FlowsData extends Model
         // update task data if AM or SME
         if ($roleName == RoleName::ACCOUNTABLE_MANAGER || $roleName == RoleName::SME) {
             $task->extension_due_date = $request->extension_due_date;
+            $task->task_status = $request->task_status;
         }
 
         // update task data if Auditor or SME
