@@ -61,6 +61,8 @@
                 $(".picker").datepicker({
                     format: 'dd.mm.yyyy',
                     startDate: '+0d',
+                    enableOnReadonly: false,
+                    autoclose: true,
                 });
                 // datepicker modal scroll
                 var t;

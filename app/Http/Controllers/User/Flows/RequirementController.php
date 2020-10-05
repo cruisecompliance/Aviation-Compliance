@@ -62,32 +62,8 @@ class RequirementController extends Controller
             // get latest company flow
             $flow = Auth::user()->company->flows->first();
 
-            // find task (flowData) for update
-            $flowData = FlowsData::whereFlowId($flow->id)->whereRuleReference($request->requirements_rule)->first();
-
-            // update task data
-            $flowData->update($request->except(
-                'requirements_rule',
-                '_token',
-                '_method',
-                'rule_section',
-                'rule_group',
-                'rule_reference',
-                'rule_title',
-                'rule_manual_reference',
-                'rule_chapter',
-                'closed_date'
-            ));
-
-            // update closed_date
-            if ($request->task_status == RequrementStatus::CMM_Done) {
-                $flowData->update(['closed_date' => Carbon::now()]);
-            } else {
-                $flowData->update(['closed_date' => NULL]);
-            }
-
-            // get task data (FlowData)
-            $task = FlowsData::whereFlowId($flow->id)->whereRuleReference($request->requirements_rule)->first();
+            // update task (flowData)
+            $task = FlowsData::store($flow, $request);
 
             // send email notification
             app(NotificationService::class)->sendEditTaskMailNotification($flow, $task, Auth::user());

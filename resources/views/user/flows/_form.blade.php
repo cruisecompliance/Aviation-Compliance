@@ -13,229 +13,158 @@
                     <input type="hidden" name="_method" id="_method" value="">
                     <input type="hidden" name="requirements_rule" id="requirements_rule" value="">
 
-                    @can(PermissionName::EDIT_RULE_SECTION)
-                        <div class="form-group">
-                            <label for="rule_section" class="control-label">Sec #</label>
-                            <input type="text" class="form-control" id="rule_section" name="rule_section" value="" readonly>
-                        </div>
-                    @endcan
+                    <div class="form-group">
+                        <label for="rule_section" class="control-label">Sec #</label>
+                        <input type="text" class="form-control" id="rule_section" name="rule_section" value="" readonly>
+                    </div>
 
-                    @role(RoleName::SME)
                     <h2>European Rule </h2>
-                    @endrole
-                    @can(PermissionName::EDIT_RULE_GROUP)
-                        <div class="form-group">
-                            <label for="rule_group" class="control-label">IR/AMC/GM</label>
-                            <input type="text" class="form-control" id="rule_group" name="rule_group" value="" readonly>
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_RULE_REFERENCE)
-                        <div class="form-group">
-                            <label for="rule_reference" class="control-label">Rule Reference</label>
-                            <input type="text" class="form-control" id="rule_reference" name="rule_reference" value="" readonly>
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_RULE_TITLE)
-                        <div class="form-group">
-                            <label for="rule_title" class="control-label">Rule Title</label>
-                            <input type="text" class="form-control" id="rule_title" name="rule_title" value="" readonly>
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_RULE_MANUAL_REFERENCE)
-                        <div class="form-group">
-                            <label for="rule_manual_reference" class="control-label">AMC3 ORO.MLR.100 Manual Reference</label>
-                            <input type="text" class="form-control" id="rule_manual_reference" name="rule_manual_reference" value="" readonly>
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_RULE_CHAPTER)
-                        <div class="form-group">
-                            <label for="rule_chapter" class="control-label">AMC3 ORO.MLR.100 Chapter</label>
-                            <input type="text" class="form-control" id="rule_chapter" name="rule_chapter" value="" readonly>
-                        </div>
-                    @endcan
+                    <div class="form-group">
+                        <label for="rule_group" class="control-label">IR/AMC/GM</label>
+                        <input type="text" class="form-control" id="rule_group" name="rule_group" value="" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="rule_reference" class="control-label">Rule Reference</label>
+                        <input type="text" class="form-control" id="rule_reference" name="rule_reference" value="" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="rule_title" class="control-label">Rule Title</label>
+                        <input type="text" class="form-control" id="rule_title" name="rule_title" value="" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="rule_manual_reference" class="control-label">AMC3 ORO.MLR.100 Manual Reference</label>
+                        <input type="text" class="form-control" id="rule_manual_reference" name="rule_manual_reference" value="" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="rule_chapter" class="control-label">AMC3 ORO.MLR.100 Chapter</label>
+                        <input type="text" class="form-control" id="rule_chapter" name="rule_chapter" value="" readonly>
+                    </div>
 
-                    @role(RoleName::COMPLIANCE_MONITORING_MANAGER)
                     <h2>Company Structure</h2>
-                    @endrole
-                    @can(PermissionName::EDIT_COMPANY_MANUAL)
-                        <div class="form-group">
-                            <label for="company_manual" class="control-label">Company Manual</label>
-                            <input type="text" class="form-control" id="company_manual" name="company_manual" value="">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_COMPANY_CHAPTER)
-                        <div class="form-group">
-                            <label for="company_chapter" class="control-label">Company Chapter</label>
-                            <input type="text" class="form-control" id="company_chapter" name="company_chapter" value="">
-                        </div>
-                    @endcan
+                    <div class="form-group">
+                        <label for="company_manual" class="control-label">Company Manual</label>
+                        <input type="text" class="form-control" id="company_manual" name="company_manual" value="" @cannot(PermissionName::EDIT_COMPANY_MANUAL) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="company_chapter" class="control-label">Company Chapter</label>
+                        <input type="text" class="form-control" id="company_chapter" name="company_chapter" value="" @cannot(PermissionName::EDIT_COMPANY_CHAPTER) readonly @endcan>
+                    </div>
 
-                    @role(RoleName::COMPLIANCE_MONITORING_MANAGER)
+
                     <h2>Audit Structure</h2>
-                    @endrole
-                    @can(PermissionName::EDIT_FREQUENCY)
-                        <div class="form-group">
-                            <label for="frequency" class="control-label">Frequency</label>
-                            <select name="frequency" id="frequency" class="form-control">
-                                <option value="">...</option>
-                                <option value="annual">Annual</option>
-                                <option value="performance">Performance</option>
-                            </select>
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_MONTH_QUARTER)
-                        <div class="form-group">
-                            <label for="month_quarter" class="control-label">Month / Quarter</label>
-                            <input type="text" class="form-control" id="month_quarter" name="month_quarter" value="">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_ASSIGNED_AUDITOR)
-                        <div class="form-group">
-                            <label for="assigned_auditor" class="control-label">Assigned Auditor</label>
-                            <select name="auditor_id" id="assigned_auditor" class="form-control">
-                                <option value="">...</option>
-                            </select>
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_ASSIGNED_AUDITEE)
-                        <div class="form-group">
-                            <label for="assigned_auditee" class="control-label">Assigned Auditee</label>
-                            <select name="auditee_id" id="assigned_auditee" class="form-control">
-                                <option value="">...</option>
-                            </select>
-                        </div>
-                    @endcan
+                    <div class="form-group">
+                        <label for="frequency" class="control-label">Frequency</label>
+                        <select name="frequency" id="frequency" class="form-control" @cannot(PermissionName::EDIT_FREQUENCY) readonly @endcan>
+                            <option value="">...</option>
+                            <option value="annual">Annual</option>
+                            <option value="performance">Performance</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="month_quarter" class="control-label">Month / Quarter</label>
+                        <input type="text" class="form-control" id="month_quarter" name="month_quarter" value="" @cannot(PermissionName::EDIT_MONTH_QUARTER) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="assigned_auditor" class="control-label">Assigned Auditor</label>
+                        <select name="auditor_id" id="assigned_auditor" class="form-control" @cannot(PermissionName::EDIT_ASSIGNED_AUDITOR) readonly @endcan>
+                            <option value="">...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="assigned_auditee" class="control-label">Assigned Auditee</label>
+                        <select name="auditee_id" id="assigned_auditee" class="form-control" @cannot(PermissionName::EDIT_ASSIGNED_AUDITEE) readonly @endcan>
+                            <option value="">...</option>
+                        </select>
+                    </div>
 
-                    @role(RoleName::AUDITOR.'|'.RoleName::INVESTIGATOR)
                     <h2>Auditors Input</h2>
-                    @endrole
-                    @can(PermissionName::EDIT_QUESTIONS)
-                        <div class="form-group">
-                            <label for="questions" class="control-label">Comments / Questions</label>
-                            <textarea class="form-control" id="questions" name="questions" rows="3" placeholder=""></textarea>
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_FINDING)
-                        <div class="form-group">
-                            <label for="finding" class="control-label">Finding / Observation</label>
-                            <input type="text" class="form-control" id="finding" name="finding" value="">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_DEVIATION_STATEMENT)
-                        <div class="form-group">
-                            <label for="deviation_statement" class="control-label">Deviation Statement</label>
-                            <input type="text" class="form-control" id="deviation_statement" name="deviation_statement" value="">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_EVIDENCE_REFERENCE)
-                        <div class="form-group">
-                            <label for="evidence_reference" class="control-label">Manual / Evidence Reference</label>
-                            <input type="text" class="form-control" id="evidence_reference" name="evidence_reference" value="">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_DEVIATION_LEVEL)
-                        <div class="form-group">
-                            <label for="deviation_level" class="control-label">Deviation-Level</label>
-                            <input type="text" class="form-control" id="deviation_level" name="deviation_level" value="">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_SAFETY_LEVEL_BEFORE_ACTION)
-                        <div class="form-group">
-                            <label for="safety_level_before_action" class="control-label">Safety level before action</label>
-                            <input type="text" class="form-control" id="safety_level_before_action" name="safety_level_before_action" value="">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_DUE_DATE)
-                        <div class="form-group">
-                            <label for="due_date" class="control-label">Due-Date</label>
-                            <input type="text" class="form-control picker" id="due_date" name="due_date" value="" placeholder="dd.mm.yyyy">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_REPETITIVE_FINDING_REF_NUMBER)
-                        <div class="form-group">
-                            <label for="repetitive_finding_ref_number" class="control-label">Repetitive Finding ref Number</label>
-                            <input type="text" class="form-control" id="repetitive_finding_ref_number" name="repetitive_finding_ref_number" value="">
-                        </div>
-                    @endcan
+                    <div class="form-group">
+                        <label for="questions" class="control-label">Comments / Questions</label>
+                        <textarea class="form-control" id="questions" name="questions" rows="3" placeholder="" @cannot(PermissionName::EDIT_QUESTIONS) readonly @endcan></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="finding" class="control-label">Finding / Observation</label>
+                        <input type="text" class="form-control" id="finding" name="finding" value="" @cannot(PermissionName::EDIT_FINDING) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviation_statement" class="control-label">Deviation Statement</label>
+                        <input type="text" class="form-control" id="deviation_statement" name="deviation_statement" value="" @cannot(PermissionName::EDIT_DEVIATION_STATEMENT) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="evidence_reference" class="control-label">Manual / Evidence Reference</label>
+                        <input type="text" class="form-control" id="evidence_reference" name="evidence_reference" value="" @cannot(PermissionName::EDIT_EVIDENCE_REFERENCE) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviation_level" class="control-label">Deviation-Level</label>
+                        <input type="text" class="form-control" id="deviation_level" name="deviation_level" value="" @cannot(PermissionName::EDIT_DEVIATION_LEVEL) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="safety_level_before_action" class="control-label">Safety level before action</label>
+                        <input type="text" class="form-control" id="safety_level_before_action" name="safety_level_before_action" value="" @cannot(PermissionName::EDIT_SAFETY_LEVEL_BEFORE_ACTION) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="due_date" class="control-label">Due-Date</label>
+                        <input type="text" class="form-control picker" id="due_date" name="due_date" value="" placeholder="dd.mm.yyyy" @cannot(PermissionName::EDIT_DUE_DATE) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="repetitive_finding_ref_number" class="control-label">Repetitive Finding ref Number</label>
+                        <input type="text" class="form-control" id="repetitive_finding_ref_number" name="repetitive_finding_ref_number" value="" @cannot(PermissionName::EDIT_REPETITIVE_FINDING_REF_NUMBER) readonly @endcan>
+                    </div>
 
-                    @role(RoleName::AUDITEE.'|'.RoleName::INVESTIGATOR)
                     <h2>Auditee Input (NP)</h2>
-                    @endrole
-                    @can(PermissionName::EDIT_ASSIGNED_INVESTIGATOR)
-                        <div class="form-group">
-                            <label for="assigned_investigator" class="control-label">Assigned Investigator</label>
-                            <select name="investigator_id" id="assigned_investigator" class="form-control">
-                                <option value="">...</option>
-                            </select>
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_CORRECTIONS)
-                        <div class="form-group">
-                            <label for="corrections" class="control-label">Correction(s)</label>
-                            <input type="text" class="form-control" id="corrections" name="corrections" value="">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_ROOTCASE)
-                        <div class="form-group">
-                            <label for="rootcause" class="control-label">Rootcause:
-                                1. Why?
-                                2. Why?
-                                3. Why?
-                                4. Why?
-                                5. Why?
-                            </label>
-                            <textarea class="form-control" id="rootcause" name="rootcause" rows="3" placeholder=""></textarea>
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_CORRECTIVE_ACTIONS_PLAN)
-                        <div class="form-group">
-                            <label for="corrective_actions_plan" class="control-label">Corrective Action(s) Plan</label>
-                            <input type="text" class="form-control" id="corrective_actions_plan" name="corrective_actions_plan" value="">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_PREVENTIVE_ACTIONS)
-                        <div class="form-group">
-                            <label for="preventive_actions" class="control-label">Preventive Action(s)</label>
-                            <input type="text" class="form-control" id="preventive_actions" name="preventive_actions" value="">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_ACTION_IMPLEMENTED_EVIDENCE)
-                        <div class="form-group">
-                            <label for="action_implemented_evidence" class="control-label">Action implemented evidence</label>
-                            <input type="text" class="form-control" id="action_implemented_evidence" name="action_implemented_evidence" value="">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_SAFETY_LEVEL_AFTER_ACTION)
-                        <div class="form-group">
-                            <label for="safety_level_after_action" class="control-label">Safety level after action</label>
-                            <input type="text" class="form-control" id="safety_level_after_action" name="safety_level_after_action" value="">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_EFFECTIVENESS_REVIEW_DATE)
-                        <div class="form-group">
-                            <label for="effectiveness_review_date" class="control-label">Effectiveness Review date</label>
-                            <input type="text" class="form-control picker" id="effectiveness_review_date" name="effectiveness_review_date" value="" placeholder="dd.mm.yyyy">
-                        </div>
-                    @endcan
-                    @can(PermissionName::EDIT_RESPONSE_DATE)
-                        <div class="form-group">
-                            <label for="response_date" class="control-label">Response date</label>
-                            <input type="text" class="form-control picker" id="response_date" name="response_date" value="" placeholder="dd.mm.yyyy">
-                        </div>
-                    @endcan
+                    <div class="form-group">
+                        <label for="assigned_investigator" class="control-label">Assigned Investigator</label>
+                        <select name="investigator_id" id="assigned_investigator" class="form-control" @cannot(PermissionName::EDIT_ASSIGNED_INVESTIGATOR) readonly @endcan>
+                            <option value="">...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="corrections" class="control-label">Correction(s)</label>
+                        <input type="text" class="form-control" id="corrections" name="corrections" value="" @cannot(PermissionName::EDIT_CORRECTIONS) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="rootcause" class="control-label">Rootcause:
+                            1. Why?
+                            2. Why?
+                            3. Why?
+                            4. Why?
+                            5. Why?
+                        </label>
+                        <textarea class="form-control" id="rootcause" name="rootcause" rows="3" placeholder="" @cannot(PermissionName::EDIT_ROOTCASE) readonly @endcan></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="corrective_actions_plan" class="control-label">Corrective Action(s) Plan</label>
+                        <input type="text" class="form-control" id="corrective_actions_plan" name="corrective_actions_plan" value="" @cannot(PermissionName::EDIT_CORRECTIVE_ACTIONS_PLAN) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="preventive_actions" class="control-label">Preventive Action(s)</label>
+                        <input type="text" class="form-control" id="preventive_actions" name="preventive_actions" value="" @cannot(PermissionName::EDIT_PREVENTIVE_ACTIONS) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="action_implemented_evidence" class="control-label">Action implemented evidence</label>
+                        <input type="text" class="form-control" id="action_implemented_evidence" name="action_implemented_evidence" value="" @cannot(PermissionName::EDIT_ACTION_IMPLEMENTED_EVIDENCE) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="safety_level_after_action" class="control-label">Safety level after action</label>
+                        <input type="text" class="form-control" id="safety_level_after_action" name="safety_level_after_action" value="" @cannot(PermissionName::EDIT_SAFETY_LEVEL_AFTER_ACTION) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="effectiveness_review_date" class="control-label">Effectiveness Review date</label>
+                        <input type="text" class="form-control picker" id="effectiveness_review_date" name="effectiveness_review_date" value="" placeholder="dd.mm.yyyy" @cannot(PermissionName::EDIT_EFFECTIVENESS_REVIEW_DATE) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="response_date" class="control-label">Response date</label>
+                        <input type="text" class="form-control picker" id="response_date" name="response_date" value="" placeholder="dd.mm.yyyy" @cannot(PermissionName::EDIT_RESPONSE_DATE) readonly @endcan>
+                    </div>
+                    <div class="form-group">
+                        <label for="extension_due_date" class="control-label">Extension Due-Date</label>
+                        <input type="text" class="form-control picker" id="extension_due_date" name="extension_due_date" value="" placeholder="dd.mm.yyyy" @cannot(PermissionName::EDIT_EXTENSION_DUE_DATE) readonly @endcan>
+                    </div>
 
-                    @can(PermissionName::EDIT_EXTENSION_DUE_DATE)
-                        <div class="form-group">
-                            <label for="extension_due_date" class="control-label">Extension Due-Date</label>
-                            <input type="text" class="form-control picker" id="extension_due_date" name="extension_due_date" value="" placeholder="dd.mm.yyyy">
-                        </div>
-                    @endcan
-{{--                    @can(PermissionName::EDIT_CLOSED_DATE)--}}
-                        <div class="form-group">
-                            <label for="closed_date" class="control-label">Closed date</label>
-                            <input type="text" class="form-control picker" id="closed_date" name="closed_date" value="" placeholder="dd.mm.yyyy" readonly="">
-                        </div>
-{{--                    @endcan--}}
+                    <div class="form-group">
+                        <label for="closed_date" class="control-label">Closed date</label>
+                        <input type="text" class="form-control picker" id="closed_date" name="closed_date" value="" placeholder="dd.mm.yyyy" @cannot(PermissionName::EDIT_CLOSED_DATE) readonly @endcan>
+                    </div>
 
                     <!-- status -->
                     <div class="form-group" id="statuses-wrapper">
@@ -274,6 +203,8 @@
             $(".picker").datepicker({
                 format: 'dd.mm.yyyy',
                 startDate: '+0d',
+                enableOnReadonly: false,
+                autoclose: true,
             });
             // datepicker modal scroll
             var t;
@@ -424,7 +355,7 @@
                     }
 
                     // auditors input
-                    if(data.auditors) {
+                    if (data.auditors) {
                         // remove option
                         $('#assigned_auditor').find('option').remove().end().append('<option value="">...</option>').val();
                         // append option
