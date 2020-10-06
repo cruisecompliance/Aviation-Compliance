@@ -27,7 +27,7 @@
                         <div class="tab-content">
                             <div class="tab-pane show active" id="task_details">
                                 <!-- form -->
-                            @include('admin.flows._form')
+                            @include('components.flows._form')
                             <!-- /form -->
                             </div>
                             <div class="tab-pane" id="task_comments">
@@ -42,9 +42,8 @@
             </div>
         </div>
     </div>
+
     <!-- /modal -->
-
-
     @push('scripts')
         <script type="text/javascript">
 
@@ -80,19 +79,17 @@
                 // open modal if window has hash (rule_reference)
                 if (window.location.hash) {
                     getModalData();
-                    // getComments();
                 }
 
                 // open modal if change hash in URL (rule_reference)
                 $(window).on('hashchange', function () {
                     getModalData();
-                    // getComments();
                 });
 
                 // modal edit
                 $('body').on('click', '.editItem', function () {
                     getModalData();
-                    // getComments();
+
                 });
 
                 // ajax create | save
@@ -128,7 +125,8 @@
                     });
                 });
 
-                // modal data
+
+                // modal edit
                 function getModalData() {
 
                     // get hash (rule_rerference)
@@ -137,29 +135,24 @@
 
                     // prepare form data
                     // var rule_reference = $(this).data('rule_reference');
-                    {{--var action = "{{ route('admin.flows.requirements.update', $flow->id) }}";--}}
-                    {{--var method = "POST";--}}
-
+                    var action = "{{ route('components.flows.requirements.update', $flow->id) }}";
+                    var method = "POST";
                     resetForm();
 
-                    // $('#comments').find('.comment-block').remove();
-                    // $('#task_comments').find('#comments').remove('#comments').end().prepend('<div id="comments"></div>');
-                    // $('#comments').empty();
-
-                    // get data
-                    $.get('/admin/flows/' + {{ $flow->id }} +'/requirements/' + rule_reference + '/edit', function (data) {
+                    $.get('/flows/' + {{ $flow->id }} + '/requirements/' + rule_reference + '/edit', function (data) {
 
                         $('#modelHeading').html("Edit - " + data.resource.rule_reference); // modal header
-                        // $('#ItemForm').attr('action', action); // form action
-                        // $('#_method').val(method); // form method
+                        $('#ItemForm').attr('action', action); // form action
+                        $('#_method').val(method); // form method
                         $('#rule_id').val(data.resource.id); // hidden rule_reference id
                         $('#saveBtn').html("Update"); // form button
+
+                        $('#requirements_rule').val(data.resource.rule_reference);
 
                         $('#rule_group').val(data.resource.rule_group);
                         $('#rule_section').val(data.resource.rule_section);
                         $('#rule_reference').val(data.resource.rule_reference);
                         $('#rule_title').val(data.resource.rule_title);
-
 
                         $('#rule_manual_reference').val(data.resource.rule_manual_reference);
                         $('#rule_chapter').val(data.resource.rule_chapter);
@@ -191,18 +184,30 @@
                         $('#extension_due_date').val(data.resource.extension_due_date);
                         $('#closed_date').val(data.resource.closed_date);
 
-                        // statuses
+                        // statuses list (add select option)
                         if (data.transitions) {
                             // merge task status and status transitions
                             var statuses = data.transitions.concat(data.resource.task_status);
+
                             // remove option
                             $('#task_status').find('option').remove().val();
+                            // $('#task_status').find('option').remove().end().append('<option value="">...</option>').val();
+
                             // append option
                             $.each(statuses, function (key, value) {
                                 $('#task_status').append('<option value="' + value + '">' + value + '</option>');
                             });
+
                             // selected option
                             $('#task_status option[value="' + data.resource.task_status + '"]').prop('selected', true);
+
+                        }
+
+                        // statuses role permission
+                        if (!data.status_permission) {
+                            $('#statuses-wrapper').hide();
+                        } else {
+                            $('#statuses-wrapper').show();
                         }
 
                         // auditors input
@@ -240,14 +245,12 @@
                             });
                             // selected option
                             $('#assigned_investigator option[value="' + data.resource.investigator_id + '"]').prop('selected', true);
-
                         }
 
                         getComments(); // ToDo
+
                         $('#ajaxModel').modal('show');
-
                     });
-
                 }
 
                 // reset form alert
@@ -261,10 +264,6 @@
                     form.find("textarea").removeClass('is-invalid');
                 }
 
-
-                ///////////////
-
-
                 // comment save
                 $('#CommentSubmit').click(function (e) {
 
@@ -274,18 +273,26 @@
                     var form = $('#CommentForm');
                     form.find('input[name="rule_id"]').val(rule_id);
 
+                    // reset form textarea
+                    $(".text-danger").remove();
+                    form.find("textarea").removeClass('is-invalid');
+
                     $.ajax({
                         url: form.attr('action'),
                         type: form.attr('method'),
                         data: form.serialize(),
                         success: function (data) {
+                            if(data.comment) {
+                                // comments
+                                getComments();
+                                // reset form textarea
+                                form.find('textarea[name="message"]').val('');
+                            } else {
+                                $.each(data.errors, function (input_name, input_error) {
+                                    $("#" + input_name).addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
+                                });
 
-                            // comments
-                            getComments();
-
-                            // reset form textarea
-                            form.find('textarea[name="comment"]').val('');
-
+                            }
                         },
 
                         error: function (data) {
@@ -295,13 +302,7 @@
 
                 });
 
-
-                // comment edit
-                // modal hide - default (создать форму для редактирования)
-                // найнти комментарий для редактирования и вместо содержимоего комментария подставить  форму с данными самого комментария
-                // сохранить и заново вызвать метод getComments
-
-
+                // get comments
                 function getComments() {
 
                     var rule_id = $('#rule_id').val();
@@ -334,11 +335,8 @@
 
                         }
                     });
-
-
                 }
+
             });// end function
-
-
         </script>
 @endpush

@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\User\Flows;
+namespace App\Http\Controllers\Components\Flows;
 
 use App\Enums\RequrementStatus;
+use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Flows\RequirementRequest;
+use App\Models\Flow;
 use App\Models\FlowsData;
 use App\Services\Flows\NotificationService;
 use App\User;
@@ -14,28 +16,30 @@ use Illuminate\Support\Facades\Auth;
 
 class RequirementController extends Controller
 {
-    public function edit(string $rule_reference)
+    public function edit(Flow $flow, string $rule_reference)
     {
         try {
-            // get latest company flow
-            $flow = Auth::user()->company->flows->first();
-
             // get rule reference data
             $flowData = FlowsData::whereFlowId($flow->id)->whereRuleReference($rule_reference)->first();
 
             // get status transition
             $statusTransition = RequrementStatus::getStatusTransitions($flowData->task_status);
 
-            // get role status
-            $roleStatuses = RequrementStatus::getRoleStatuses(Auth::user()->roles()->first()->name);
+            // if role SME statuses_permission true for other role need to check
+            if(Auth::user()->roles()->first()->name == RoleName::SME) {
+                $statuses_permission = true;
+            } else {
+                // get role status
+                $roleStatuses = RequrementStatus::getRoleStatuses(Auth::user()->roles()->first()->name);
 
-            // check if role has permission to change status
-            $statuses_permission = in_array($flowData->task_status, $roleStatuses);
+                // check if role has permission to change status
+                $statuses_permission = in_array($flowData->task_status, $roleStatuses);
+            }
 
-            // get company users (by roles for select input )
-            $auditors = User::auditors()->active()->whereCompanyId(Auth::user()->company->id)->get();
-            $auditees = User::auditees()->active()->whereCompanyId(Auth::user()->company->id)->get();
-            $investigators = User::investigators()->active()->whereCompanyId(Auth::user()->company->id)->get();
+            // get company users (for select input )
+            $auditors = User::auditors()->active()->whereCompanyId($flow->company_id)->get();
+            $auditees = User::auditees()->active()->whereCompanyId($flow->company_id)->get();
+            $investigators = User::investigators()->active()->whereCompanyId($flow->company_id)->get();
 
             // return json response with data
             return response()->json([
@@ -56,12 +60,9 @@ class RequirementController extends Controller
         }
     }
 
-    public function update(RequirementRequest $request)
+    public function update(Flow $flow, RequirementRequest $request)
     {
         try {
-            // get latest company flow
-            $flow = Auth::user()->company->flows->first();
-
             // update task (flowData)
             $task = FlowsData::store($flow, $request);
 

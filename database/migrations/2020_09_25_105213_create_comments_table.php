@@ -15,7 +15,7 @@ class CreateCommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->text('message');
+            $table->string('message', 500);
 
             $table->foreignId('rule_id');
             $table->foreign('rule_id')->references('id')->on('flows_data')->onDelete('cascade');

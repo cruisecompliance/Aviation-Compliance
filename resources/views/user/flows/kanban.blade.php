@@ -113,7 +113,7 @@
     </div>
 
     <!-- modal form -->
-    @include('user.flows._form')
+    @include('components.flows._modal')
     <!-- /modal form -->
 
     @push('scripts')

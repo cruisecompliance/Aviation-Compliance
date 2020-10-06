@@ -108,7 +108,7 @@
     </div>
 
     <!-- modal form -->
-    @include('admin.flows._modal')
+    @include('components.flows._modal')
     <!-- /modal form -->
 
     @push('scripts')

@@ -45,10 +45,18 @@ Route::get('/terms', function() {
     return view('pages.terms');
 });
 
+
+/*
+ * Auth
+ */
+Auth::routes(['register' => false]);
+//Auth::routes();
+
+
 /**
  * Components
  */
-Route::namespace('Components')->group(function () {
+Route::namespace('Components')->middleware('auth')->group(function () {
 
     /**
      * Flow Requirements
@@ -61,18 +69,16 @@ Route::namespace('Components')->group(function () {
         // Flow Calendar
         Route::get('/calendar/{hash}', 'CalendarController@index')->name('components.flows.calendar.index');
 
+        // Flow Requirements (Edit Form)
+        Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('components.flows.requirements.edit');
+        Route::post('/flows/{flow}/requirements/', 'RequirementController@update')->name('components.flows.requirements.update');
+
         // Flow comment
         Route::get('/flow/{rule_id}/comments', 'CommentController@index')->name('components.flows.comments.index');
         Route::post('/flow/{flow?}/comment/store', 'CommentController@store')->name('components.flows.comments.store');
     });
 });
 
-
-/*
- * Auth
- */
-Auth::routes(['register' => false]);
-//Auth::routes();
 
 /**
  * User panel
@@ -96,11 +102,6 @@ Route::namespace('User')->prefix('user')->middleware('auth', 'role:' . RoleName:
         // Flow Requirements (Kanban View)
         Route::get('/flows/kanban', 'KanbanController@index')->name('user.flows.kanban.index');
         // Route::post('/flows/kanban/status', 'KanbanController@changeStatus');
-
-        // Flow Requirements (Edit Form)
-        Route::get('/flows/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('user.flows.requirements.edit'); // ToDo user.flows.requirements.edit
-        Route::post('/flows/requirements/', 'RequirementController@update')->name('user.flows.requirements.update'); // ToDO user.flows.requirements.update
-
 
     });
 });
@@ -158,10 +159,6 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:' . RoleNam
         // Flow Requirements (Kanban View)
         Route::get('/flows/{flow}/kanban', 'KanbanController@index')->name('admin.flows.kanban.index');
 //        Route::post('/flows/{flow}/kanban/status', 'KanbanController@changeStatus');
-
-        // Flow Requirements (Edit Form)
-        Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('admin.flows.requirements.edit');
-        Route::post('/flows/{flow}/requirements', 'RequirementController@update')->name('admin.flows.requirements.update');
 
     });
 

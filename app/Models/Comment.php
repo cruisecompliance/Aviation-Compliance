@@ -13,7 +13,8 @@ class Comment extends Model
     ];
 
     protected $casts = [
-        'created_at' => 'date:F j, Y, g:i a',
+//        'created_at' => 'date:F j, Y, g:i a',
+        'created_at' => 'date:d.m.Y H:i:s',
     ];
 
     public function flowData()
