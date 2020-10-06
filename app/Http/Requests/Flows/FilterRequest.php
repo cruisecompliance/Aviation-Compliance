@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Requests\Requirements;
+namespace App\Http\Requests\Flows;
 
+use App\Models\Filter;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
-class RequirementRequest extends FormRequest
+class FilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -43,17 +46,24 @@ class RequirementRequest extends FormRequest
      */
     public function rules()
     {
-        $title = null;
-
-        // method post for create
-        if ($this->isMethod('POST')) {
-            $title = 'required|string|min:4|unique:requirements,title';
-        }
+        // request filter data
+        $filter = [
+            'name' => $this->name,
+            'user_id' => Auth::user()->id,
+        ];
 
         return [
-            'title' => $title,
-            'description' => 'nullable|string|min:4',
-            'user_file' => 'required|file|mimes:xlsx'
+            'name' => [
+                'required', 'string', 'min:2', 'max:26',
+                Rule::unique('filters')->where(function ($query) use ($filter) {
+                    return $query
+                        ->where('name', $filter['name'])
+                        ->where('user_id', $filter['user_id']);
+                }),
+            ],
+            'rule_reference' => 'sometimes|nullable|string',
+            'rule_section' => 'sometimes|nullable|numeric',
+            'assignee' => 'sometimes|nullable|numeric',
         ];
     }
 }

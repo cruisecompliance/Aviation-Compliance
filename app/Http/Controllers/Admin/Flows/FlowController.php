@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin\Flows;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Flows\FlowRequest;
 use App\Models\Company;
 use App\Models\Flow;
 use App\Models\Requirement;
 use App\Models\RequirementsData;
 use Illuminate\Http\Request;
-use App\Http\Requests\Flows\FlowRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -41,8 +41,8 @@ class FlowController extends Controller
                     return $flow->requirement ? $flow->requirement->title : '';
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = ' <a href="' . route('admin.flows.kanban.index', $row->id) . '" class="btn btn-success btn-sm mr-1">Kanban</a>';
-                    $btn = $btn . ' <a href="' . route('admin.flows.table.index', $row->id) . '" class="btn btn-success btn-sm mr-1">Table</a>';
+                    $btn = ' <a href="' . route('admin.flows.kanban.index', [$row->id, 'rule_reference' => '', 'rule_section' => '', 'assignee' => '', 'status' => '']) . '" class="btn btn-success btn-sm mr-1">Kanban</a>';
+                    $btn = $btn . ' <a href="' . route('admin.flows.table.index', [$row->id, 'rule_reference' => '', 'rule_section' => '', 'assignee' => '', 'status' => '']) . '" class="btn btn-success btn-sm mr-1">Table</a>';
                     $btn = $btn . '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editItem">Edit</a>';
                     return $btn;
                 })
@@ -69,22 +69,8 @@ class FlowController extends Controller
      * @param \App\Http\Requests\Flows\FlowRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FlowRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|min:4|unique:flows',
-            'description' => 'nullable|string|min:4',
-            'company' => 'required|numeric',
-            'requirements' => 'required|numeric',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
-
         return DB::transaction(function () use ($request) {
 
             // create new flow
@@ -113,7 +99,7 @@ class FlowController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "Flow {$flow->title} was added successfully.",
+                'message' => "Flow {$flow->title} was created successfully.",
                 'resource' => $flow,
             ]);
         });
@@ -141,26 +127,11 @@ class FlowController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\User $user
+     * @param Flow $flow
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Flow $flow)
+    public function update(FlowRequest $request, Flow $flow)
     {
-
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|min:4|unique:flows,title,' . $flow->id,
-            'description' => 'nullable|string|min:4',
-            'company' => 'required|numeric',
-            'requirements' => 'required|numeric',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
-
         $flow->update([
             'title' => $request->title,
             'description' => $request->description,
@@ -170,7 +141,7 @@ class FlowController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => "Flow {$flow->title} was update successfully.",
+            'message' => "Flow {$flow->title} was updated successfully.",
             'resource' => $flow,
         ]);
     }

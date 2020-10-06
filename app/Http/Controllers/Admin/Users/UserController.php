@@ -1,18 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Users;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Users\UserRequest;
 use App\Models\Company;
 use App\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-
 
 class UserController extends Controller
 {
@@ -69,24 +66,8 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:4',
-            'email' => 'required|string|email|min:4|unique:users,email',
-            'password' => 'required|string|min:8',
-            'status' => 'required|boolean',
-            'company' => 'required|numeric',
-            'role' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
-
         return DB::transaction(function () use ($request) {
             $user = User::create([
                 'name' => $request->name,
@@ -98,7 +79,7 @@ class UserController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "User {$user->email} was added successfully.",
+                'message' => "User {$user->email} was created successfully.",
                 'resource' => $user,
             ]);
         });
@@ -130,23 +111,8 @@ class UserController extends Controller
      * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:4',
-            'email' => 'required|string|email|min:4|unique:users,email,' . $user->id,
-            'status' => 'required|boolean',
-            'company' => 'required|numeric',
-            'role' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
-
         return DB::transaction(function () use ($request, $user) {
             $user->update([
                 'name' => $request->name,
@@ -159,7 +125,7 @@ class UserController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "User {$user->email} was update successfully.",
+                'message' => "User {$user->email} was updated successfully.",
                 'resource' => $user,
             ]);
         });

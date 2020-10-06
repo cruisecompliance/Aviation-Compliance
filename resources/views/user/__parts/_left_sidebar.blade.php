@@ -11,14 +11,7 @@
                 <li class="menu-title">Navigation</li>
 
                 <li>
-                    <a href="{{ route('admin.users.index') }}">
-                        <i data-feather="users"></i>
-                        <span> Users </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('user.flows.kanban.index') }}">
+                    <a href="{{ route('user.flows.kanban.index', ['rule_reference' => '', 'rule_section' => '', 'assignee' => Auth::user()->id, 'status' => '']) }}">
                         <i data-feather="grid"></i>
                         <span> Flow </span>
                     </a>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Components\Flows;
 
+use App\Enums\RequrementStatus;
 use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Flows\FilterRequest;
 use App\Models\Filter;
 use App\Models\Flow;
 use App\Models\FlowsData;
@@ -11,7 +13,6 @@ use App\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class FilterController extends Controller
 {
@@ -44,6 +45,10 @@ class FilterController extends Controller
                 ])
                 ->get();
 
+            // get statuses (table and kanban view)
+            $tableStatuses = RequrementStatus::tableStatuses();
+            $kanbanStatuses = RequrementStatus::kanbanStatuses();
+
             // return json data
             return response()->json([
                 'success' => true,
@@ -51,6 +56,8 @@ class FilterController extends Controller
                 'tasks' => $tasks,
                 'sections' => $sections,
                 'users' => $users,
+                'kanbanStatuses' => $kanbanStatuses,
+                'tableStatuses' => $tableStatuses,
             ], 200);
 
         } catch (Exception $e) {
@@ -68,29 +75,14 @@ class FilterController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Flow $flow, Request $request)
+    public function store(Flow $flow, FilterRequest $request)
     {
-
-        // validate request data
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:2|max:26',
-            'rule_reference' => 'sometimes|nullable|string',
-            'rule_section' => 'sometimes|nullable|numeric',
-            'assignee' => 'sometimes|nullable|numeric',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ]);
-        }
 
         try {
 
             $filter = Filter::create([
                 'name' => $request->name,
-                'params' => "filter_name=$request->name&rule_reference=$request->rule_reference&rule_section=$request->rule_section&assignee=$request->assignee",
+                'params' => "filter_name=$request->name&rule_reference=$request->rule_reference&rule_section=$request->rule_section&status=$request->status&assignee=$request->assignee",
                 'user_id' => Auth::user()->id,
             ]);
 

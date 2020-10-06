@@ -4,7 +4,9 @@
 @import '~select2/src/scss/core';
 
 .select2-container {
-    width: 100%!important;
+    min-width: 130px;
+    max-width: 150px;
+    //width: 100%!important;
     
     .select2-selection--single {
         border: $input-border-width solid $input-border-color;
@@ -22,7 +24,7 @@
             //width: 34px;
             //right: 3px;
             height: 34px;
-            width: 26px;
+            width: 34px; // 26px
             right: 0px;
             b {
                 border-color: $gray-500 transparent transparent transparent;

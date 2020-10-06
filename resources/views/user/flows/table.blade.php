@@ -37,7 +37,7 @@
 
                                     </div>
                                     <div class="col-5 text-right">
-                                        <a href="{{ route('user.flows.kanban.index') }}" class="btn btn-success btn-sm mr-1">Kanban View</a>
+                                        <a href="{{ route('user.flows.kanban.index', ['rule_reference' => '', 'rule_section' => '', 'assignee' => Auth::user()->id, 'status' => '']) }}" class="btn btn-success btn-sm mr-1">Kanban View</a>
                                     </div>
                                 </div>
                                 <!-- /table header -->
@@ -104,7 +104,7 @@
                     </div><!-- end col-->
                 </div><!-- end row-->
                 <!-- /page content -->
-        @else
+            @else
             <!-- page content -->
                 <div class="row">
                     <div class="col-12">
@@ -123,7 +123,7 @@
     </div>
 
     <!-- modal form -->
-    @include('user.flows._form')
+    @include('components.flows._modal')
     <!-- /modal form -->
 
     @push('scripts')
@@ -142,6 +142,7 @@
                             d.rule_reference = $('input[name=rule_reference]').val();
                             d.rule_section = $('input[name=rule_section]').val();
                             d.assignee = $('input[name=assignee]').val();
+                            d.status = $('input[name=status]').val();
                         }
                     },
                     columns: [
@@ -160,7 +161,7 @@
                         {data: 'month_quarter', name: 'month_quarter'},
                         {data: 'auditor', name: 'auditor.name'},
                         {data: 'auditee', name: 'auditee.name'},
-                        {data: 'comments', name: 'comments'},
+                        {data: 'questions', name: 'questions'},
                         {data: 'finding', name: 'finding'},
                         {data: 'deviation_statement', name: 'deviation_statement'},
                         {data: 'evidence_reference', name: 'evidence_reference'},

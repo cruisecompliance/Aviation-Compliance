@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Admin\Flows;
 use App\Enums\RequrementStatus;
 use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
-use App\Models\Filter;
 use App\User;
 use Illuminate\Http\Request;
 use App\Models\Flow;
 use App\Models\FlowsData;
-use Illuminate\Support\Facades\Auth;
 
 class KanbanController extends Controller
 {
@@ -23,10 +21,12 @@ class KanbanController extends Controller
      */
     public function index(Flow $flow, Request $request)
     {
-
-        // filter
+        //> filter
         $queryKanbanTasks = FlowsData::where('flow_id', $flow->id)
-            ->with('auditor', 'auditee', 'investigator');
+            ->whereNotIn('task_status', [RequrementStatus::CMM_Backlog])
+            ->with('auditor')
+            ->with('auditee')
+            ->with('investigator');
 
         if (!empty($request->rule_reference)) {
 //            $queryKanbanTasks->where('rule_reference', $request->rule_reference);
@@ -46,13 +46,18 @@ class KanbanController extends Controller
             $queryKanbanTasks->whereIn('task_status', $roleStatuses);
         }
 
+        if (!empty($request->status)) {
+            $queryKanbanTasks->where('task_status', $request->status);
+        }
+
         $kanbanData = $queryKanbanTasks->get();
-        /////// <
+        $kanbanData = collect($kanbanData)->groupBy('task_status');
+        //<
 
         // return requirements kanban view with data
         return view('admin.flows.kanban', [
             'flow' => $flow,
-            'kanbanData' => collect($kanbanData)->groupBy('task_status'),
+            'kanbanData' => ($kanbanData) ?? NULL,
         ]);
 
     }

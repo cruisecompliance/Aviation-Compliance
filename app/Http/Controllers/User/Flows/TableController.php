@@ -27,16 +27,6 @@ class TableController extends Controller
         // get latest company flow
         $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
 
-        if (!empty($flow)){
-
-            // check assigned users for flowData (Auditee, Auditor, Investigator)
-            if(Auth::user()->hasRole([RoleName::AUDITEE, RoleName::AUDITOR, RoleName::INVESTIGATOR])){
-                if (empty(FlowsData::checkAssignedUser(Auth::user()->id, $flow->id))) {
-                    return abort(403, 'User not assigned ');
-                }
-            }
-        }
-
         // return view with data
         return view('user.flows.table', [
             'flow' => $flow,
@@ -74,31 +64,31 @@ class TableController extends Controller
                 return $flowsData->investigator ? $flowsData->investigator->name : '';
             })
             ->editColumn('due_date', function (FlowsData $flowsData) {
-                return $flowsData->due_date ? $flowsData->due_date->format('d.m.Y') : '';
+                return !empty($flowsData->due_date) ? $flowsData->due_date->format('d.m.Y') : '';
             })
             ->filterColumn('due_date', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(due_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
             })
             ->editColumn('effectiveness_review_date', function (FlowsData $flowsData) {
-                return $flowsData->effectiveness_review_date ? $flowsData->effectiveness_review_date->format('d.m.Y') : '';
+                return !empty($flowsData->effectiveness_review_date) ? $flowsData->effectiveness_review_date->format('d.m.Y') : '';
             })
             ->filterColumn('effectiveness_review_date', function ($query, $keyword) {
-                $query->whereRaw("DATE_FORMAT(due_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
+                $query->whereRaw("DATE_FORMAT(effectiveness_review_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
             })
             ->editColumn('response_date', function (FlowsData $flowsData) {
-                return $flowsData->response_date ? $flowsData->effectiveness_review_date->format('d.m.Y') : '';
+                return !empty($flowsData->response_date) ? $flowsData->response_date->format('d.m.Y') : '';
             })
             ->filterColumn('response_date', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(response_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
             })
             ->editColumn('extension_due_date', function (FlowsData $flowsData) {
-                return $flowsData->extension_due_date ? $flowsData->extension_due_date->format('d.m.Y') : '';
+                return !empty($flowsData->extension_due_date) ? $flowsData->extension_due_date->format('d.m.Y') : '';
             })
             ->filterColumn('extension_due_date', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(extension_due_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
             })
             ->editColumn('closed_date', function (FlowsData $flowsData) {
-                return $flowsData->closed_date ? $flowsData->closed_date->format('d.m.Y') : '';
+                return !empty($flowsData->closed_date) ? $flowsData->closed_date->format('d.m.Y H:i:s') : '';
             })
             ->filterColumn('closed_date', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(closed_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
@@ -109,7 +99,6 @@ class TableController extends Controller
                 return $btn;
             })
             ->filter(function ($query) use ($request, $flow) {
-
                 if (!empty($request->rule_reference)) {
                     $query->where('rule_reference', "$request->rule_reference");
                 }
@@ -125,7 +114,10 @@ class TableController extends Controller
                     $query->whereIn('task_status', $roleStatuses);
 
                 }
-            })
+                if (!empty($request->status)) {
+                    $query->where('task_status', "$request->status");
+                }
+            }, true)
             ->rawColumns(['action'])
             ->make(true);
     }

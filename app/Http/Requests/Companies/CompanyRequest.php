@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Requirements;
+namespace App\Http\Requests\Companies;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RequirementRequest extends FormRequest
+class CompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -43,17 +43,26 @@ class RequirementRequest extends FormRequest
      */
     public function rules()
     {
-        $title = null;
+
+        $name = null;
+        $url = null;
 
         // method post for create
         if ($this->isMethod('POST')) {
-            $title = 'required|string|min:4|unique:requirements,title';
+            $name = 'required|string|min:4|max:50|unique:companies,name';
+            $url = 'required|string|url|min:4|unique:companies,url';
+        }
+
+        // method patch for update
+        if ($this->isMethod('PATCH')) {
+            $name = 'required|string|min:4|max:50|unique:companies,name,' . $this->company->id;
+            $url = 'required|string|url|min:4|unique:companies,url,' . $this->company->id;;
         }
 
         return [
-            'title' => $title,
-            'description' => 'nullable|string|min:4',
-            'user_file' => 'required|file|mimes:xlsx'
+            'name' => $name,
+            'url' => $url,
+            'status' => 'required|boolean',
         ];
     }
 }

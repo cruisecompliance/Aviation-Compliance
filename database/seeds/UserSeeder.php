@@ -33,6 +33,13 @@ class UserSeeder extends Seeder
             'company_id' => 1,
         ])->assignRole(RoleName::SME);
 
+        User::create([
+            'name' => 'Ivan',
+            'email' => 'ivan.taichenachev@lifeisgoodlabs.com',
+            'password' => Hash::make('demo'),
+            'company_id' => 2,
+        ])->assignRole(RoleName::SME);
+
         // DEMO Users
         // riv4ik@gmail.com
         User::create([

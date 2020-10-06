@@ -20,6 +20,34 @@ final class RequrementStatus extends Enum
     const CMM_Done = 'CMM Done';
 
 
+    public static function kanbanStatuses(): object
+    {
+        return collect([
+            // self::CMM_Backlog, // do not show in kanban view
+            self::Auditor_Review,
+            self::Auditee_Review,
+            self::Investigator_Review,
+            self::CMM_Extension_Review,
+            self::AM_Extension_Review,
+            self::CMM_Review,
+            self::CMM_Done,
+        ]);
+    }
+
+    public static function tableStatuses(): object
+    {
+        return collect([
+            self::CMM_Backlog,
+            self::Auditor_Review,
+            self::Auditee_Review,
+            self::Investigator_Review,
+            self::CMM_Extension_Review,
+            self::AM_Extension_Review,
+            self::CMM_Review,
+            self::CMM_Done,
+        ]);
+    }
+
     /**
      * Status transitions
      * Backlog -> Auditor Review (CMM)

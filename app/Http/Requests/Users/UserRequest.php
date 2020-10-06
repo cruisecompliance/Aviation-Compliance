@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Requirements;
+namespace App\Http\Requests\Users;
 
+use App\Enums\RequrementStatus;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RequirementRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -43,17 +44,29 @@ class RequirementRequest extends FormRequest
      */
     public function rules()
     {
-        $title = null;
-
         // method post for create
         if ($this->isMethod('POST')) {
-            $title = 'required|string|min:4|unique:requirements,title';
+            return [
+                'name' => 'required|string|min:4|max:64',
+                'email' => 'required|string|email|min:4|max:200|unique:users,email',
+                'password' =>'required|string|min:8|max:64',
+                'status' => 'required|boolean',
+                'company' => 'required|numeric',
+                'role' => 'required|string',
+            ];
+
         }
 
-        return [
-            'title' => $title,
-            'description' => 'nullable|string|min:4',
-            'user_file' => 'required|file|mimes:xlsx'
-        ];
+        // method patch for update
+        if ($this->isMethod('PATCH')) {
+            return [
+                'name' => 'required|string|min:4|max:64',
+                'email' => 'required|string|email|min:4|max:200|unique:users,email,' . $this->user->id,
+                'status' => 'required|boolean',
+                'company' => 'required|numeric',
+                'role' => 'required|string',
+            ];
+        }
+
     }
 }

@@ -18,7 +18,7 @@ use App\Enums\PermissionName;
 /**
  * Main page (login form)
  */
-Route::get('/', 'Auth\LoginController@showLoginForm');
+Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
 
 /**
  * login microsoft azure ad
@@ -34,11 +34,29 @@ Route::get('/login/teams-start', 'Auth\TeamController@start')->name('auth.login.
 Route::get('/login/teams-end', 'Auth\TeamController@end')->name('auth.login.teams_end');
 Route::get('/login/teams/profile/{email}/name/{displayName?}', 'Auth\TeamController@profile')->name('auth.login.profile');
 
+/**
+ * Pages
+ */
+Route::get('/privacy', function() {
+    return view('pages.privacy');
+});
+
+Route::get('/terms', function() {
+    return view('pages.terms');
+});
+
+
+/*
+ * Auth
+ */
+Auth::routes(['register' => false]);
+//Auth::routes();
+
 
 /**
  * Components
  */
-Route::namespace('Components')->group(function () {
+Route::namespace('Components')->middleware('auth')->group(function () {
 
     /**
      * Flow Requirements
@@ -52,15 +70,16 @@ Route::namespace('Components')->group(function () {
         // Flow Calendar
         Route::get('/calendar/{hash}', 'CalendarController@index')->name('components.flows.calendar.index');
 
+        // Flow Requirements (Edit Form)
+        Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('components.flows.requirements.edit');
+        Route::post('/flows/{flow}/requirements/', 'RequirementController@update')->name('components.flows.requirements.update');
+
+        // Flow comment
+        Route::get('/flow/{rule_id}/comments', 'CommentController@index')->name('components.flows.comments.index');
+        Route::post('/flow/{flow?}/comment/store', 'CommentController@store')->name('components.flows.comments.store');
     });
 });
 
-
-/*
- * Auth
- */
-Auth::routes(['register' => false]);
-//Auth::routes();
 
 /**
  * User panel
@@ -85,11 +104,6 @@ Route::namespace('User')->prefix('user')->middleware('auth', 'role:' . RoleName:
         Route::get('/flows/kanban', 'KanbanController@index')->name('user.flows.kanban.index');
         // Route::post('/flows/kanban/status', 'KanbanController@changeStatus');
 
-        // Flow Requirements (Edit Form)
-        Route::get('/flows/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('user.flows.requirements.edit'); // ToDo user.flows.requirements.edit
-        Route::post('/flows/requirements/', 'RequirementController@update')->name('user.flows.requirements.update'); // ToDO user.flows.requirements.update
-
-
     });
 });
 
@@ -107,23 +121,29 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:' . RoleNam
     /**
      * Users
      **/
-    Route::resource('/users', 'UserController')->except(['create', 'show', 'destroy'])->names('admin.users');
-    Route::get('/users/impersonate/login/{user_id}', 'Users\ImpersonateController@login')->name('admin.users.impersonate.login');
-    Route::get('/users/impersonate/logout/', 'Users\ImpersonateController@logout')->name('admin.users.impersonate.logout')->withoutMiddleware('role:' . RoleName::SME);
+    Route::namespace('Users')->group(function () {
+        Route::resource('/users', 'UserController')->except(['create', 'show', 'destroy'])->names('admin.users');
+        Route::get('/users/impersonate/login/{user_id}', 'ImpersonateController@login')->name('admin.users.impersonate.login');
+        Route::get('/users/impersonate/logout/', 'ImpersonateController@logout')->name('admin.users.impersonate.logout')->withoutMiddleware('role:' . RoleName::SME);
+    });
 
     /**
      * Companies
      **/
-    Route::resource('/companies', 'CompanyController')->except(['create', 'show', 'destroy'])->names('admin.companies');
+    Route::namespace('Companies')->group(function() {
+        Route::resource('/companies', 'CompanyController')->except(['create', 'show', 'destroy'])->names('admin.companies');
+    });
 
     /**
      * Requirements
      */
-    //Route::resource('/admin/requirements', 'RequirementController')->names('admin.requirements');
-    Route::get('/requirements', 'RequirementController@index')->name('admin.requirements.index');
-    Route::post('/requirements/store', 'RequirementController@store')->name('admin.requirements.store');
-    Route::get('/requirements/{requirement}', 'RequirementController@show')->name('admin.requirements.show');
-    Route::get('/requirements/history/{rule_reference}', 'RequirementController@history')->name('admin.requirements.history');
+    Route::namespace('Requirements')->group(function (){
+        //Route::resource('/admin/requirements', 'RequirementController')->names('admin.requirements');
+        Route::get('/requirements', 'RequirementController@index')->name('admin.requirements.index');
+        Route::post('/requirements/store', 'RequirementController@store')->name('admin.requirements.store');
+        Route::get('/requirements/{requirement}', 'RequirementController@show')->name('admin.requirements.show');
+        Route::get('/requirements/history/{rule_reference}', 'RequirementController@history')->name('admin.requirements.history');
+    });
 
     /**
      * Flows
@@ -140,10 +160,6 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:' . RoleNam
         // Flow Requirements (Kanban View)
         Route::get('/flows/{flow}/kanban', 'KanbanController@index')->name('admin.flows.kanban.index');
 //        Route::post('/flows/{flow}/kanban/status', 'KanbanController@changeStatus');
-
-        // Flow Requirements (Edit Form)
-        Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('admin.flows.requirements.edit');
-        Route::post('/flows/{flow}/requirements', 'RequirementController@update')->name('admin.flows.requirements.update');
 
     });
 
