@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Components\Flows;
 use App\Enums\RequrementStatus;
 use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Flows\MultipleAssignRequest;
 use App\Http\Requests\Flows\RequirementRequest;
 use App\Models\Flow;
 use App\Models\FlowsData;
@@ -12,10 +13,18 @@ use App\Services\Flows\NotificationService;
 use App\User;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class RequirementController extends Controller
 {
+    /**
+     * Get Task (Rule Reference) Data
+     *
+     * @param Flow $flow
+     * @param string $rule_reference
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function edit(Flow $flow, string $rule_reference)
     {
         try {
@@ -26,7 +35,7 @@ class RequirementController extends Controller
             $statusTransition = RequrementStatus::getStatusTransitions($flowData->task_status);
 
             // if role SME statuses_permission true for other role need to check
-            if(Auth::user()->roles()->first()->name == RoleName::SME) {
+            if (Auth::user()->roles()->first()->name == RoleName::SME) {
                 $statuses_permission = true;
             } else {
                 // get role status
@@ -60,6 +69,13 @@ class RequirementController extends Controller
         }
     }
 
+    /**
+     * Update Task (FlowData)
+     *
+     * @param Flow $flow
+     * @param RequirementRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Flow $flow, RequirementRequest $request)
     {
         try {
@@ -87,5 +103,45 @@ class RequirementController extends Controller
         }
 
     }
+
+
+    /**
+     * Multiple Assign
+     *
+     * @param Flow $flow
+     * @param MultipleAssignRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function multipleChange(Flow $flow, MultipleAssignRequest $request)
+    {
+        try {
+            // explode task id
+            $tasks_id = explode(',', $request->tasks_id);
+
+            // update task ( data
+            $tasks = FlowsData::whereFlowId($flow->id)
+                ->whereIn('id', $tasks_id)
+                ->update([
+                    'due_date' => Carbon::parse($request->due_date)->format('Y-m-d'),
+                ]);
+
+            // return response with success data
+            return response()->json([
+                'success' => true,
+//                'flow' => $flow,
+//                'request' => $request->all(),
+                'message' => "{$tasks} rows was updated successfully.",
+                'tasks' => $tasks,
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => true,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+    }
+
 
 }

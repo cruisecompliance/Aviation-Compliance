@@ -100,7 +100,8 @@ class TableController extends Controller
             })
             ->filter(function ($query) use ($request, $flow) {
                 if (!empty($request->rule_reference)) {
-                    $query->where('rule_reference', "$request->rule_reference");
+//                    $query->where('rule_reference', "$request->rule_reference");
+                    $query->where('rule_reference', 'like', "%{$request->rule_reference}%");
                 }
                 if (!empty($request->rule_section)) {
                     $query->where('rule_section', "$request->rule_section");

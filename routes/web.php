@@ -74,6 +74,9 @@ Route::namespace('Components')->middleware('auth')->group(function () {
         Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('components.flows.requirements.edit');
         Route::post('/flows/{flow}/requirements/', 'RequirementController@update')->name('components.flows.requirements.update');
 
+        // Flow Requirements (Multiple Edit)
+        Route::post('/flows/{flow}/requirements/multiple', 'RequirementController@multipleChange')->name('components.flows.requirements.multiple');
+
         // Flow comment
         Route::get('/flow/{rule_id}/comments', 'CommentController@index')->name('components.flows.comments.index');
         Route::post('/flow/{flow?}/comment/store', 'CommentController@store')->name('components.flows.comments.store');

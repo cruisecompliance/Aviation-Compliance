@@ -21,6 +21,7 @@ class KanbanController extends Controller
      */
     public function index(Flow $flow, Request $request)
     {
+
         //> filter
         $queryKanbanTasks = FlowsData::where('flow_id', $flow->id)
             ->whereNotIn('task_status', [RequrementStatus::CMM_Backlog])

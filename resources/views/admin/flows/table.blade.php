@@ -53,9 +53,15 @@
                             <!-- datatable -->
                             <div class="row">
                                 <div class="col-12">
+
+                                    <!-- assign  -->
+                                @include('components.flows._assign')
+                                <!-- /assign  -->
+
                                     <table id="basic-datatable" class="table nowrap w-100">
                                         <thead>
                                         <tr>
+                                            <th scope="col" class="align-middle"></th>
                                             <th scope="col" class="align-middle">action</th>
                                             <th scope="col" class="align-middle">Sec #</th>
                                             <th scope="col" class="align-middle">European rule <br>IR/AMC/GM</th>
@@ -92,6 +98,7 @@
                                         </tr>
                                         </thead>
                                     </table>
+
                                 </div>
                             </div>
                             <!-- /datatable -->
@@ -116,6 +123,9 @@
 
             $(function () {
 
+                // filter form data (for datatable)
+                var filterForm = $('#FilterModalForm');
+
                 // dataTable list
                 var table = $('#basic-datatable').DataTable({
                     processing: true,
@@ -124,14 +134,27 @@
                         url: "{{ route('admin.flows.table.datatable', $flow) }}",
                         type: 'POST',
                         data: function (d) {
-                            d.rule_reference = $('input[name=rule_reference]').val();
-                            d.rule_section = $('input[name=rule_section]').val();
-                            d.assignee = $('input[name=assignee]').val();
-                            d.status = $('input[name=status]').val();
+                            d.rule_reference = filterForm.find('input[name=rule_reference]').val();
+                            d.rule_section = filterForm.find('input[name=rule_section]').val();
+                            d.assignee = filterForm.find('input[name=assignee]').val();
+                            d.status = filterForm.find('input[name=status]').val();
                         }
                     },
+                    columnDefs: [
+                        {
+                            targets: 0,
+                            checkboxes: {
+                                selectRow: true
+                            },
+                        }
+                    ],
+                    select: {
+                        style: 'multi'
+                    },
+                    order: [[1, 'desc']],
                     columns: [
                         // {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                        {data: 'id', name: 'id', orderable: false, searchable: false},
                         {data: 'action', name: 'action', orderable: false, searchable: false},
                         {data: 'rule_section', name: 'rule_section'},
                         {data: 'rule_group', name: 'rule_group'},
@@ -204,6 +227,88 @@
                 {{--        }--}}
                 {{--    });--}}
                 {{--});--}}
+
+                // show multiple modal form
+                $("#show-multiple-modal").click(function () {
+                    // e.preventDefault();
+
+                    // reset form data
+                    resetAssignFormAlert();
+
+                    // set form data
+                    var form = $('#multiple-modal');
+                    var rows_selected = table.column(0).checkboxes.selected();
+                    form.find('input[name=tasks_id]').val(rows_selected.join(","));
+                    form.find('input[name=tasks_selected]').val(rows_selected.length);
+
+                    // show form
+                    form.modal('show');
+                });
+
+                // submit multiple modal form
+                $('body').on('click', '#MultipleSubmit', function (e) {
+                    e.preventDefault();
+
+                    resetAssignFormAlert();
+
+                    var form = $('#MultipleModalForm');
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: form.attr('method'),
+                        data: form.serialize(),
+                        success: function (data) {
+                            if (data.success) {
+                                form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>');
+                                form.find('input[name=due_date]').val('');
+                                table.column(0).checkboxes.deselect();
+                                table.draw();
+                            } else {
+                                $.each(data.errors, function (input_name, input_error) {
+                                    form.find('input[name=' + input_name + ']').addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
+                                });
+                            }
+                        }
+                    });
+
+                });
+
+                function resetAssignFormAlert() {
+                    var form = $('#MultipleModalForm');
+                    $(".alert-success").remove();
+                    $(".text-danger").remove();
+                    form.find("input").removeClass('is-invalid');
+                }
+
+                ////// TEST SEARCH
+                // // rule_reference search helper
+                // $("#filter_tasks").keyup(throttle(function () {
+                //
+                //     var filterForm = $('#FilterModalForm');
+                //
+                //     var rule_reference = $(this).val();
+                //
+                //
+                //
+                //        filterForm.find('input[name=rule_reference]').val(rule_reference);
+                //
+                //         table.draw();
+                //
+                //
+                // }));
+                //
+                //
+                // // throttle search
+                // function throttle(f, delay) {
+                //     var timer = null;
+                //     return function () {
+                //         var context = this, args = arguments;
+                //         clearTimeout(timer);
+                //         timer = window.setTimeout(function () {
+                //                 f.apply(context, args);
+                //             },
+                //             delay || 1000);
+                //     };
+                // }
 
 
             });// end function
