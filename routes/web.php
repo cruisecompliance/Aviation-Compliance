@@ -65,7 +65,7 @@ Route::namespace('Components')->middleware('auth')->group(function () {
         // Flow Filter
         Route::get('/flows/{flow?}/filter/show', 'FilterController@showFilterForm')->name('components.flows.filters.show');
         Route::post('/flows/{flow}/filter/store', 'FilterController@store')->name('components.flows.filters.store');
-        Route::post('/flows/{flow?}/filter/search', 'FilterController@search')->name('components.flows.filters.search');
+//        Route::post('/flows/{flow?}/filter/search', 'FilterController@search')->name('components.flows.filters.search');
 
         // Flow Calendar
         Route::get('/calendar/{hash}', 'CalendarController@index')->name('components.flows.calendar.index');

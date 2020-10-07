@@ -123,8 +123,8 @@
 
             $(function () {
 
-                // filter form data (for datatable)
-                var filterForm = $('#FilterModalForm');
+                // filter modal form data (for datatable)
+                var filterModalForm = $('#FilterModalForm');
 
                 // dataTable list
                 var table = $('#basic-datatable').DataTable({
@@ -134,10 +134,11 @@
                         url: "{{ route('admin.flows.table.datatable', $flow) }}",
                         type: 'POST',
                         data: function (d) {
-                            d.rule_reference = filterForm.find('input[name=rule_reference]').val();
-                            d.rule_section = filterForm.find('input[name=rule_section]').val();
-                            d.assignee = filterForm.find('input[name=assignee]').val();
-                            d.status = filterForm.find('input[name=status]').val();
+                            // set data from filter modal form (save form)
+                            d.rule_reference = filterModalForm.find('input[name=rule_reference]').val();
+                            d.rule_section = filterModalForm.find('input[name=rule_section]').val();
+                            d.assignee = filterModalForm.find('input[name=assignee]').val();
+                            d.status = filterModalForm.find('input[name=status]').val();
                         }
                     },
                     columnDefs: [
@@ -278,38 +279,6 @@
                     $(".text-danger").remove();
                     form.find("input").removeClass('is-invalid');
                 }
-
-                ////// TEST SEARCH
-                // // rule_reference search helper
-                // $("#filter_tasks").keyup(throttle(function () {
-                //
-                //     var filterForm = $('#FilterModalForm');
-                //
-                //     var rule_reference = $(this).val();
-                //
-                //
-                //
-                //        filterForm.find('input[name=rule_reference]').val(rule_reference);
-                //
-                //         table.draw();
-                //
-                //
-                // }));
-                //
-                //
-                // // throttle search
-                // function throttle(f, delay) {
-                //     var timer = null;
-                //     return function () {
-                //         var context = this, args = arguments;
-                //         clearTimeout(timer);
-                //         timer = window.setTimeout(function () {
-                //                 f.apply(context, args);
-                //             },
-                //             delay || 1000);
-                //     };
-                // }
-
 
             });// end function
 

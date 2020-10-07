@@ -142,7 +142,8 @@
 
             $(function () {
 
-                var filterForm = $('#FilterModalForm');
+                // filter modal form data (for datatable)
+                var filterModalForm = $('#FilterModalForm');
 
                 // dataTable list
                 var table = $('#basic-datatable').DataTable({
@@ -152,10 +153,11 @@
                         url: "{{ route('user.flows.table.datatable') }}",
                         type: 'POST',
                         data: function (d) {
-                            d.rule_reference = filterForm.find('input[name=rule_reference]').val();
-                            d.rule_section = filterForm.find('input[name=rule_section]').val();
-                            d.assignee = filterForm.find('input[name=assignee]').val();
-                            d.status = filterForm.find('input[name=status]').val();
+                            // set data from filter modal form (save form)
+                            d.rule_reference = filterModalForm.find('input[name=rule_reference]').val();
+                            d.rule_section = filterModalForm.find('input[name=rule_section]').val();
+                            d.assignee = filterModalForm.find('input[name=assignee]').val();
+                            d.status = filterModalForm.find('input[name=status]').val();
                         }
                     },
 

@@ -28,8 +28,8 @@ class FilterController extends Controller
                 $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
             }
 
-            // get rule references of flow
-            $tasks = $flow->flowData->pluck('rule_reference');
+//            // get rule references of flow
+//            $tasks = $flow->flowData->pluck('rule_reference');
 
             // get rule sections of flow
             $sections = $flow->flowData->unique('rule_section')->sortBy('rule_section')->pluck('rule_section');
@@ -53,7 +53,7 @@ class FilterController extends Controller
             return response()->json([
                 'success' => true,
                 'filters' => $filters,
-                'tasks' => $tasks,
+//                'tasks' => $tasks,
                 'sections' => $sections,
                 'users' => $users,
                 'kanbanStatuses' => $kanbanStatuses,
@@ -105,25 +105,32 @@ class FilterController extends Controller
         // return redirect("$request->route?$filter->params");
     }
 
-    public function search(Flow $flow, Request $request)
-    {
-
-        // get flow (if flow !empty - filter in admin page (SME) else filter in company page)
-        if (empty($flow)) {
-            $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
-        }
-
-        // get rule references of flow
-//        $tasks = $flow->flowData->pluck('rule_reference');
-        $rule_reference = $flow->flowData()
-            ->where('rule_reference', 'like', "%{$request->rule_reference}%")
-            ->get()
-            ->pluck('rule_reference');
-
-        return response()->json([
-            'success' => true,
-            'tasks' => $rule_reference,
-        ], 200);
-    }
+//    /**
+//     *  Search Rule Reference (helper div block in filter)
+//     *
+//     * @param Flow $flow
+//     * @param Request $request
+//     * @return \Illuminate\Http\JsonResponse
+//     */
+//    public function search(Flow $flow, Request $request)
+//    {
+//
+//        // get flow (if flow !empty - filter in admin page (SME) else filter in company page)
+//        if (empty($flow)) {
+//            $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
+//        }
+//
+//        // get rule references of flow
+////        $tasks = $flow->flowData->pluck('rule_reference');
+//        $rule_reference = $flow->flowData()
+//            ->where('rule_reference', 'like', "%{$request->rule_reference}%")
+//            ->get()
+//            ->pluck('rule_reference');
+//
+//        return response()->json([
+//            'success' => true,
+//            'tasks' => $rule_reference,
+//        ], 200);
+//    }
 
 }
