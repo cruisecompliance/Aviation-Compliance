@@ -33,15 +33,8 @@
                 <!-- page content -->
 
                 <!-- toolbar -->
-                <div class="row mb-2">
-                    <div class="col-8">
-                        @include('components.flows._filter')
-                    </div>
-                    <div class="col-4 pl-3 text-right">
-                        @include('components.flows._iCal')
-                    </div>
-                </div>
-                <!-- toolbar -->
+                @include('components.flows._toolbar')
+                <!-- /toolbar -->
 
                 <!-- kanban board -->
                 <div class="container-fluid overflow-auto">
