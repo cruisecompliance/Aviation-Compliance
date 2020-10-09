@@ -25,19 +25,19 @@ class CreateFlowsDataTable extends Migration
 
             // European Rule
             $table->integer('rule_section')->unsigned();
-            $table->string('rule_group');
-            $table->string('rule_reference');
-            $table->string('rule_title')->nullable();
-            $table->string('rule_manual_reference')->nullable();
-            $table->string('rule_chapter')->nullable();
+            $table->string('rule_group', 200);
+            $table->string('rule_reference', 200);
+            $table->string('rule_title', 200)->nullable();
+            $table->string('rule_manual_reference',200)->nullable();
+            $table->string('rule_chapter', 200)->nullable();
 
             // Company Structure
-            $table->string('company_manual')->nullable();
-            $table->string('company_chapter')->nullable();
+            $table->string('company_manual', 200)->nullable();
+            $table->string('company_chapter', 200)->nullable();
 
             // Audit Structure
-            $table->string('frequency')->nullable();
-            $table->string('month_quarter')->nullable();
+            $table->string('frequency', 200)->nullable();
+            $table->string('month_quarter')->nullable(); // ToDO Date format
 
             $table->foreignId('auditor_id')->nullable();
             $table->foreign('auditor_id')->references('id')->on('users')->onDelete('set null');
@@ -46,25 +46,25 @@ class CreateFlowsDataTable extends Migration
 
 
             // Auditors Input
-            $table->string('questions')->nullable();
-            $table->string('finding')->nullable();
-            $table->string('deviation_statement')->nullable();
-            $table->string('evidence_reference')->nullable();
-            $table->string('deviation_level')->nullable();
-            $table->string('safety_level_before_action')->nullable();
+            $table->text('questions')->nullable();
+            $table->text('finding')->nullable();
+            $table->text('deviation_statement')->nullable();
+            $table->text('evidence_reference')->nullable();
+            $table->text('deviation_level')->nullable();
+            $table->text('safety_level_before_action')->nullable();
             $table->date('due_date')->nullable();
-            $table->string('repetitive_finding_ref_number')->nullable();
+            $table->text('repetitive_finding_ref_number')->nullable();
 
             // Auditee Input (NP)
             $table->foreignId('investigator_id')->nullable();
             $table->foreign('investigator_id')->references('id')->on('users')->onDelete('set null');
 
-            $table->string('corrections')->nullable();
-            $table->string('rootcause')->nullable();
-            $table->string('corrective_actions_plan')->nullable();
-            $table->string('preventive_actions')->nullable();
-            $table->string('action_implemented_evidence')->nullable();
-            $table->string('safety_level_after_action')->nullable();
+            $table->text('corrections')->nullable();
+            $table->text('rootcause')->nullable();
+            $table->text('corrective_actions_plan')->nullable();
+            $table->text('preventive_actions')->nullable();
+            $table->text('action_implemented_evidence')->nullable();
+            $table->text('safety_level_after_action')->nullable();
             $table->date('effectiveness_review_date')->nullable();
             $table->date('response_date')->nullable();
 
