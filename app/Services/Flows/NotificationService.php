@@ -2,6 +2,7 @@
 
 namespace App\Services\Flows;
 
+use App\Enums\RoleName;
 use App\Models\Flow;
 use App\Models\FlowsData;
 use App\User;
@@ -78,23 +79,30 @@ class NotificationService
     }
 
     /**
+     * Get company user for notification (without role SME)
+     *
      * @param FlowsData $task
      * @param $company_id
      * @return object
      */
     private function getNotificationUsers(FlowsData $task, $company_id): object
     {
-        $accountableManagers = User::AM()->active()->whereCompanyId($company_id)->get();
-        $complianceMonitoringManagers = User::CMM()->active()->whereCompanyId($company_id)->get();
+        // get task owner
+        $notificationUsers[] = $task->owner;
 
-        $notificationUsers[] = $task->auditor;
-        $notificationUsers[] = $task->auditee;
-        $notificationUsers[] = $task->investigator;
+        // get AM and CMM users of company
+        $users = User::whereCompanyId($company_id)
+            ->role([
+                RoleName::ACCOUNTABLE_MANAGER,
+                RoleName::COMPLIANCE_MONITORING_MANAGER,
+            ])
+            ->active()
+            ->get();
 
-        $notificationUsers = collect($notificationUsers)->merge($accountableManagers)->unique()->filter();
-        $notificationUsers = collect($notificationUsers)->merge($accountableManagers)->unique()->filter();
-        $notificationUsers = collect($notificationUsers)->merge($complianceMonitoringManagers)->unique()->filter();
+        // merge users list
+        $notificationUsers = collect($notificationUsers)->merge($users)->unique()->filter();
 
+        // return users list
         return $notificationUsers;
     }
 
