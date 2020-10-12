@@ -7,6 +7,7 @@ use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Flows\MultipleAssignRequest;
 use App\Http\Requests\Flows\RequirementRequest;
+use App\Models\Comment;
 use App\Models\Flow;
 use App\Models\FlowsData;
 use App\Services\Flows\NotificationService;
@@ -92,6 +93,19 @@ class RequirementController extends Controller
 
             // send teams notification
             // app(NotificationService::class)->sendTeamsNotification($flow, $task);
+
+            // create comment and send notification (if comment field is not empty)
+            if(!empty($request->comment)){
+                // save comment
+                $comment = Comment::create([
+                    'message' => $request->comment,
+                    'rule_id' => $task->id,
+                    'user_id' => Auth::user()->id,
+                ]);
+
+                // send email notification
+                app(NotificationService::class)->sendAddTaskCommentkNotification($flow, $task, $comment, Auth::user());
+            }
 
             // return json response with data
             return response()->json([

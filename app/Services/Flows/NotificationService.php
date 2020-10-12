@@ -3,6 +3,7 @@
 namespace App\Services\Flows;
 
 use App\Enums\RoleName;
+use App\Models\Comment;
 use App\Models\Flow;
 use App\Models\FlowsData;
 use App\User;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\Flows\EditTaskMailNotification;
 use App\Notifications\Flows\EditTaskTeamsNotification;
 use App\Notifications\Flows\TaskDeadlineNotification;
+use App\Notifications\Flows\AddTaskCommentMailNotification;
 
 
 class NotificationService
@@ -24,6 +26,7 @@ class NotificationService
     // entityId = tabID
 
     /**
+     * Send Notification in Email - Task Deadline
      *
      */
     public function sendTaskDeadlineEmailNotification(): void
@@ -40,13 +43,15 @@ class NotificationService
             // send email notification
             foreach ($notificationUsers as $user) {
                 $user->notify(new TaskDeadlineNotification($task->rule_reference, $task->due_date->format('d.m.Y'), $user->name));
-                sleep(2);
+//                sleep(2);
             }
 
         }
     }
 
     /**
+     * Send Notification in Email - Edit Task
+     *
      * @param Flow $flow
      * @param FlowsData $task
      * @param User $user (who change task)
@@ -63,6 +68,8 @@ class NotificationService
 
 
     /**
+     * Send Notification in MS Teams - Edit Task
+     *
      * @param Flow $flow
      * @param FlowsData $task
      * @param User $user
@@ -78,8 +85,27 @@ class NotificationService
 
     }
 
+
+    public function sendAddTaskCommentkNotification(Flow $flow, FlowsData $task, Comment $comment, User $user)
+    {
+        // get all users of company (without role SME)
+        $notificationUsers = User::whereCompanyId($flow->company_id)
+            ->role([
+                RoleName::ACCOUNTABLE_MANAGER,
+                RoleName::COMPLIANCE_MONITORING_MANAGER,
+                RoleName::AUDITOR,
+                RoleName::AUDITEE,
+                RoleName::INVESTIGATOR,
+            ])
+            ->active()
+            ->get();
+
+        // send notification to email
+        Notification::send($notificationUsers, new AddTaskCommentMailNotification($task->rule_reference, $user->name, $comment->message));
+    }
+
     /**
-     * Get company user for notification (without role SME)
+     * Get company user for EditFormNotification
      *
      * @param FlowsData $task
      * @param $company_id

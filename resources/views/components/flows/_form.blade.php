@@ -155,6 +155,13 @@
     </div>
     <!-- /status -->
 
+    <!-- comment -->
+    <div class="form-group">
+        <label for="comment" class="control-label">Comment</label>
+        <textarea class="form-control" id="comment" name="comment" rows="3" placeholder="Your comment...."></textarea>
+    </div>
+    <!-- /comment -->
+
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

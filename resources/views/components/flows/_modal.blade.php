@@ -112,6 +112,7 @@
                             if (data.success) {
                                 getModalData(); // reload form data
                                 form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>'); // add success massage
+                                form.find('textarea[name=comment]').val(''); // reset textarea message
                                 $('#basic-datatable').DataTable().draw(); // draw in datatable
                                 $('#load').load(location.href + ' #load'); // reload kanban board
                             } else {

@@ -56,7 +56,7 @@ return [
 
     'prefix' => env(
         'HORIZON_PREFIX',
-        Str::slug(env('APP_NAME', 'laravel'), '_').'_horizon:'
+        Str::slug(env('APP_NAME', 'laravel'), '_') . '_horizon:'
     ),
 
     /*
@@ -170,18 +170,39 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'simple',
-                'processes' => 10,
-                'tries' => 1,
+                'processes' => 3,
+                'tries' => 3,
+                'delay' => 3,
+            ],
+            'supervisor-mail' => [
+                'connection' => 'redis',
+                'queue' => ['mail'],
+                'balance' => 'simple',
+                'processes' => 3,
+                'tries' => 3,
+//                'timeout' => 3,
+                'delay' => 3,
             ],
         ],
 
         'local' => [
-            'supervisor-1' => [
+            'supervisor-default' => [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'simple',
                 'processes' => 3,
-                'tries' => 1,
+                'tries' => 3,
+//                'timeout' => 3,
+                'delay' => 3,
+            ],
+            'supervisor-mail' => [
+                'connection' => 'redis',
+                'queue' => ['mail'],
+                'balance' => 'simple',
+                'processes' => 1,
+                'tries' => 3,
+//                'timeout' => 3,
+                'delay' => 3,
             ],
         ],
     ],

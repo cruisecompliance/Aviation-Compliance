@@ -25,6 +25,9 @@ class EditTaskTeamsNotification extends Notification implements ShouldQueue
      */
     public function __construct(string $rule_reference, string $editor_name)
     {
+//        $this->delay = now()->addSeconds(2);
+//        $this->queue = '';
+
         $this->rule_reference = $rule_reference;
         $this->editor_name = $editor_name;
     }

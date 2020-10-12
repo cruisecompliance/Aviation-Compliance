@@ -7,29 +7,29 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TaskDeadlineNotification extends Notification implements ShouldQueue
+class AddTaskCommentMailNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
     private $rule_reference;
-    private $due_date;
-    private $user_name;
+    private $comment_author;
+    private $message;
 
     /**
      * Create a new notification instance.
      *
      * @param string $rule_reference
-     * @param string $due_date
-     * @param string $user_name
+     * @param string $comment_author
+     * @param string $message
      */
-    public function __construct(string $rule_reference, string $due_date, string $user_name)
+    public function __construct(string $rule_reference, string $comment_author, string $message)
     {
 //        $this->delay = now()->addSeconds(2);
         $this->queue = 'mail';
 
         $this->rule_reference = $rule_reference;
-        $this->due_date = $due_date;
-        $this->user_name = $user_name;
+        $this->comment_author = $comment_author;
+        $this->message = $message;
     }
 
     /**
@@ -52,9 +52,10 @@ class TaskDeadlineNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Task Reminder Notification')
-            ->greeting("Hi, $this->user_name")
-            ->line("The due-date for $this->rule_reference expires on $this->due_date")
+            ->subject("New comment: $this->rule_reference")
+            ->greeting("New comment: $this->rule_reference")
+            ->line("$this->comment_author added comments.")
+            ->line("$this->message")
             ->action('View', url("/user/flows#$this->rule_reference"))
             ->line('Thank you for using our application!');
     }

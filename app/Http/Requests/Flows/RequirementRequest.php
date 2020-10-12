@@ -79,6 +79,7 @@ class RequirementRequest extends FormRequest
             'closed_date' => 'sometimes|nullable|date_format:d.m.Y H:i:s', // date
             'task_owner' => 'required|nullable|numeric',
             'task_status' => 'required|string|in:' . $task_statuses,
+            'comment' => 'nullable|string|max:500' // comment textarea in task form
         ];
     }
 }
