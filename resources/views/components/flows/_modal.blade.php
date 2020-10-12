@@ -205,9 +205,10 @@
 
                         }
 
-                        // statuses role permission
+                        // check if role has permission to change/read task (flowData)
                         if (!data.status_permission) {
                             $('#statuses-wrapper').hide();
+                            $("#ItemForm :input").attr("disabled", true);
                         } else {
                             $('#statuses-wrapper').show();
                         }

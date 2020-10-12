@@ -41,7 +41,7 @@ class RequirementController extends Controller
                 // get role status
                 $roleStatuses = RequrementStatus::getRoleStatuses(Auth::user()->roles()->first()->name);
 
-                // check if role has permission to change status
+                // check if role has permission to change status and edit form data
                 $statuses_permission = in_array($flowData->task_status, $roleStatuses);
             }
 
