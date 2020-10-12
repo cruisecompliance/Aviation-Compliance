@@ -100,8 +100,6 @@ class FlowsData extends Model
             $task->company_chapter = $request->company_chapter;
             $task->frequency = $request->frequency;
             $task->month_quarter = $request->month_quarter;
-            $task->auditor_id = $request->auditor_id;
-            $task->auditee_id = $request->auditee_id;
             $task->due_date = $request->due_date;
             $task->task_owner = $request->task_owner;
             $task->task_status = $request->task_status;
@@ -130,7 +128,6 @@ class FlowsData extends Model
         // update task data if Auditee or SME
         if ($roleName == RoleName::AUDITEE || $roleName == RoleName::SME) {
             $task->repetitive_finding_ref_number = $request->repetitive_finding_ref_number;
-            $task->investigator_id = $request->investigator_id;
             $task->corrections = $request->corrections;
             $task->rootcause = $request->rootcause;
             $task->corrective_actions_plan = $request->corrective_actions_plan;
@@ -147,7 +144,6 @@ class FlowsData extends Model
             $task->safety_level_before_action = $request->safety_level_before_action;
             $task->due_date = $request->due_date;
             $task->repetitive_finding_ref_number = $request->repetitive_finding_ref_number;
-            $task->investigator_id = $request->investigator_id;
             $task->corrections = $request->corrections;
             $task->rootcause = $request->rootcause;
             $task->corrective_actions_plan = $request->corrective_actions_plan;
