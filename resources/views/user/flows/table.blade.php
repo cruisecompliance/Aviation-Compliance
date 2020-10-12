@@ -160,7 +160,7 @@
                         {
                             targets: 0,
                             checkboxes: {
-                                selectRow: true
+                                selectRow: false
                             },
                         }
                     ],
