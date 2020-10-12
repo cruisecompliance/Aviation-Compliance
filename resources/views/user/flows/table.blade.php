@@ -133,10 +133,10 @@
     @push('scripts')
         <script type="text/javascript">
 
-            $(function () {
+            $(document).ready(function () {
 
-                // filter modal form data (for datatable)
-                var filterModalForm = $('#FilterModalForm');
+                // filter form (for datatable)
+                var filterForm = $('#filterForm');
 
                 // dataTable list
                 var table = $('#basic-datatable').DataTable({
@@ -147,10 +147,10 @@
                         type: 'POST',
                         data: function (d) {
                             // set data from filter modal form (save form)
-                            d.rule_reference = filterModalForm.find('input[name=rule_reference]').val();
-                            d.rule_section = filterModalForm.find('input[name=rule_section]').val();
-                            d.assignee = filterModalForm.find('input[name=assignee]').val();
-                            d.status = filterModalForm.find('input[name=status]').val();
+                            d.rule_reference = filterForm.find('input[name=rule_reference]').val();
+                            d.rule_section = filterForm.find('select[name=rule_section]').val();
+                            d.assignee = filterForm.find('select[name=assignee]').val();
+                            d.status = filterForm.find('select[name=status]').val();
                         }
                     },
 

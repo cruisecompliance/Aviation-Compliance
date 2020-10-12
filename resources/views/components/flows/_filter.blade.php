@@ -17,7 +17,7 @@
             {{--                <option></option>--}}
             {{--            </select>--}}
 
-            <input type="text" id="filter_tasks" class="form-control" name="rule_reference" value="" placeholder="Rule Reference" autocomplete="off">
+            <input type="text" id="filter_tasks" class="form-control" name="rule_reference" placeholder="Rule Reference" autocomplete="off">
             {{--            <div id="tasks_list" style="display: none"></div>--}}
 
             {{--                        <style>--}}
@@ -45,17 +45,17 @@
 
         </div>
         <div class="form-group p-1">
-            <select name="rule_section" id="filter_sections" class="form-control" data-toggle="select2" data-placeholder="Rule Section" onchange="submit()">
+            <select name="rule_section" id="filter_sections" class="form-control" data-toggle="select2" data-placeholder="Rule Section">
                 <option></option>
             </select>
         </div>
         <div class="form-group p-1">
-            <select name="assignee" id="filter_users" class="form-control" data-toggle="select2" data-placeholder="Assignee" onchange="submit()">
+            <select name="assignee" id="filter_users" class="form-control" data-toggle="select2" data-placeholder="Assignee">
                 <option></option>
             </select>
         </div>
         <div class="form-group p-1">
-            <select name="status" id="filter_statuses" class="form-control" data-toggle="select2" data-placeholder="Status" onchange="submit()">
+            <select name="status" id="filter_statuses" class="form-control" data-toggle="select2" data-placeholder="Status">
                 <option></option>
             </select>
         </div>
@@ -82,14 +82,13 @@
                         <label class="control-label">Filter name*</label>
                         <input type="text" id="filter_name" class="form-control" name="name" value="" required>
                         <input type="text" name="route" value="{{ route(Route::currentRouteName(), $flow->id) }}" hidden>
-{{--                        <input type="text" name="rule_reference" value="" hidden>--}}
-{{--                        <input type="text" name="rule_section" value="" hidden>--}}
-{{--                        <input type="text" name="assignee" value="" hidden>--}}
-{{--                        <input type="text" name="status" value="" hidden>--}}
-
-                        @foreach(request()->query() as $query => $value)
-                            <input type="text" name="{{ $query }}" value="{{ $value }}" hidden>
-                        @endforeach
+                        <input type="text" name="rule_reference" value="" hidden>
+                        <input type="text" name="rule_section" value="" hidden>
+                        <input type="text" name="assignee" value="" hidden>
+                        <input type="text" name="status" value="" hidden>
+{{--                        @foreach(request()->query() as $query => $value)--}}
+{{--                            <input type="text" name="{{ $query }}" value="{{ $value }}" hidden>--}}
+{{--                        @endforeach--}}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -106,7 +105,6 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-
             // get filter form data
             $.get("{{ route('components.flows.filters.show', $flow->id) }}", function (data) {
 
@@ -131,6 +129,7 @@
                 });
 
                 // assignee input
+                console.table(data.users);
                 $.each(data.users, function (key, user) {
                     $('#filter_users').append('<option value="' + user.id + '">' + user.name + '</option>');
                 });
@@ -152,7 +151,6 @@
                 $('#filter_list a[title="{{ request()->filter_name }}"]').addClass('active');
 
                 // rule_reference selected option
-                {{--$('#filter_tasks option[value="{{ request()->rule_reference }}"]').prop('selected', true);--}}
                 $('#filter_tasks').val("{{ request()->rule_reference }}");
 
                 // rule_section selected option
@@ -164,6 +162,8 @@
                 // statuses selected option
                 $('#filter_statuses option[value="{{ request()->status }}"]').prop('selected', true);
 
+                // draw dataTable
+                $('#basic-datatable').DataTable().draw();
 
             });
 
@@ -174,33 +174,17 @@
             });
 
             // rule_reference (search)
-            $('#filter_tasks').keyup(throttle(function () {
+            $('#filter_tasks').keyup(throttle(filterSearch));
 
-                var rule_reference = $(this).val();
-                var route = "{{ Route::currentRouteName() }}";
-                var url = "{{ request()->url() }}" + '?rule_reference=' + rule_reference;
+            // rule section (search)
+            $('#filter_sections').change(throttle(filterSearch));
 
-                // reload (kanban and table)
-                if (route.indexOf('kanban') > -1) {
-                    $('#load').load(url + ' #load');
-                } else {
-                    $('#FilterModalForm').find('input[name=rule_reference]').val(rule_reference);
-                    $('#basic-datatable').DataTable().draw();
-                }
+            // assignee (search)
+            $('#filter_users').change(throttle(filterSearch));
 
-            }));
+            // status (search)
+            $('#filter_statuses').change(throttle(filterSearch));
 
-            // throttle search
-            function throttle(f, delay) {
-                var timer = null;
-                return function () {
-                    var context = this, args = arguments;
-                    clearTimeout(timer);
-                    timer = window.setTimeout(function () {
-                        f.apply(context, args);
-                    }, delay || 1000);
-                };
-            }
 
             {{--$('#filter_tasks').focusout(function () {--}}
             {{--    $('#tasks_list').hide();--}}
@@ -209,7 +193,20 @@
             // show filter modal form
             $("#show-filter-modal").click(function () {
                 resetForm();
-                $('#filter_name').val('');
+
+                // form for save filter
+                var form = $('#FilterModalForm');
+
+                // reset form for save filter
+                form[0].reset();
+
+                var filterFormInputs = $('#filterForm').serializeArray();
+
+                // press data in form for save filter
+                $.each(filterFormInputs, function( key, value ) {
+                    form.find('input[name=' + value.name + ']').val(value.value);
+                });
+
                 // var filterModalForm = $('#filter_name');
                 // filterModalForm.find('input[name=filter_name]').empty();
                 $('#filter-modal').modal('show');
@@ -254,10 +251,49 @@
             form.find("textarea").removeClass('is-invalid');
         }
 
-        // select submit (on change)
-        function submit() {
-            $('#filterForm').submit();
+        // // select submit (on change)
+        // function submit() {
+        //     $('#filterForm').submit();
+        // }
+
+        function filterSearch() {
+
+            var form = $('#filterForm');
+
+            var formInputs = form.serializeArray();
+
+            var firstFormInput = formInputs.shift();
+
+            /////////
+            // var rule_reference = $(this).val();
+            var route = "{{ Route::currentRouteName() }}";
+            var url = "{{ request()->url() }}" + '?' + firstFormInput.name + '=' + firstFormInput.value;
+
+            $.each(formInputs, function( key, value ) {
+                url = url + '&' + value.name + '=' + value.value;
+            });
+
+            // reload (kanban and table)
+            if (route.indexOf('kanban') > -1) {
+                $('#load').load(url + ' #load');
+            } else {
+                $('#basic-datatable').DataTable().draw();
+            }
+
         }
+
+        // throttle search
+        function throttle(f, delay) {
+            var timer = null;
+            return function () {
+                var context = this, args = arguments;
+                clearTimeout(timer);
+                timer = window.setTimeout(function () {
+                    f.apply(context, args);
+                }, delay || 1000);
+            };
+        }
+
 
     </script>
 @endpush
