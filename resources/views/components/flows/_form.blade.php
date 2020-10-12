@@ -55,18 +55,6 @@
         <label for="month_quarter" class="control-label">Month / Quarter</label>
         <input type="text" class="form-control" id="month_quarter" name="month_quarter" value="" @cannot(PermissionName::EDIT_MONTH_QUARTER) readonly @endcan>
     </div>
-    <div class="form-group">
-        <label for="assigned_auditor" class="control-label">Assigned Auditor</label>
-        <select name="auditor_id" id="assigned_auditor" class="form-control" @cannot(PermissionName::EDIT_ASSIGNED_AUDITOR) readonly @endcan>
-            <option value="">...</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="assigned_auditee" class="control-label">Assigned Auditee</label>
-        <select name="auditee_id" id="assigned_auditee" class="form-control" @cannot(PermissionName::EDIT_ASSIGNED_AUDITEE) readonly @endcan>
-            <option value="">...</option>
-        </select>
-    </div>
 
     <h2>Auditors Input</h2>
     <div class="form-group">
@@ -103,12 +91,6 @@
     </div>
 
     <h2>Auditee Input (NP)</h2>
-    <div class="form-group">
-        <label for="assigned_investigator" class="control-label">Assigned Investigator</label>
-        <select name="investigator_id" id="assigned_investigator" class="form-control" @cannot(PermissionName::EDIT_ASSIGNED_INVESTIGATOR) readonly @endcan>
-            <option value="">...</option>
-        </select>
-    </div>
     <div class="form-group">
         <label for="corrections" class="control-label">Correction(s)</label>
         <input type="text" class="form-control" id="corrections" name="corrections" value="" @cannot(PermissionName::EDIT_CORRECTIONS) readonly @endcan>
@@ -155,6 +137,13 @@
     <div class="form-group">
         <label for="closed_date" class="control-label">Closed date</label>
         <input type="text" class="form-control picker" id="closed_date" name="closed_date" value="" placeholder="dd.mm.yyyy" @cannot(PermissionName::EDIT_CLOSED_DATE) readonly @endcan>
+    </div>
+
+    <div class="form-group">
+        <label for="task_owner" class="control-label">Task Owner</label>
+        <select name="task_owner" id="task_owner" class="form-control">
+            <option value="">...</option>
+        </select>
     </div>
 
     <!-- status -->

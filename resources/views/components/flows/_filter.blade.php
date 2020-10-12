@@ -129,7 +129,6 @@
                 });
 
                 // assignee input
-                console.table(data.users);
                 $.each(data.users, function (key, user) {
                     $('#filter_users').append('<option value="' + user.id + '">' + user.name + '</option>');
                 });

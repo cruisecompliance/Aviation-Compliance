@@ -60,6 +60,7 @@
                                             <th scope="col" class="align-middle">European rule <br>IR/AMC/GM</th>
                                             <th scope="col" class="align-middle">Rule Reference</th>
                                             <th scope="col" class="align-middle">Status</th>
+                                            <th scope="col" class="align-middle">Task Owner</th>
                                             <th scope="col" class="align-middle">Rule Title</th>
                                             <th scope="col" class="align-middle">AMC3 ORO.MLR.100 Manual Reference</th>
                                             <th scope="col" class="align-middle">AMC3 ORO.MLR.100 Chapter</th>
@@ -67,8 +68,6 @@
                                             <th scope="col" class="align-middle">Company Chapter</th>
                                             <th scope="col" class="align-middle">Frequency</th>
                                             <th scope="col" class="align-middle">Month Quarter</th>
-                                            <th scope="col" class="align-middle">Assigned Auditor</th>
-                                            <th scope="col" class="align-middle">Assigned Auditee</th>
                                             <th scope="col" class="align-middle">Comments / Questions</th>
                                             <th scope="col" class="align-middle">Finding / Observation</th>
                                             <th scope="col" class="align-middle">Deviation Statement</th>
@@ -77,7 +76,6 @@
                                             <th scope="col" class="align-middle">Safety level before action</th>
                                             <th scope="col" class="align-middle">Due-Date</th>
                                             <th scope="col" class="align-middle">Repetitive Finding ref Number</th>
-                                            <th scope="col" class="align-middle">Assigned Investigator</th>
                                             <th scope="col" class="align-middle">Correction(s)</th>
                                             <th scope="col" class="align-middle">Rootcause</th>
                                             <th scope="col" class="align-middle">Corrective Action(s) Plan</th>
@@ -152,6 +150,7 @@
                         {data: 'rule_group', name: 'rule_group'},
                         {data: 'rule_reference', name: 'rule_reference'},
                         {data: 'task_status', name: 'task_status'},
+                        {data: 'task_owner', name: 'owner.name'},
                         {data: 'rule_title', name: 'rule_title'},
                         {data: 'rule_manual_reference', name: 'rule_manual_reference'},
                         {data: 'rule_chapter', name: 'rule_chapter'},
@@ -159,8 +158,6 @@
                         {data: 'company_chapter', name: 'company_chapter'},
                         {data: 'frequency', name: 'frequency'},
                         {data: 'month_quarter', name: 'month_quarter'},
-                        {data: 'auditor', name: 'auditor.name'},
-                        {data: 'auditee', name: 'auditee.name'},
                         {data: 'questions', name: 'questions'},
                         {data: 'finding', name: 'finding'},
                         {data: 'deviation_statement', name: 'deviation_statement'},
@@ -169,7 +166,6 @@
                         {data: 'safety_level_before_action', name: 'safety_level_before_action'},
                         {data: 'due_date', name: 'due_date'},
                         {data: 'repetitive_finding_ref_number', name: 'repetitive_finding_ref_number'},
-                        {data: 'investigator', name: 'investigator.name'},
                         {data: 'corrections', name: 'corrections'},
                         {data: 'rootcause', name: 'rootcause'},
                         {data: 'corrective_actions_plan', name: 'corrective_actions_plan'},

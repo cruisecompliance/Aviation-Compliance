@@ -29,9 +29,7 @@ class KanbanController extends Controller
 
             $queryKanbanTasks = FlowsData::where('flow_id', $flow->id)
                 ->whereNotIn('task_status', [RequrementStatus::CMM_Backlog])
-                ->with('auditor')
-                ->with('auditee')
-                ->with('investigator');
+                ->with('owner');
 
             if (!empty($request->rule_reference)) {
 //                $queryKanbanTasks->where('rule_reference', $request->rule_reference);

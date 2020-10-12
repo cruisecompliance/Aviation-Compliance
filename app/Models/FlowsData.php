@@ -51,20 +51,26 @@ class FlowsData extends Model
         return $this->belongsTo(Flow::class);
     }
 
-    public function auditor()
+    public function owner()
     {
-        return $this->belongsTo(User::class, 'auditor_id', 'id');
+        return $this->belongsTo(User::class, 'task_owner', 'id');
     }
 
-    public function auditee()
-    {
-        return $this->belongsTo(User::class, 'auditee_id', 'id');
-    }
 
-    public function investigator()
-    {
-        return $this->belongsTo(User::class, 'investigator_id', 'id');
-    }
+//    public function auditor()
+//    {
+//        return $this->belongsTo(User::class, 'auditor_id', 'id');
+//    }
+//
+//    public function auditee()
+//    {
+//        return $this->belongsTo(User::class, 'auditee_id', 'id');
+//    }
+//
+//    public function investigator()
+//    {
+//        return $this->belongsTo(User::class, 'investigator_id', 'id');
+//    }
 
     public function comments()
     {
@@ -97,12 +103,14 @@ class FlowsData extends Model
             $task->auditor_id = $request->auditor_id;
             $task->auditee_id = $request->auditee_id;
             $task->due_date = $request->due_date;
+            $task->task_owner = $request->task_owner;
             $task->task_status = $request->task_status;
         }
 
         // update task data if AM or SME
         if ($roleName == RoleName::ACCOUNTABLE_MANAGER || $roleName == RoleName::SME) {
             $task->extension_due_date = $request->extension_due_date;
+            $task->task_owner = $request->task_owner;
             $task->task_status = $request->task_status;
         }
 
@@ -115,6 +123,7 @@ class FlowsData extends Model
             $task->deviation_level = $request->deviation_level;
             $task->safety_level_before_action = $request->safety_level_before_action;
             $task->due_date = $request->due_date;
+            $task->task_owner = $request->task_owner;
             $task->task_status = $request->task_status;
         }
 
@@ -129,6 +138,7 @@ class FlowsData extends Model
             $task->action_implemented_evidence = $request->action_implemented_evidence;
             $task->safety_level_after_action = $request->safety_level_after_action;
             $task->effectiveness_review_date = $request->effectiveness_review_date;
+            $task->task_owner = $request->task_owner;
             $task->task_status = $request->task_status;
         }
 
@@ -143,6 +153,7 @@ class FlowsData extends Model
             $task->corrective_actions_plan = $request->corrective_actions_plan;
             $task->preventive_actions = $request->preventive_actions;
             $task->action_implemented_evidence = $request->action_implemented_evidence;
+            $task->task_owner = $request->task_owner;
             $task->task_status = $request->task_status;
         }
 

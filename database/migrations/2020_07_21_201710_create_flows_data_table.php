@@ -39,12 +39,6 @@ class CreateFlowsDataTable extends Migration
             $table->string('frequency', 200)->nullable();
             $table->string('month_quarter')->nullable(); // ToDO Date format
 
-            $table->foreignId('auditor_id')->nullable();
-            $table->foreign('auditor_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreignId('auditee_id')->nullable();
-            $table->foreign('auditee_id')->references('id')->on('users')->onDelete('set null');
-
-
             // Auditors Input
             $table->text('questions')->nullable();
             $table->text('finding')->nullable();
@@ -56,9 +50,6 @@ class CreateFlowsDataTable extends Migration
             $table->text('repetitive_finding_ref_number')->nullable();
 
             // Auditee Input (NP)
-            $table->foreignId('investigator_id')->nullable();
-            $table->foreign('investigator_id')->references('id')->on('users')->onDelete('set null');
-
             $table->text('corrections')->nullable();
             $table->text('rootcause')->nullable();
             $table->text('corrective_actions_plan')->nullable();
@@ -70,6 +61,9 @@ class CreateFlowsDataTable extends Migration
 
             $table->date('extension_due_date')->nullable();
             $table->dateTime('closed_date')->nullable();
+
+            $table->foreignId('task_owner')->nullable();
+            $table->foreign('task_owner')->references('id')->on('users')->onDelete('set null');
 
             $table->string('task_status')->default(RequrementStatus::CMM_Backlog);
             $table->timestamps();

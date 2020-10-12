@@ -45,10 +45,17 @@ class RequirementController extends Controller
                 $statuses_permission = in_array($flowData->task_status, $roleStatuses);
             }
 
-            // get company users (for select input )
-            $auditors = User::auditors()->active()->whereCompanyId($flow->company_id)->get();
-            $auditees = User::auditees()->active()->whereCompanyId($flow->company_id)->get();
-            $investigators = User::investigators()->active()->whereCompanyId($flow->company_id)->get();
+            // get company users for Task Owner input without role SME
+            $companyUsers = User::whereCompanyId($flow->company_id)
+                ->role([
+                    RoleName::ACCOUNTABLE_MANAGER,
+                    RoleName::COMPLIANCE_MONITORING_MANAGER,
+                    RoleName::AUDITOR,
+                    RoleName::AUDITEE,
+                    RoleName::INVESTIGATOR,
+                ])
+                ->active()
+                ->get();
 
             // return json response with data
             return response()->json([
@@ -56,9 +63,7 @@ class RequirementController extends Controller
                 'resource' => $flowData,
                 'transitions' => $statusTransition,
                 'status_permission' => $statuses_permission,
-                'auditors' => $auditors,
-                'auditees' => $auditees,
-                'investigators' => $investigators,
+                'users' => $companyUsers,
             ], 200);
 
         } catch (Exception $e) {
@@ -128,8 +133,6 @@ class RequirementController extends Controller
             // return response with success data
             return response()->json([
                 'success' => true,
-//                'flow' => $flow,
-//                'request' => $request->all(),
                 'message' => "{$tasks} rows was updated successfully.",
                 'tasks' => $tasks,
             ]);

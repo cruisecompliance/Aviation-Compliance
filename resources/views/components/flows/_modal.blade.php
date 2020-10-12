@@ -210,45 +210,22 @@
                             $('#statuses-wrapper').show();
                         }
 
-                        // auditors input
-                        if (data.auditors) {
+                        // task owner
+                        if (data.users) {
                             // remove option
-                            $('#assigned_auditor').find('option').remove().end().append('<option value="">...</option>').val();
+                            $('#task_owner').find('option').remove().end().append('<option value="">...</option>').val();
                             // append option
-                            $.each(data.auditors, function (key, auditor) {
-                                $('#assigned_auditor').append('<option value="' + auditor.id + '">' + auditor.name + '</option>');
+                            $.each(data.users, function (key, user) {
+                                $('#task_owner').append('<option value="' + user.id + '">' + user.name + '</option>');
                             });
                             // selected option
-                            $('#assigned_auditor option[value="' + data.resource.auditor_id + '"]').prop('selected', true);
+                            $('#task_owner option[value="' + data.resource.task_owner + '"]').prop('selected', true);
                         }
 
-                        // auditee input
-                        if (data.auditees) {
-                            // remove option
-                            $('#assigned_auditee').find('option').remove().end().append('<option value="">...</option>').val();
-                            // append option
-                            $.each(data.auditees, function (key, auditee) {
-                                $('#assigned_auditee').append('<option value="' + auditee.id + '">' + auditee.name + '</option>');
-                            });
-                            // selected option
-                            $('#assigned_auditee option[value="' + data.resource.auditee_id + '"]').prop('selected', true);
-                        }
-
-                        // investigator input
-                        if (data.investigators) {
-                            // $('#assigned_investigator option[value=' + data.investigator.id + ']').prop('selected', true); // form data - selected user company
-                            // remove option
-                            $('#assigned_investigator').find('option').remove().end().append('<option value="">...</option>').val();
-                            // append option
-                            $.each(data.investigators, function (key, investigator) {
-                                $('#assigned_investigator').append('<option value="' + investigator.id + '">' + investigator.name + '</option>');
-                            });
-                            // selected option
-                            $('#assigned_investigator option[value="' + data.resource.investigator_id + '"]').prop('selected', true);
-                        }
-
+                        // get comment for task
                         getComments(); // ToDo
 
+                        // show modal
                         $('#ajaxModel').modal('show');
                     });
                 }

@@ -47,21 +47,13 @@ class TableController extends Controller
         $flow = Flow::whereCompanyId(Auth::user()->company->id)->latest()->first();
 
         $builder = FlowsData::whereFlowId($flow->id)
-            ->with('auditor')
-            ->with('auditee')
-            ->with('investigator')
+            ->with('owner')
             ->select('flows_data.*');
 
         return datatables()->of($builder)
             ->addIndexColumn()
-            ->editColumn('auditor', function (FlowsData $flowsData) {
-                return $flowsData->auditor ? $flowsData->auditor->name : '';
-            })
-            ->editColumn('auditee', function (FlowsData $flowsData) {
-                return $flowsData->auditee ? $flowsData->auditee->name : '';
-            })
-            ->editColumn('investigator', function (FlowsData $flowsData) {
-                return $flowsData->investigator ? $flowsData->investigator->name : '';
+            ->editColumn('task_owner', function (FlowsData $flowsData) {
+                return $flowsData->owner ? $flowsData->owner->name : '';
             })
             ->editColumn('due_date', function (FlowsData $flowsData) {
                 return !empty($flowsData->due_date) ? $flowsData->due_date->format('d.m.Y') : '';

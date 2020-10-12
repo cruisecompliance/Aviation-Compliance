@@ -59,8 +59,6 @@ class RequirementRequest extends FormRequest
             'company_chapter' => 'sometimes|nullable|string|max:500',
             'frequency' => 'sometimes|required|string|in:annual,performance|max:500',
             'month_quarter' => 'sometimes|nullable|string|max:250', // todo change format in date
-            'assigned_auditor' => 'sometimes|nullable|numeric', // assigned
-            'assigned_auditee' => 'sometimes|nullable|numeric', // assigned
             'questions' => 'sometimes|nullable|string|max:3000',
             'finding' => 'sometimes|nullable|string|max:3000',
             'deviation_statement' => 'sometimes|nullable|string|max:3000',
@@ -69,7 +67,6 @@ class RequirementRequest extends FormRequest
             'safety_level_before_action' => 'sometimes|nullable|string|max:3000',
             'due_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
             'repetitive_finding_ref_number' => 'sometimes|nullable|string|max:3000',
-            'assigned_investigator' => 'sometimes|nullable|numeric', // assigned
             'corrections' => 'sometimes|nullable|string|max:3000',
             'rootcause' => 'sometimes|nullable|string|max:3000',
             'corrective_actions_plan' => 'sometimes|nullable|string|max:3000',
@@ -80,6 +77,7 @@ class RequirementRequest extends FormRequest
             'response_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
             'extension_due_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
             'closed_date' => 'sometimes|nullable|date_format:d.m.Y H:i:s', // date
+            'task_owner' => 'required|nullable|numeric',
             'task_status' => 'required|string|in:' . $task_statuses,
         ];
     }

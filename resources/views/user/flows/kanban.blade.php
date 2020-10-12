@@ -50,9 +50,7 @@
                                         @if(!empty($kanbanData[$status]))
                                             @foreach($kanbanData[$status] as $item)
                                                 <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
-                                                    {{--                                        <span class="badge bg-soft-danger text-danger float-right">High</span>--}}
                                                     <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
-                                                    <p>{{ $item->rule_title }}</p>
                                                     <div class="clearfix"></div>
                                                     <div class="row">
                                                         <div class="col">
@@ -61,14 +59,8 @@
                                                         <div class="col-auto">
                                                             <div class="text-right">
                                                                 <a href="javascript: void(0);" class="text-muted">
-                                                                    <div>Auditor: {{ ($item->auditor->name) ?? '-' }}</div>
-                                                                    <div>Auditee: {{ ($item->auditee->name) ?? '-' }}</div>
-                                                                    <div>Investigator: {{ ($item->investigator->name) ?? '-' }}</div>
-                                                                    {{--                                                        <img src="{{ asset('images/users/user-1.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
+                                                                    <div> {{ ($item->owner->name) ?? '' }}</div>
                                                                 </a>
-                                                                {{--                                                    <a href="javascript: void(0);" class="text-muted">--}}
-                                                                {{--                                                        <img src="{{ asset('images/users/user-3.jpg') }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">--}}
-                                                                {{--                                                    </a>--}}
                                                             </div>
                                                         </div>
                                                     </div>
