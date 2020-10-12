@@ -6,7 +6,7 @@
             <div class="btn-group">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-filter-variant"></i> Filters <i class="mdi mdi-chevron-down"></i></button>
 
-                <div class="dropdown-menu" id="filter_list" style="height:250px; overflow-x: scroll;">
+                <div class="dropdown-menu" id="filter_list" style="max-height:250px; overflow-x: scroll;">
                     {{-- <a class="dropdown-item" href=""></a>--}}
                 </div>
             </div>
