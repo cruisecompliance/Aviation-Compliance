@@ -1,43 +1,45 @@
-<!-- modal -->
-<div class="modal fade" id="ajaxModel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modelHeading"></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+@if(!empty($flow))
+    <!-- modal -->
+    <div class="modal fade" id="ajaxModel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modelHeading"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 
-            </div>
-            <div class="modal-body">
+                </div>
+                <div class="modal-body">
 
-                <div class="row">
-                    <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-xl-12">
 
-                        <ul class="nav nav-tabs nav-bordered">
-                            <li class="nav-item">
-                                <a href="#task_details" data-toggle="tab" aria-expanded="false" class="nav-link active">
-                                    Details
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#task_comments" data-toggle="tab" aria-expanded="true" class="nav-link">
-                                    Comments
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane show active" id="task_details">
-                                <!-- form -->
-                            @include('components.flows._form')
-                            <!-- /form -->
+                            <ul class="nav nav-tabs nav-bordered">
+                                <li class="nav-item">
+                                    <a href="#task_details" data-toggle="tab" aria-expanded="false" class="nav-link active">
+                                        Details
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#task_comments" data-toggle="tab" aria-expanded="true" class="nav-link">
+                                        Comments
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="task_details">
+                                    <!-- form -->
+                                @include('components.flows._form')
+                                <!-- /form -->
+                                </div>
+                                <div class="tab-pane" id="task_comments">
+                                    <!-- comments -->
+                                @include('components.flows._comments')
+                                <!--/comments -->
+                                </div>
                             </div>
-                            <div class="tab-pane" id="task_comments">
-                                <!-- comments -->
-                            @include('components.flows._comments')
-                            <!--/comments -->
-                            </div>
-                        </div>
-                    </div> <!-- end col -->
+                        </div> <!-- end col -->
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -139,7 +141,7 @@
                     var method = "POST";
                     resetForm();
 
-                    $.get('/flows/' + {{ $flow->id }} + '/requirements/' + rule_reference + '/edit', function (data) {
+                    $.get('/flows/' + {{ $flow->id }} +'/requirements/' + rule_reference + '/edit', function (data) {
 
                         $('#modelHeading').html("Edit - " + data.resource.rule_reference); // modal header
                         $('#ItemForm').attr('action', action); // form action
@@ -259,7 +261,7 @@
                         type: form.attr('method'),
                         data: form.serialize(),
                         success: function (data) {
-                            if(data.comment) {
+                            if (data.comment) {
                                 // comments
                                 getComments();
                                 // reset form textarea
@@ -316,4 +318,5 @@
 
             });// end function
         </script>
-@endpush
+    @endpush
+@endif
