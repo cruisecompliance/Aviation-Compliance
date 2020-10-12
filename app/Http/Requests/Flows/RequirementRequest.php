@@ -57,7 +57,7 @@ class RequirementRequest extends FormRequest
             'rule_chapter' => 'sometimes|nullable|string|max:500',
             'company_manual' => 'sometimes|nullable|string|max:500',
             'company_chapter' => 'sometimes|nullable|string|max:500',
-            'frequency' => 'sometimes|required|string|in:annual,performance|max:500',
+            'frequency' => 'sometimes|required|string|in:Annual,Performance|max:500',
             'month_quarter' => 'sometimes|nullable|string|max:250', // todo change format in date
             'questions' => 'sometimes|nullable|string|max:3000',
             'finding' => 'sometimes|nullable|string|max:3000',
