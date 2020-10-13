@@ -65,6 +65,15 @@
                     enableOnReadonly: false,
                     autoclose: true,
                 });
+
+                // datepicker
+                $(".month-picker").datepicker({
+                    format: "mm.yyyy",
+                    startView: "months",
+                    minViewMode: "months",
+                    enableOnReadonly: false,
+                    autoclose: true,
+                });
                 // datepicker modal scroll
                 var t;
                 $(document).on(
@@ -73,7 +82,8 @@
                     function () {
                         window.clearTimeout(t);
                         t = window.setTimeout(function () {
-                            $('.picker').datepicker('place')
+                            $('.picker').datepicker('place');
+                            $('.month-picker').datepicker('place');
                         });
                     }
                 );

@@ -37,7 +37,7 @@ class CreateFlowsDataTable extends Migration
 
             // Audit Structure
             $table->string('frequency', 200)->nullable();
-            $table->string('month_quarter')->nullable(); // ToDO Date format
+            $table->date('month_quarter')->nullable();
 
             // Auditors Input
             $table->text('questions')->nullable();

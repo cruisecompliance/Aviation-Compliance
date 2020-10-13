@@ -53,7 +53,7 @@
     </div>
     <div class="form-group">
         <label for="month_quarter" class="control-label">Month / Quarter</label>
-        <input type="text" class="form-control" id="month_quarter" name="month_quarter" value="" @cannot(PermissionName::EDIT_MONTH_QUARTER) readonly @endcan>
+            <input type="text" class="form-control month-picker" id="month_quarter" name="month_quarter" value="" placeholder="mm.yyyy" autocomplete="off" @cannot(PermissionName::EDIT_MONTH_QUARTER) readonly @endcan>
     </div>
 
     <h2>Auditors Input</h2>

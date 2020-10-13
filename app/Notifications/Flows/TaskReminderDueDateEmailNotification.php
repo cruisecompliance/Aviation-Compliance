@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TaskDeadlineNotification extends Notification implements ShouldQueue
+class TaskReminderDueDateEmailNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -55,7 +55,7 @@ class TaskDeadlineNotification extends Notification implements ShouldQueue
             ->subject('Task Reminder Notification')
             ->greeting("Hi, $this->user_name")
             ->line("The due-date for $this->rule_reference expires on $this->due_date")
-            ->action('View', url("/user/flows#$this->rule_reference"))
+            ->action('View', url("/user/flows/table#$this->rule_reference"))
             ->line('Thank you for using our application!');
     }
 

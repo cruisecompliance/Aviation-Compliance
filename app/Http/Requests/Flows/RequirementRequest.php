@@ -58,7 +58,7 @@ class RequirementRequest extends FormRequest
             'company_manual' => 'sometimes|nullable|string|max:500',
             'company_chapter' => 'sometimes|nullable|string|max:500',
             'frequency' => 'sometimes|required|string|in:Annual,Performance|max:500',
-            'month_quarter' => 'sometimes|nullable|string|max:250', // todo change format in date
+            'month_quarter' => 'sometimes|nullable|date_format:m.Y|after:'.Carbon::today()->subMonths(1)->format('m.Y'), // date
             'questions' => 'sometimes|nullable|string|max:3000',
             'finding' => 'sometimes|nullable|string|max:3000',
             'deviation_statement' => 'sometimes|nullable|string|max:3000',

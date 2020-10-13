@@ -6,35 +6,35 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Auth;
 
-class EditTaskMailNotification extends Notification implements ShouldQueue
+class TaskReminderMonthEmailNotification extends Notification
 {
     use Queueable;
 
     private $rule_reference;
-    private $editor_name; // user name who changed task
+    private $month_quarter;
+    private $recipient_name;
 
     /**
      * Create a new notification instance.
      *
      * @param string $rule_reference
-     * @param string $editor_name
+     * @param string $month_quarter
+     * @param string $recipient_name
      */
-    public function __construct(string $rule_reference, string $editor_name)
+    public function __construct(string $rule_reference, string $month_quarter, string $recipient_name)
     {
-//        $this->delay = now()->addSeconds(2);
         $this->queue = 'mail';
 
         $this->rule_reference = $rule_reference;
-        $this->editor_name = $editor_name;
-
+        $this->month_quarter = $month_quarter;
+        $this->recipient_name = $recipient_name;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -45,23 +45,24 @@ class EditTaskMailNotification extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-
         return (new MailMessage)
-            ->greeting("$this->rule_reference was update successfully.")
-            ->line("The user $this->editor_name has changed the Rule Reference.")
+            ->subject('Task Reminder Notification')
+            ->greeting("Hi, $this->recipient_name")
+            ->line("The month/quarter date for $this->rule_reference expires on $this->month_quarter")
             ->action('View', url("/user/flows/table#$this->rule_reference"))
-            ->line('Thank you for using our app');
+            ->line('Thank you for using our application!');
+
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable)

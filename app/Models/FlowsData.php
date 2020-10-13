@@ -15,6 +15,7 @@ class FlowsData extends Model
     protected $guarded = [];
 
     protected $dates = [
+        'month_quarter',
         'due_date',
         'effectiveness_review_date',
         'response_date',
@@ -23,6 +24,7 @@ class FlowsData extends Model
     ];
 
     protected $casts = [
+        'month_quarter' => 'date:m.Y',
         'due_date' => 'date:d.m.Y',
         'effectiveness_review_date' => 'date:d.m.Y',
         'response_date' => 'date:d.m.Y',
@@ -31,14 +33,17 @@ class FlowsData extends Model
     ];
 
 
-//    public function setDueDateAttribute($value)
-//    {
-//        if(!empty($value)){
-//            $this->attributes['due_date'] = Carbon::parse($value)->format('Y-m-d');
-//        } else {
-//            $this->attributes['due_date'] = null;
-//        }
-//    }
+    public function setMonthQuarterAttribute($value)
+    {
+        if(!empty($value)){
+            $dateMonthArray = explode('.', $value);
+            $month = $dateMonthArray[0];
+            $year = $dateMonthArray[1];
+            $this->attributes['month_quarter'] =  Carbon::createFromDate($year, $month)->endOfMonth()->toDateString();
+        } else {
+            $this->attributes['month_quarter'] = null;
+        }
+    }
 
 
 //    public function requirementData()

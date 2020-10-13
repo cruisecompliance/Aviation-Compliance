@@ -56,7 +56,7 @@ class AddTaskCommentMailNotification extends Notification implements ShouldQueue
             ->greeting("New comment: $this->rule_reference")
             ->line("$this->comment_author added comments.")
             ->line("$this->message")
-            ->action('View', url("/user/flows#$this->rule_reference"))
+            ->action('View', url("/user/flows/table#$this->rule_reference"))
             ->line('Thank you for using our application!');
     }
 

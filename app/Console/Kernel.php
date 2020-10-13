@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\TaskDeadline::class,
+        Commands\TaskReminder::class,
     ];
 
     /**
@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
 
-        $schedule->command('task:deadline')->daily();
+        $schedule->command('task:reminder')->daily();
 
     }
 

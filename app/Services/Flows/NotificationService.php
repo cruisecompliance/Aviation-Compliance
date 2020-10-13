@@ -12,8 +12,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Flows\EditTaskMailNotification;
 use App\Notifications\Flows\EditTaskTeamsNotification;
-use App\Notifications\Flows\TaskDeadlineNotification;
+use App\Notifications\Flows\TaskReminderDueDateEmailNotification;
+use App\Notifications\Flows\TaskReminderMonthEmailNotification;
 use App\Notifications\Flows\AddTaskCommentMailNotification;
+
+
 
 
 class NotificationService
@@ -26,13 +29,13 @@ class NotificationService
     // entityId = tabID
 
     /**
-     * Send Notification in Email - Task Deadline
+     * Send Email Notification  - Task Reminder Due Date
      *
      */
-    public function sendTaskDeadlineEmailNotification(): void
+    public function sendTaskReminderDueDateEmailNotification(): void
     {
-        // get tasks(with flow.company) that expire in 2 weeks
-        $tasks = FlowsData::where('due_date', '<=', Carbon::today()->addWeek(2))->with('flow.company')->get();
+        // get tasks (with flow.company) that due_date field date expire in 2 weeks
+        $tasks = FlowsData::where('due_date', '<=', Carbon::today()->addWeeks(2))->with('flow.company')->get();
 
         // send notification
         foreach ($tasks as $task) {
@@ -42,10 +45,28 @@ class NotificationService
 
             // send email notification
             foreach ($notificationUsers as $user) {
-                $user->notify(new TaskDeadlineNotification($task->rule_reference, $task->due_date->format('d.m.Y'), $user->name));
-//                sleep(2);
+                $user->notify(new TaskReminderDueDateEmailNotification($task->rule_reference, $task->due_date->format('d.m.Y'), $user->name));
             }
 
+        }
+    }
+
+    /**
+     * Send Email Notification  - Task Reminder Month/Quarter
+     *
+     */
+    public function sendTaskReminderMonthEmailNotification(): void
+    {
+        // get tasks (with flow.company) that month/quarter field date expire in 2 weeks
+        $tasks = FlowsData::where('month_quarter', '<=', Carbon::today()->addWeeks(2))->with('flow.company')->get();
+
+        foreach ($tasks as $task) {
+
+            $notificationUsers = $this->getNotificationUsers($task, $task->flow->company->id);
+
+            foreach ($notificationUsers as $user) {
+                $user->notify(new TaskReminderMonthEmailNotification($task->rule_reference, $task->month_quarter->format('d.m.Y'), $user->name));
+            }
         }
     }
 
@@ -86,7 +107,7 @@ class NotificationService
     }
 
 
-    public function sendAddTaskCommentkNotification(Flow $flow, FlowsData $task, Comment $comment, User $user)
+    public function sendAddTaskCommentNotification(Flow $flow, FlowsData $task, Comment $comment, User $user)
     {
         // get all users of company (without role SME)
         $notificationUsers = User::whereCompanyId($flow->company_id)

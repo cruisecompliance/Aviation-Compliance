@@ -104,7 +104,7 @@ class RequirementController extends Controller
                 ]);
 
                 // send email notification
-                app(NotificationService::class)->sendAddTaskCommentkNotification($flow, $task, $comment, Auth::user());
+                app(NotificationService::class)->sendAddTaskCommentNotification($flow, $task, $comment, Auth::user());
             }
 
             // return json response with data

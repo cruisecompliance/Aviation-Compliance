@@ -24,7 +24,7 @@ class CalendarController extends Controller
         // get flow
         $flow = Flow::whereHash($hash)->firstOrFail();
 
-        // get flow data
+        // get flow data - due date
         $flowData = FlowsData::whereFlowId($flow->id)
             ->whereNotNull('due_date')
             ->get();
@@ -32,27 +32,63 @@ class CalendarController extends Controller
         // generate events for calendar
         $events = array();
         foreach ($flowData as $item) {
+
+            // generate due date event
             $events[] = Event::create()
-                ->name($item->rule_reference)
+                ->name("$item->rule_reference Response due date")
                 ->description(url('/user/flows#').rawurlencode($item->rule_reference))
                 ->startsAt($item->due_date)
                 ->endsAt($item->due_date)
 //                    ->transparent()
 //                    ->createdAt(Carbon::today())
 //                ->alert(Alert::date(
-//                    $alertTwoWeek = Carbon::parse($item->due_date)->addWeeks(-2),
+//                    $alertTwoWeek = Carbon::parse($item->due_date)->subWeeks(2),
 //                    "The due-date for $item->rule_reference expires on $item->due_date"
 //                ))
 //                ->alert(Alert::date(
-//                    $alertOneWeek = Carbon::parse($item->due_date)->addWeeks(-1),
+//                    $alertOneWeek = Carbon::parse($item->due_date)->subWeeks(1),
 //                    "The due-date for $item->rule_reference expires on $item->due_date"
 //                ))
 //                ->alert(Alert::date(
-//                    $alertOneDay = Carbon::parse($item->due_date)->addDays(-1),
+//                    $alertOneDay = Carbon::parse($item->due_date)->subDays(1),
 //                    "The due-date for $item->rule_reference expires on $item->due_date"
 //                ))
                 ->fullDay();
         }
+
+        // get flow data - month_quarter
+        $flowData = FlowsData::whereFlowId($flow->id)
+            ->whereNotNull('month_quarter')
+            ->get();
+
+        // generate events for calendar
+        foreach ($flowData as $item) {
+
+            // generate month/quarter even
+            $events[] = Event::create()
+                ->name("$item->rule_reference Performed due date")
+                ->description(url('/user/flows#').rawurlencode($item->rule_reference))
+                ->startsAt($item->month_quarter)
+                ->endsAt($item->month_quarter)
+//                    ->transparent()
+//                    ->createdAt(Carbon::today())
+//                ->alert(Alert::date(
+//                    $alertTwoWeek = Carbon::parse($item->due_date)->subWeeks(2),
+//                    "The month/quarter for $item->rule_reference expires on $item->month_quarter"
+//                ))
+//                ->alert(Alert::date(
+//                    $alertOneWeek = Carbon::parse($item->due_date)->subWeeks(1),
+//                    "The month/quarter for $item->rule_reference expires on $item->month_quarter"
+//                ))
+//                ->alert(Alert::date(
+//                    $alertOneDay = Carbon::parse($item->due_date)->subDays(1),
+//                    "The month/quarter for $item->rule_reference expires on $item->month_quarter"
+//                ))
+                ->fullDay();
+        }
+
+
+
 
         // create calendar with events
         $calendar = Calendar::create()
@@ -60,6 +96,7 @@ class CalendarController extends Controller
             ->refreshInterval(30)
             ->event($events);
 //            ->get();
+//            dd($calendar);
 
         // feed
         return response($calendar->get())

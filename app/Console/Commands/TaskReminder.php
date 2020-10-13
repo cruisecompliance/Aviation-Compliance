@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use App\Services\Flows\NotificationService;
 use Illuminate\Console\Command;
 
-class TaskDeadline extends Command
+class TaskReminder extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'task:deadline';
+    protected $signature = 'task:reminder';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Notifications when due-date approaches (2 weeks left)';
+    protected $description = 'Notifications when due-date and month/quarter approaches (2 weeks left)';
 
     /**
      * Create a new command instance.
@@ -40,8 +40,11 @@ class TaskDeadline extends Command
     {
         // \Log::info("Cron is working fine!");
 
-        // send email
-        app(NotificationService::class)->sendTaskDeadlineEmailNotification();
+        // send Task Reminder (due date)
+        app(NotificationService::class)->sendTaskReminderDueDateEmailNotification();
+
+        // send Task Reminder (month/quarter)
+        app(NotificationService::class)->sendTaskReminderMonthEmailNotification();
 
         $this->info('Successfully sent daily task reminder to everyone.');
     }
