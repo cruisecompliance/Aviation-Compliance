@@ -97,9 +97,9 @@ class RolesAndPermissionsSeeder extends Seeder
             PermissionName::EDIT_DEVIATION_LEVEL,
             PermissionName::EDIT_SAFETY_LEVEL_BEFORE_ACTION,
             PermissionName::EDIT_DUE_DATE,
+            PermissionName::EDIT_REPETITIVE_FINDING_REF_NUMBER,
 
             // Auditee
-            PermissionName::EDIT_REPETITIVE_FINDING_REF_NUMBER,
             PermissionName::EDIT_ASSIGNED_INVESTIGATOR,
             PermissionName::EDIT_CORRECTIONS,
             PermissionName::EDIT_ROOTCASE,
@@ -147,11 +147,11 @@ class RolesAndPermissionsSeeder extends Seeder
             PermissionName::EDIT_DEVIATION_LEVEL,
             PermissionName::EDIT_SAFETY_LEVEL_BEFORE_ACTION,
             PermissionName::EDIT_DUE_DATE,
+            PermissionName::EDIT_REPETITIVE_FINDING_REF_NUMBER,
         ]);
 
         // Auditee(Nominated Person, NP)
         Role::create(['name' => RoleName::AUDITEE])->givePermissionTo([
-            PermissionName::EDIT_REPETITIVE_FINDING_REF_NUMBER,
             PermissionName::EDIT_ASSIGNED_INVESTIGATOR,
             PermissionName::EDIT_CORRECTIONS,
             PermissionName::EDIT_ROOTCASE,
