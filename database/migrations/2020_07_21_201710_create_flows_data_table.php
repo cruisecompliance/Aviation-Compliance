@@ -36,12 +36,12 @@ class CreateFlowsDataTable extends Migration
             $table->string('company_chapter', 200)->nullable();
 
             // Audit Structure
-            $table->string('frequency', 200)->nullable();
+            $table->string('frequency', 200)->nullable(); // enum
             $table->date('month_quarter')->nullable();
 
             // Auditors Input
             $table->text('questions')->nullable();
-            $table->text('finding')->nullable();
+            $table->string('finding', 200)->default('None'); // enum
             $table->text('deviation_statement')->nullable();
             $table->text('evidence_reference')->nullable();
             $table->text('deviation_level')->nullable();

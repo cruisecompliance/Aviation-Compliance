@@ -197,6 +197,13 @@
                         $('#extension_due_date').val(data.resource.extension_due_date);
                         $('#closed_date').val(data.resource.closed_date);
 
+                        // Finding / Observation - Field Dependence
+                        if(data.resource.finding === 'None'){
+                            $('#deviation_level').prop('readonly', true);
+                        } else {
+                            $('#deviation_level').prop('readonly', false);
+                        }
+
                         // statuses list (add select option)
                         if (data.transitions) {
                             // merge task status and status transitions
