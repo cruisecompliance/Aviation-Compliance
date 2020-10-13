@@ -36,7 +36,7 @@ class CalendarController extends Controller
             // generate due date event
             $events[] = Event::create()
                 ->name("$item->rule_reference Response due date")
-                ->description(url('/user/flows#').rawurlencode($item->rule_reference))
+                ->description(url('/user/flows/table#').rawurlencode($item->rule_reference))
                 ->startsAt($item->due_date)
                 ->endsAt($item->due_date)
 //                    ->transparent()
@@ -67,7 +67,7 @@ class CalendarController extends Controller
             // generate month/quarter even
             $events[] = Event::create()
                 ->name("$item->rule_reference Performed due date")
-                ->description(url('/user/flows#').rawurlencode($item->rule_reference))
+                ->description(url('/user/flows/table#').rawurlencode($item->rule_reference))
                 ->startsAt($item->month_quarter)
                 ->endsAt($item->month_quarter)
 //                    ->transparent()
