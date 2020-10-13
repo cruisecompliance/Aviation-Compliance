@@ -164,9 +164,6 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Investigator
         Role::create(['name' => RoleName::INVESTIGATOR])->givePermissionTo([
-            PermissionName::EDIT_SAFETY_LEVEL_BEFORE_ACTION,
-            PermissionName::EDIT_DUE_DATE,
-            PermissionName::EDIT_REPETITIVE_FINDING_REF_NUMBER,
             PermissionName::EDIT_ASSIGNED_INVESTIGATOR,
             PermissionName::EDIT_CORRECTIONS,
             PermissionName::EDIT_ROOTCASE,
