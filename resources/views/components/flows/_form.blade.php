@@ -97,7 +97,7 @@
     <h2>Auditee Input (NP)</h2>
     <div class="form-group">
         <label for="corrections" class="control-label">Correction(s)</label>
-        <input type="text" class="form-control" id="corrections" name="corrections" value="" @cannot(PermissionName::EDIT_CORRECTIONS) readonly @endcan>
+        <textarea class="form-control" id="corrections" name="corrections" rows="3" placeholder="" @cannot(PermissionName::EDIT_CORRECTIONS) readonly @endcan></textarea>
     </div>
     <div class="form-group">
         <label for="rootcause" class="control-label">Rootcause:
@@ -111,19 +111,19 @@
     </div>
     <div class="form-group">
         <label for="corrective_actions_plan" class="control-label">Corrective Action(s) Plan</label>
-        <input type="text" class="form-control" id="corrective_actions_plan" name="corrective_actions_plan" value="" @cannot(PermissionName::EDIT_CORRECTIVE_ACTIONS_PLAN) readonly @endcan>
+        <textarea class="form-control" id="corrective_actions_plan" name="corrective_actions_plan" rows="3" placeholder="" @cannot(PermissionName::EDIT_CORRECTIVE_ACTIONS_PLAN) readonly @endcan></textarea>
     </div>
     <div class="form-group">
         <label for="preventive_actions" class="control-label">Preventive Action(s)</label>
-        <input type="text" class="form-control" id="preventive_actions" name="preventive_actions" value="" @cannot(PermissionName::EDIT_PREVENTIVE_ACTIONS) readonly @endcan>
+        <textarea class="form-control" id="preventive_actions" name="preventive_actions" rows="3" placeholder="" @cannot(PermissionName::EDIT_PREVENTIVE_ACTIONS) readonly @endcan></textarea>
     </div>
     <div class="form-group">
         <label for="action_implemented_evidence" class="control-label">Action implemented evidence</label>
-        <input type="text" class="form-control" id="action_implemented_evidence" name="action_implemented_evidence" value="" @cannot(PermissionName::EDIT_ACTION_IMPLEMENTED_EVIDENCE) readonly @endcan>
+        <textarea class="form-control" id="action_implemented_evidence" name="action_implemented_evidence" rows="3" placeholder="" @cannot(PermissionName::EDIT_ACTION_IMPLEMENTED_EVIDENCE) readonly @endcan></textarea>
     </div>
     <div class="form-group">
         <label for="safety_level_after_action" class="control-label">Safety level after action</label>
-        <input type="text" class="form-control" id="safety_level_after_action" name="safety_level_after_action" value="" @cannot(PermissionName::EDIT_SAFETY_LEVEL_AFTER_ACTION) readonly @endcan>
+        <textarea class="form-control" id="safety_level_after_action" name="safety_level_after_action" rows="3" placeholder="" @cannot(PermissionName::EDIT_SAFETY_LEVEL_AFTER_ACTION) readonly @endcan></textarea>
     </div>
     <div class="form-group">
         <label for="effectiveness_review_date" class="control-label">Effectiveness Review date</label>
