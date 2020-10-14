@@ -68,7 +68,7 @@ Route::namespace('Components')->middleware('auth')->group(function () {
 //        Route::post('/flows/{flow?}/filter/search', 'FilterController@search')->name('components.flows.filters.search');
 
         // Flow Calendar
-        Route::get('/calendar/{hash}', 'CalendarController@index')->name('components.flows.calendar.index');
+        Route::get('/calendar/{hash}', 'CalendarController@index')->name('components.flows.calendar.index')->withoutMiddleware('auth');
 
         // Flow Requirements (Edit Form)
         Route::get('/flows/{flow}/requirements/{rule_reference}/edit', 'RequirementController@edit')->name('components.flows.requirements.edit');
