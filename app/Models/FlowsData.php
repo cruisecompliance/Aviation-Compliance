@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\RequrementStatus;
 use App\Enums\RoleName;
 use App\Http\Requests\Flows\RequirementRequest;
+use App\Services\Flows\FileUploadService;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -122,13 +123,21 @@ class FlowsData extends Model
             $task->questions = $request->questions;
             $task->finding = $request->finding;
             $task->deviation_statement = $request->deviation_statement;
-            $task->evidence_reference = $request->evidence_reference;
+//            $task->evidence_reference = $request->evidence_reference;
             $task->deviation_level = $request->deviation_level;
             $task->safety_level_before_action = $request->safety_level_before_action;
             $task->due_date = $request->due_date;
             $task->repetitive_finding_ref_number = $request->repetitive_finding_ref_number;
             $task->task_owner = $request->task_owner;
             $task->task_status = $request->task_status;
+
+            if ($request->hasFile('evidence_reference') && $request->file('evidence_reference')->isValid()) {
+                $file = $request->file('evidence_reference');
+                $fileName = (new FileUploadService)->upload($file, 'auditor');
+                $task->evidence_reference = $fileName;
+            }
+
+
         }
 
         // update task data if Auditee or SME
@@ -150,9 +159,16 @@ class FlowsData extends Model
             $task->rootcause = $request->rootcause;
             $task->corrective_actions_plan = $request->corrective_actions_plan;
             $task->preventive_actions = $request->preventive_actions;
-            $task->action_implemented_evidence = $request->action_implemented_evidence;
+//            $task->action_implemented_evidence = $request->action_implemented_evidence; // ToDo
             $task->task_owner = $request->task_owner;
             $task->task_status = $request->task_status;
+
+            if ($request->hasFile('action_implemented_evidence') && $request->file('action_implemented_evidence')->isValid()) {
+                $file = $request->file('action_implemented_evidence');
+                $fileName = (new FileUploadService)->upload($file, 'investigator');
+                $task->action_implemented_evidence = $fileName;
+            }
+
         }
 
         // update closed_date (if status cmm_done)

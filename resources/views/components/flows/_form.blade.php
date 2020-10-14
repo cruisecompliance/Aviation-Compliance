@@ -1,4 +1,4 @@
-<form id="ItemForm" action="" name="ItemForm" class="form-horizontal" method="POST">
+<form id="ItemForm" action="" name="ItemForm" class="form-horizontal" method="POST" enctype="multipart/form-data">
 
     <input type="hidden" name="_method" id="_method" value="">
     <input type="hidden" name="requirements_rule" id="requirements_rule" value="">
@@ -75,7 +75,8 @@
     </div>
     <div class="form-group">
         <label for="evidence_reference" class="control-label">Manual / Evidence Reference</label>
-        <input type="text" class="form-control" id="evidence_reference" name="evidence_reference" value="" @cannot(PermissionName::EDIT_EVIDENCE_REFERENCE) readonly @endcan>
+        <input type="file" class="form-control" id="evidence_reference" name="evidence_reference" @cannot(PermissionName::EDIT_EVIDENCE_REFERENCE) readonly @endcan>
+        <div id="evidence_reference_link" class="mt-2 mb-2" style="display: none"></div>
     </div>
     <div class="form-group">
         <label for="deviation_level" class="control-label">Deviation-Level</label>
@@ -119,7 +120,9 @@
     </div>
     <div class="form-group">
         <label for="action_implemented_evidence" class="control-label">Action implemented evidence</label>
-        <textarea class="form-control" id="action_implemented_evidence" name="action_implemented_evidence" rows="3" placeholder="" @cannot(PermissionName::EDIT_ACTION_IMPLEMENTED_EVIDENCE) readonly @endcan></textarea>
+        <input type="file" class="form-control" id="action_implemented_evidence" name="action_implemented_evidence" @cannot(PermissionName::EDIT_ACTION_IMPLEMENTED_EVIDENCE) readonly @endcan>
+        <div id="action_implemented_evidence_link" class="mt-2 mb-2" style="display: none"></div>
+
     </div>
     <div class="form-group">
         <label for="safety_level_after_action" class="control-label">Safety level after action</label>

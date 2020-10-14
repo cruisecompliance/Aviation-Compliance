@@ -113,11 +113,16 @@
                     $("#ajaxModel").scrollTop(0);
 
                     var form = $('#ItemForm');
+                    var formData = new FormData(form[0]);
 
                     $.ajax({
                         url: form.attr('action'),
                         type: form.attr('method'),
-                        data: form.serialize(),
+                        // data: form.serialize(),
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
                         success: function (data) {
                             if (data.success) {
                                 getModalData(); // reload form data
@@ -179,7 +184,7 @@
                         $('#questions').val(data.resource.questions);
                         $('#finding').val(data.resource.finding);
                         $('#deviation_statement').val(data.resource.deviation_statement);
-                        $('#evidence_reference').val(data.resource.evidence_reference);
+                        $('#evidence_reference').val(''); // empty
                         $('#deviation_level').val(data.resource.deviation_level);
                         $('#safety_level_before_action').val(data.resource.safety_level_before_action);
                         $('#due_date').val(data.resource.due_date);
@@ -189,7 +194,7 @@
                         $('#rootcause').val(data.resource.rootcause);
                         $('#corrective_actions_plan').val(data.resource.corrective_actions_plan);
                         $('#preventive_actions').val(data.resource.preventive_actions);
-                        $('#action_implemented_evidence').val(data.resource.action_implemented_evidence);
+                        $('#action_implemented_evidence').val(''); // empty
                         $('#safety_level_after_action').val(data.resource.safety_level_after_action);
                         $('#effectiveness_review_date').val(data.resource.effectiveness_review_date);
                         $('#response_date').val(data.resource.response_date);
@@ -198,7 +203,7 @@
                         $('#closed_date').val(data.resource.closed_date);
 
                         // Finding / Observation - Field Dependence
-                        if(data.resource.finding === 'None'){
+                        if (data.resource.finding === 'None') {
                             $('#deviation_level').prop('readonly', true);
                         } else {
                             $('#deviation_level').prop('readonly', false);
@@ -242,6 +247,28 @@
                             // selected option
                             $('#task_owner option[value="' + data.resource.task_owner + '"]').prop('selected', true);
                         }
+
+                        // set auditor - manual evidence reference link
+                        if(data.resource.evidence_reference) {
+                            console.log(data.resource.evidence_reference);
+                            var auditor_storage = "{{ url('') }}" + '/storage/auditor/' + data.resource.evidence_reference;
+                            $('#evidence_reference_link').find('a').remove();
+                            $('#evidence_reference_link').show().append('<a class="file-text" href=' + auditor_storage + '>' + data.resource.evidence_reference + '</a>'); // file link
+
+                        } else {
+                            $('#evidence_reference_link').find('a').remove();
+                        }
+
+                        // set investigator - action implemented evidence link
+                        if(data.resource.action_implemented_evidence) {
+                            var investigator_storage = "{{ url('') }}" + '/storage/investigator/' + data.resource.action_implemented_evidence;
+                            $('#action_implemented_evidence_link').find('a').remove();
+                            $('#action_implemented_evidence_link').show().append('<a class="file-text" href=' + investigator_storage + '>' + data.resource.action_implemented_evidence + '</a>'); // file link
+
+                        } else {
+                            $('#action_implemented_evidence_link').find('a').remove();
+                        }
+
 
                         // get comment for task
                         getComments(); // ToDo

@@ -10,12 +10,14 @@ use App\Http\Requests\Flows\RequirementRequest;
 use App\Models\Comment;
 use App\Models\Flow;
 use App\Models\FlowsData;
+use App\Services\Flows\FileUploadService;
 use App\Services\Flows\NotificationService;
 use App\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class RequirementController extends Controller
 {
@@ -85,6 +87,7 @@ class RequirementController extends Controller
     public function update(Flow $flow, RequirementRequest $request)
     {
         try {
+
             // update task (flowData)
             $task = FlowsData::store($flow, $request);
 
@@ -95,7 +98,7 @@ class RequirementController extends Controller
             // app(NotificationService::class)->sendTeamsNotification($flow, $task);
 
             // create comment and send notification (if comment field is not empty)
-            if(!empty($request->comment)){
+            if (!empty($request->comment)) {
                 // save comment
                 $comment = Comment::create([
                     'message' => $request->comment,
