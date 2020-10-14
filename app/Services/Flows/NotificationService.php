@@ -107,9 +107,17 @@ class NotificationService
     }
 
 
-    public function sendAddTaskCommentNotification(Flow $flow, FlowsData $task, Comment $comment, User $user)
+    /**
+     * Send Notification in Email - Add New Comment
+     *
+     * @param Flow $flow
+     * @param FlowsData $task
+     * @param Comment $comment
+     * @param User $user
+     */
+    public function sendAddTaskCommentNotification(Flow $flow, FlowsData $task, Comment $comment, User $user): void
     {
-        // get all users of company (without role SME)
+        // get all active users of company (without role SME)
         $notificationUsers = User::whereCompanyId($flow->company_id)
             ->role([
                 RoleName::ACCOUNTABLE_MANAGER,
@@ -137,7 +145,7 @@ class NotificationService
         // get task owner
         $notificationUsers[] = $task->owner;
 
-        // get AM and CMM users of company
+        // get AM and CMM active users of company
         $users = User::whereCompanyId($company_id)
             ->role([
                 RoleName::ACCOUNTABLE_MANAGER,
