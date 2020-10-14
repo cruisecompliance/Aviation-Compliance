@@ -126,13 +126,13 @@ class FlowsData extends Model
             $task->deviation_level = $request->deviation_level;
             $task->safety_level_before_action = $request->safety_level_before_action;
             $task->due_date = $request->due_date;
+            $task->repetitive_finding_ref_number = $request->repetitive_finding_ref_number;
             $task->task_owner = $request->task_owner;
             $task->task_status = $request->task_status;
         }
 
         // update task data if Auditee or SME
         if ($roleName == RoleName::AUDITEE || $roleName == RoleName::SME) {
-            $task->repetitive_finding_ref_number = $request->repetitive_finding_ref_number;
             $task->corrections = $request->corrections;
             $task->rootcause = $request->rootcause;
             $task->corrective_actions_plan = $request->corrective_actions_plan;
@@ -146,9 +146,6 @@ class FlowsData extends Model
 
         // update task data if Investigator or SME
         if ($roleName == RoleName::INVESTIGATOR || $roleName == RoleName::SME) {
-            $task->safety_level_before_action = $request->safety_level_before_action;
-            $task->due_date = $request->due_date;
-            $task->repetitive_finding_ref_number = $request->repetitive_finding_ref_number;
             $task->corrections = $request->corrections;
             $task->rootcause = $request->rootcause;
             $task->corrective_actions_plan = $request->corrective_actions_plan;
