@@ -59,14 +59,6 @@ class UserSeeder extends Seeder
             'company_id' => 2,
         ])->assignRole(RoleName::ACCOUNTABLE_MANAGER);
 
-        // darina.levchuk@gmail.com
-        User::create([
-            'name' => 'D Levchuk',
-            'email' => 'darina.levchuk@gmail.com',
-            'password' => Hash::make('demo'),
-            'company_id' => 2,
-        ])->assignRole(RoleName::AUDITOR);
-
         // eugene.pyvovarov@gmail.com
         User::create([
             'name' => 'Eugene Pyvovarov',
