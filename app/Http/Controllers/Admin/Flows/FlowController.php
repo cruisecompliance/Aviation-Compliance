@@ -77,10 +77,12 @@ class FlowController extends Controller
             $flow = Flow::create([
                 'title' => $request->title,
                 'description' => $request->description,
-                'hash' => md5($request->title),
                 'company_id' => $request->company,
                 'requirement_id' => $request->requirements,
             ]);
+
+            // set flow hash (for calendar feed)
+            $flow->update(['hash' => md5($flow->id)]);
 
             // get RequirementsData
             $requirementsData = RequirementsData::query()->where('version_id', $request->requirements)->get();
@@ -132,6 +134,7 @@ class FlowController extends Controller
      */
     public function update(FlowRequest $request, Flow $flow)
     {
+        // update flow data without calendar hash
         $flow->update([
             'title' => $request->title,
             'description' => $request->description,
@@ -139,6 +142,7 @@ class FlowController extends Controller
             'requirement_id' => $request->requirements,
         ]);
 
+        // return json with susses status
         return response()->json([
             'success' => true,
             'message' => "Flow {$flow->title} was updated successfully.",

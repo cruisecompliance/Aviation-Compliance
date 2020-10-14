@@ -70,25 +70,8 @@ class CalendarController extends Controller
                 ->description(url('/user/flows/table#').rawurlencode($item->rule_reference))
                 ->startsAt($item->month_quarter)
                 ->endsAt($item->month_quarter)
-//                    ->transparent()
-//                    ->createdAt(Carbon::today())
-//                ->alert(Alert::date(
-//                    $alertTwoWeek = Carbon::parse($item->due_date)->subWeeks(2),
-//                    "The month/quarter for $item->rule_reference expires on $item->month_quarter"
-//                ))
-//                ->alert(Alert::date(
-//                    $alertOneWeek = Carbon::parse($item->due_date)->subWeeks(1),
-//                    "The month/quarter for $item->rule_reference expires on $item->month_quarter"
-//                ))
-//                ->alert(Alert::date(
-//                    $alertOneDay = Carbon::parse($item->due_date)->subDays(1),
-//                    "The month/quarter for $item->rule_reference expires on $item->month_quarter"
-//                ))
                 ->fullDay();
         }
-
-
-
 
         // create calendar with events
         $calendar = Calendar::create()
