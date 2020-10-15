@@ -62,7 +62,7 @@ class RequirementRequest extends FormRequest
             'questions' => 'sometimes|nullable|string|max:3000',
             'finding' => 'sometimes|required|string|in:Finding,Observation,None|max:200',
             'deviation_statement' => 'sometimes|nullable|string|max:3000',
-            'evidence_reference' => 'sometimes|nullable|file|max:5000', // file max size 5 mb
+            'evidence_reference' => 'sometimes|nullable|file|max:100000', // file max size 100 mb
             'deviation_level' => 'sometimes|nullable|string|max:3000',
             'safety_level_before_action' => 'sometimes|nullable|string|max:3000',
             'due_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
@@ -71,7 +71,7 @@ class RequirementRequest extends FormRequest
             'rootcause' => 'sometimes|nullable|string|max:3000',
             'corrective_actions_plan' => 'sometimes|nullable|string|max:3000',
             'preventive_actions' => 'sometimes|nullable|string|max:3000',
-            'action_implemented_evidence' => 'sometimes|nullable|file|max:5000', // file max size 5 mb
+            'action_implemented_evidence' => 'sometimes|nullable|file|max:100000', // file max size 100 mb
             'safety_level_after_action' => 'sometimes|nullable|string|max:3000',
             'effectiveness_review_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
             'response_date' => 'sometimes|nullable|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date

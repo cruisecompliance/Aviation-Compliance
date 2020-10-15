@@ -62,3 +62,9 @@ $ php artisan migrate --seed
 login: demo@gmail.com 
 password: demo
  
+ 
+ **php.ini**
+ ```
+ upload_max_filesize = 1000M;
+ post_max_size = 1000M;
+```   
