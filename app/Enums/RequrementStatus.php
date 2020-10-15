@@ -10,14 +10,14 @@ use BenSampo\Enum\Enum;
 final class RequrementStatus extends Enum
 {
 
-    const CMM_Backlog = 'CMM Backlog';
+    const CMM_Backlog = 'Backlog';
     const Auditor_Review = 'Auditor Review';
     const Auditee_Review = 'Auditee Review';
     const Investigator_Review = 'Investigator Review';
     const CMM_Extension_Review = 'CMM Extension Review';
     const AM_Extension_Review = 'AM Extension Review';
     const CMM_Review = 'CMM Review';
-    const CMM_Done = 'CMM Done';
+    const CMM_Done = 'Closed'; // CMM_Done
 
 
     public static function kanbanStatuses(): object
@@ -30,7 +30,7 @@ final class RequrementStatus extends Enum
             self::CMM_Extension_Review,
             self::AM_Extension_Review,
             self::CMM_Review,
-            self::CMM_Done,
+            self::CMM_Done, // CMM_Done
         ]);
     }
 
