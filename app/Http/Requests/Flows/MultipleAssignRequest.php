@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Flows;
 
+use App\Enums\RequrementStatus;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -44,9 +45,15 @@ class MultipleAssignRequest extends FormRequest
      */
     public function rules()
     {
+        // task statuses (for validation)
+        $task_statuses = RequrementStatus::statusTransitions()->implode('status_name', ',');
+
         return [
             'tasks_id' => 'required|string',
+            'task_owner' => 'required|numeric',
+            'month_quarter' => 'required|date_format:m.Y|after:'.Carbon::today()->subMonths(1)->format('m.Y'), // date
             'due_date' => 'required|date_format:d.m.Y|after:'.Carbon::today()->format('d.m.Y'), // date
+            'task_status' => 'required|string|in:' . $task_statuses,
         ];
     }
 }

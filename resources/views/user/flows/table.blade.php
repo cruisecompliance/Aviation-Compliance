@@ -222,62 +222,6 @@
                     }
                 });
 
-                // // console log dataTable row
-                // $('#basic-datatable tbody').on('click', 'tr', function () {
-                //     console.log(table.row(this).data());
-                // });
-
-                // show multiple modal form
-                $("#show-multiple-modal").click(function () {
-                    // e.preventDefault();
-
-                    // reset form data
-                    resetAssignFormAlert();
-
-                    // set form data
-                    var form = $('#multiple-modal');
-                    var rows_selected = table.column(0).checkboxes.selected();
-                    form.find('input[name=tasks_id]').val(rows_selected.join(","));
-                    form.find('input[name=tasks_selected]').val(rows_selected.length);
-
-                    // show form
-                    form.modal('show');
-                });
-
-                // submit multiple modal form
-                $('body').on('click', '#MultipleSubmit', function (e) {
-                    e.preventDefault();
-
-                    resetAssignFormAlert();
-
-                    var form = $('#MultipleModalForm');
-                    $.ajax({
-                        url: form.attr('action'),
-                        type: form.attr('method'),
-                        data: form.serialize(),
-                        success: function (data) {
-                            if (data.success) {
-                                form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>');
-                                form.find('input[name=due_date]').val('');
-                                table.column(0).checkboxes.deselect();
-                                table.draw();
-                            } else {
-                                $.each(data.errors, function (input_name, input_error) {
-                                    form.find('input[name=' + input_name + ']').addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
-                                });
-                            }
-                        }
-                    });
-
-                });
-
-                function resetAssignFormAlert() {
-                    var form = $('#MultipleModalForm');
-                    $(".alert-success").remove();
-                    $(".text-danger").remove();
-                    form.find("input").removeClass('is-invalid');
-                }
-
             });// end function
 
         </script>

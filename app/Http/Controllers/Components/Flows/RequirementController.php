@@ -127,6 +127,41 @@ class RequirementController extends Controller
     }
 
 
+    public function multipleEdit(Flow $flow)
+    {
+        try {
+            // get company users (Task Owner)
+            $users = User::whereCompanyId($flow->company_id)
+                ->role([
+                    RoleName::ACCOUNTABLE_MANAGER,
+                    RoleName::COMPLIANCE_MONITORING_MANAGER,
+                    RoleName::AUDITOR,
+                    RoleName::AUDITEE,
+                    RoleName::INVESTIGATOR,
+                ])
+                ->active()
+                ->get();
+
+            // get task statuses
+            $statuses = RequrementStatus::tableStatuses(); // all task statuses
+
+            // return json data with success status
+            return response()->json([
+                'success' => true,
+                'flow' => $flow,
+                'users' => $users,
+                'statuses' => $statuses,
+            ], 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => true,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+    }
+
     /**
      * Multiple Assign
      *
@@ -134,23 +169,41 @@ class RequirementController extends Controller
      * @param MultipleAssignRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function multipleChange(Flow $flow, MultipleAssignRequest $request)
+    public function multipleUpdate(Flow $flow, MultipleAssignRequest $request)
     {
         try {
             // explode task id
             $tasks_id = explode(',', $request->tasks_id);
 
-            // update task ( data
+            // count task to update
+            $rows = count($tasks_id);
+
+            // update task
             $tasks = FlowsData::whereFlowId($flow->id)
                 ->whereIn('id', $tasks_id)
-                ->update([
-                    'due_date' => Carbon::parse($request->due_date)->format('Y-m-d'),
+//                ->update([
+//                    'task_owner' => $request->task_owner,
+//                    'month_quarter' => $request->month_quarter,
+//                    'due_date' => Carbon::parse($request->due_date)->format('Y-m-d'),
+//                    'task_status' => $request->task_status,
+//                ])
+                ->get();
+
+            // update tasks
+            foreach($tasks as $task) {
+                $task->update([
+                    'task_owner' => $request->task_owner,
+                    'month_quarter' => $request->month_quarter,
+                    'due_date' => $request->due_date,
+                    'task_status' => $request->task_status,
                 ]);
+            }
+
 
             // return response with success data
             return response()->json([
                 'success' => true,
-                'message' => "{$tasks} rows was updated successfully.",
+                'message' => "{$rows} rows was updated successfully.",
                 'tasks' => $tasks,
             ]);
 
