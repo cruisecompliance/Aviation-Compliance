@@ -43,6 +43,7 @@ class FilterController extends Controller
                     RoleName::AUDITEE,
                     RoleName::INVESTIGATOR,
                 ])
+                ->active()
                 ->get();
 
             // get statuses (table and kanban view)
