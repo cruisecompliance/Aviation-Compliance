@@ -91,12 +91,8 @@ class TableController extends Controller
                     $query->where('rule_section', "$request->rule_section");
                 }
                 if (!empty($request->assignee)) {
-                    // get user role name
-                    $roleName = User::findOrFail($request->assignee)->roles()->first()->name;
-                    // get role statuses
-                    $roleStatuses = RequrementStatus::getRoleStatuses($roleName);
-                    // get task for role
-                    $query->whereIn('task_status', $roleStatuses);
+                    // get task for assignee user
+                    $query->where('task_owner', $request->assignee);
                 }
                 if (!empty($request->status)) {
                     $query->where('task_status', "$request->status");

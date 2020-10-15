@@ -41,12 +41,7 @@ class KanbanController extends Controller
             }
 
             if (!empty($request->assignee)) {
-                // get user role name
-                $roleName = User::findOrFail($request->assignee)->roles()->first()->name;
-                // get role statuses
-                $roleStatuses = RequrementStatus::getRoleStatuses($roleName);
-                // get task for role
-                $queryKanbanTasks->whereIn('task_status', $roleStatuses);
+                $queryKanbanTasks->where('task_owner', $request->assignee);
             }
 
             if (!empty($request->status)) {
