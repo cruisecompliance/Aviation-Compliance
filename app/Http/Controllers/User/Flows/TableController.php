@@ -104,6 +104,9 @@ class TableController extends Controller
                 if (!empty($request->status)) {
                     $query->where('task_status', "$request->status");
                 }
+                if (!empty($request->finding)) {
+                    $query->where('finding', $request->finding);
+                }
             }, true)
             ->rawColumns(['action'])
             ->make(true);

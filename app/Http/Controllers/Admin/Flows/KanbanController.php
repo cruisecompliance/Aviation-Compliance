@@ -44,6 +44,10 @@ class KanbanController extends Controller
             $queryKanbanTasks->where('task_status', $request->status);
         }
 
+        if (!empty($request->finding)) {
+            $queryKanbanTasks->where('finding', $request->finding);
+        }
+
         $kanbanData = $queryKanbanTasks->get();
         $kanbanData = collect($kanbanData)->groupBy('task_status');
         //<

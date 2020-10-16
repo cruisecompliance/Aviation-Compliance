@@ -83,7 +83,7 @@ class FilterController extends Controller
 
             $filter = Filter::create([
                 'name' => $request->name,
-                'params' => "filter_name=$request->name&rule_reference=$request->rule_reference&rule_section=$request->rule_section&status=$request->status&assignee=$request->assignee",
+                'params' => "filter_name=$request->name&rule_reference=$request->rule_reference&rule_section=$request->rule_section&status=$request->status&assignee=$request->assignee&finding=$request->finding",
                 'user_id' => Auth::user()->id,
             ]);
 

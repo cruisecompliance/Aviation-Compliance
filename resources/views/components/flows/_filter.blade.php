@@ -60,6 +60,11 @@
             </select>
         </div>
         <div class="form-group p-1">
+            <select name="finding" id="filter_finding" class="form-control" data-toggle="select2" data-placeholder="F/O/N">
+                <option></option>
+            </select>
+        </div>
+        <div class="form-group p-1">
             <button type="submit" class="btn btn-primary" hidden></button>
             <button type="button" id="show-filter-modal" class="btn btn-primary"><i class="mdi mdi-content-save-outline"></i> Save</button>
         </div>
@@ -86,6 +91,7 @@
                         <input type="text" name="rule_section" value="" hidden>
                         <input type="text" name="assignee" value="" hidden>
                         <input type="text" name="status" value="" hidden>
+                        <input type="text" name="finding" value="" hidden>
 {{--                        @foreach(request()->query() as $query => $value)--}}
 {{--                            <input type="text" name="{{ $query }}" value="{{ $value }}" hidden>--}}
 {{--                        @endforeach--}}
@@ -105,6 +111,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+
             // get filter form data
             $.get("{{ route('components.flows.filters.show', $flow->id) }}", function (data) {
 
@@ -146,6 +153,12 @@
                     });
                 }
 
+                // finding F/O/N input
+                var finding_options = ['Finding','Observation','None'];
+                $.each(finding_options, function (key, finding_option) {
+                    $('#filter_finding').append('<option value="' + finding_option + '">' + finding_option + '</option>');
+                });
+
                 // filter list active link
                 $('#filter_list a[title="{{ request()->filter_name }}"]').addClass('active');
 
@@ -160,6 +173,9 @@
 
                 // statuses selected option
                 $('#filter_statuses option[value="{{ request()->status }}"]').prop('selected', true);
+
+                // finding selected option
+                $('#filter_finding option[value="{{ request()->finding }}"]').prop('selected', true);
 
                 // draw dataTable
                 $('#basic-datatable').DataTable().draw();
@@ -183,6 +199,9 @@
 
             // status (search)
             $('#filter_statuses').change(throttle(filterSearch));
+
+            // finding - F/O/N (search)
+            $('#filter_finding').change(throttle(filterSearch));
 
 
             {{--$('#filter_tasks').focusout(function () {--}}
@@ -265,6 +284,7 @@
 
             // var rule_reference = $(this).val();
             var route = "{{ Route::currentRouteName() }}";
+
             var url = "{{ request()->url() }}" + '?' + firstFormInput.name + '=' + firstFormInput.value;
 
             $.each(formInputs, function( key, value ) {

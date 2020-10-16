@@ -37,7 +37,7 @@
 
                                     </div>
                                     <div class="col-5 text-right">
-                                        <a href="{{ route('user.flows.kanban.index', ['rule_reference' => '', 'rule_section' => '', 'assignee' => Auth::user()->id, 'status' => '']) }}" class="btn btn-success btn-sm mr-1">Kanban View</a>
+                                        <a href="{{ route('user.flows.kanban.index', ['rule_reference' => '', 'rule_section' => '', 'assignee' => Auth::user()->id, 'status' => '', 'finding' => '']) }}" class="btn btn-success btn-sm mr-1">Kanban View</a>
                                     </div>
                                 </div>
                                 <!-- /table header -->
@@ -149,6 +149,7 @@
                             d.rule_section = filterForm.find('select[name=rule_section]').val();
                             d.assignee = filterForm.find('select[name=assignee]').val();
                             d.status = filterForm.find('select[name=status]').val();
+                            d.finding = filterForm.find('select[name=finding]').val();
                         }
                     },
 

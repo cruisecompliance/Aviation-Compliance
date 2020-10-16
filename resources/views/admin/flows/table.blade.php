@@ -128,6 +128,7 @@
                             d.rule_section = filterForm.find('select[name=rule_section]').val();
                             d.assignee = filterForm.find('select[name=assignee]').val();
                             d.status = filterForm.find('select[name=status]').val();
+                            d.finding = filterForm.find('select[name=finding]').val();
                         }
                     },
                     columnDefs: [
