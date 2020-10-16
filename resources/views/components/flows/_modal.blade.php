@@ -250,10 +250,9 @@
 
                         // set auditor - manual evidence reference link
                         if(data.resource.evidence_reference) {
-                            console.log(data.resource.evidence_reference);
                             var auditor_storage = "{{ url('') }}" + '/storage/auditor/' + data.resource.evidence_reference;
                             $('#evidence_reference_link').find('a').remove();
-                            $('#evidence_reference_link').show().append('<a class="file-text" href=' + auditor_storage + '>' + data.resource.evidence_reference + '</a>'); // file link
+                            $('#evidence_reference_link').show().append('<a class="file-text" href=' + auditor_storage + ' target="_blank">' + data.resource.evidence_reference + '</a>'); // file link
 
                         } else {
                             $('#evidence_reference_link').find('a').remove();
@@ -263,7 +262,7 @@
                         if(data.resource.action_implemented_evidence) {
                             var investigator_storage = "{{ url('') }}" + '/storage/investigator/' + data.resource.action_implemented_evidence;
                             $('#action_implemented_evidence_link').find('a').remove();
-                            $('#action_implemented_evidence_link').show().append('<a class="file-text" href=' + investigator_storage + '>' + data.resource.action_implemented_evidence + '</a>'); // file link
+                            $('#action_implemented_evidence_link').show().append('<a class="file-text" href=' + investigator_storage + ' target="_blank">' + data.resource.action_implemented_evidence + '</a>'); // file link
 
                         } else {
                             $('#action_implemented_evidence_link').find('a').remove();
