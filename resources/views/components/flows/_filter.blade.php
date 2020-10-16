@@ -263,7 +263,6 @@
 
             var firstFormInput = formInputs.shift();
 
-            /////////
             // var rule_reference = $(this).val();
             var route = "{{ Route::currentRouteName() }}";
             var url = "{{ request()->url() }}" + '?' + firstFormInput.name + '=' + firstFormInput.value;
@@ -274,7 +273,7 @@
 
             // reload (kanban and table)
             if (route.indexOf('kanban') > -1) {
-                $('#load').load(url + ' #load');
+                $('#load').load(encodeURI(url) + ' #load');
             } else {
                 $('#basic-datatable').DataTable().draw();
             }
