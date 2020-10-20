@@ -344,7 +344,7 @@
 
                     var rule_id = $('#rule_id').val();
 
-                    $.get('/flow/' + rule_id + '/comments', function (data) {
+                    $.get('/flows/' + rule_id + '/comments', function (data) {
 
                         $('#comments').empty(); // ToDo
 

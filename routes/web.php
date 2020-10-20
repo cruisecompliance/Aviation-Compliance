@@ -79,8 +79,8 @@ Route::namespace('Components')->middleware('auth')->group(function () {
         Route::post('/flows/{flow}/multiple/requirements/', 'RequirementController@multipleUpdate')->name('components.flows.multiple.requirements.update');
 
         // Flow comment
-        Route::get('/flow/{rule_id}/comments', 'CommentController@index')->name('components.flows.comments.index');
-        Route::post('/flow/{flow?}/comment/store', 'CommentController@store')->name('components.flows.comments.store');
+        Route::get('/flows/{rule_id}/comments', 'CommentController@index')->name('components.flows.comments.show');
+        Route::post('/flows/{flow?}/comment/store', 'CommentController@store')->name('components.flows.comments.store');
 
         // Flow History
         Route::get('flows/{rule_id}/history', 'HistoryController@show')->name('components.flows.history.show');
