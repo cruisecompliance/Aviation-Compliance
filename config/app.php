@@ -181,6 +181,7 @@ return [
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 //        Laravel\Socialite\SocialiteServiceProvider
+        OwenIt\Auditing\AuditingServiceProvider::class,
     ],
 
     /*

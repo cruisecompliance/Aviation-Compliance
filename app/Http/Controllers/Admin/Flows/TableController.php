@@ -48,31 +48,31 @@ class TableController extends Controller
                 return $flowsData->owner ? $flowsData->owner->name : '';
             })
             ->editColumn('due_date', function (FlowsData $flowsData) {
-                return !empty($flowsData->due_date) ? $flowsData->due_date->format('d.m.Y') : '';
+                return !empty($flowsData->due_date) ? $flowsData->due_date : '';
             })
             ->filterColumn('due_date', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(due_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
             })
             ->editColumn('effectiveness_review_date', function (FlowsData $flowsData) {
-                return !empty($flowsData->effectiveness_review_date) ? $flowsData->effectiveness_review_date->format('d.m.Y') : '';
+                return !empty($flowsData->effectiveness_review_date) ? $flowsData->effectiveness_review_date : '';
             })
             ->filterColumn('effectiveness_review_date', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(effectiveness_review_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
             })
             ->editColumn('response_date', function (FlowsData $flowsData) {
-                return !empty($flowsData->response_date) ? $flowsData->response_date->format('d.m.Y') : '';
+                return !empty($flowsData->response_date) ? $flowsData->response_date : '';
             })
             ->filterColumn('response_date', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(response_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
             })
             ->editColumn('extension_due_date', function (FlowsData $flowsData) {
-                return !empty($flowsData->extension_due_date) ? $flowsData->extension_due_date->format('d.m.Y') : '';
+                return !empty($flowsData->extension_due_date) ? $flowsData->extension_due_date : '';
             })
             ->filterColumn('extension_due_date', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(extension_due_date,'%d.%m.%Y') like ?", ["%$keyword%"]);
             })
             ->editColumn('closed_date', function (FlowsData $flowsData) {
-                return !empty($flowsData->closed_date) ? $flowsData->closed_date->format('d.m.Y H:i:s') : '';
+                return !empty($flowsData->closed_date) ? $flowsData->closed_date : '';
             })
             ->filterColumn('closed_date', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(closed_date,'%d.%m.%Y') like ?", ["%$keyword%"]);

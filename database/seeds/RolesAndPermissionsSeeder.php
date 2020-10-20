@@ -108,6 +108,7 @@ class RolesAndPermissionsSeeder extends Seeder
             PermissionName::EDIT_ACTION_IMPLEMENTED_EVIDENCE,
             PermissionName::EDIT_SAFETY_LEVEL_AFTER_ACTION,
             PermissionName::EDIT_EFFECTIVENESS_REVIEW_DATE,
+            PermissionName::EDIT_RESPONSE_DATE,
 
             // Investigator
             PermissionName::EDIT_SAFETY_LEVEL_BEFORE_ACTION,

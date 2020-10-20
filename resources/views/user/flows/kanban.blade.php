@@ -54,7 +54,7 @@
                                                     <div class="clearfix"></div>
                                                     <div class="row">
                                                         <div class="col">
-                                                            <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date->format('d.m.Y') : '-' }}</p>
+                                                            <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date : '-' }}</p>
                                                         </div>
                                                         <div class="col-auto">
                                                             <div class="text-right">

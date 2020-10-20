@@ -81,6 +81,9 @@ Route::namespace('Components')->middleware('auth')->group(function () {
         // Flow comment
         Route::get('/flow/{rule_id}/comments', 'CommentController@index')->name('components.flows.comments.index');
         Route::post('/flow/{flow?}/comment/store', 'CommentController@store')->name('components.flows.comments.store');
+
+        // Flow History
+        Route::get('flows/{rule_id}/history', 'HistoryController@show')->name('components.flows.history.show');
     });
 });
 

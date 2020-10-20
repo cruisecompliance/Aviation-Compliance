@@ -24,17 +24,27 @@
                                         Comments
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#task_history" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                        History
+                                    </a>
+                                </li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane show active" id="task_details">
                                     <!-- form -->
-                                @include('components.flows._form')
-                                <!-- /form -->
+                                    @include('components.flows._form')
+                                    <!-- /form -->
                                 </div>
                                 <div class="tab-pane" id="task_comments">
                                     <!-- comments -->
-                                @include('components.flows._comments')
-                                <!--/comments -->
+                                    @include('components.flows._comments')
+                                    <!--/comments -->
+                                </div>
+                                <div class="tab-pane" id="task_history">
+                                    <!-- history -->
+                                    @include('components.flows._history')
+                                    <!--/history -->
                                 </div>
                             </div>
                         </div> <!-- end col -->
@@ -272,6 +282,9 @@
                         // get comment for task
                         getComments(); // ToDo
 
+                        // get history for task
+                        getHistory();
+
                         // show modal
                         $('#ajaxModel').modal('show');
                     });
@@ -330,17 +343,15 @@
                 function getComments() {
 
                     var rule_id = $('#rule_id').val();
-                    console.log(rule_id);
 
                     $.get('/flow/' + rule_id + '/comments', function (data) {
 
                         $('#comments').empty(); // ToDo
 
                         if (data.comments) {
-                            // console.table(data.comments);
 
                             $.each(data.comments, function (key, comment) {
-                                // console.log(comment.message);
+
                                 $('#comments').append(
                                     '<div class="media mt-3 p-1 comment-block">' +
                                     '<div class="media-body">' +
@@ -358,6 +369,52 @@
                             });
 
                         }
+                    });
+                }
+
+                function getHistory(){
+                    var rule_id = $('#rule_id').val();
+
+                    $.get('/flows/' + rule_id + '/history', function (data) {
+
+                        $('#history').empty();
+
+                        if (data.diff) {
+                            $.each(data.diff, function (key, diff) {
+                                $.each(diff.fields, function (field, value) {
+
+                                    var field_name = field.split("_").join(" ");
+                                    var field_name = toTitleCase(field_name);
+
+                                    $('#history').append(
+                                        '<div class="media mt-3 p-1 comment-block">' +
+                                        '<div class="media-body">' +
+                                        '<h5 class="mt-0 mb-0 font-size-14">' +
+                                        '<span class="float-right text-muted font-12">' + diff.created_at + '</span>' +
+                                        diff.user +
+                                        '<span class="text-muted font-14"> updated the </span>' +
+                                        field_name +
+                                        '</h5>' +
+                                        '<div class="diff mt-1 mb-1">' +
+                                        '<span style="background: #ffe9e9" class="deleted-line">' + value.old + '</span>'+
+                                        '<span> <i class="fas fa-long-arrow-alt-right"></i> </span>'+
+                                        '<span style="background: #e9ffe9" class="added-line">' + value.new + '</span>'+
+                                        '</div>'+
+                                        '</div>' +
+                                        '</div>' +
+                                        '<hr/>'
+                                    );
+
+                                });
+                            });
+
+                        }
+                    });
+                }
+
+                function toTitleCase(str) {
+                    return str.replace(/(?:^|\s)\w/g, function(match) {
+                        return match.toUpperCase();
                     });
                 }
 

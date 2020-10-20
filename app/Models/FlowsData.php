@@ -9,10 +9,16 @@ use App\Services\Flows\FileUploadService;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
-class FlowsData extends Model
+
+class FlowsData extends Model implements AuditableContract
 {
+    use AuditableTrait;
+
     protected $guarded = [];
 
     protected $dates = [
@@ -24,26 +30,177 @@ class FlowsData extends Model
         'closed_date'
     ];
 
-    protected $casts = [
-        'month_quarter' => 'date:m.Y',
-        'due_date' => 'date:d.m.Y',
-        'effectiveness_review_date' => 'date:d.m.Y',
-        'response_date' => 'date:d.m.Y',
-        'extension_due_date' => 'date:d.m.Y',
-        'closed_date' => 'date:d.m.Y H:i:s',
+//    protected $casts = [
+//        'month_quarter' => 'date:m.Y',
+//        'due_date' => 'date:d.m.Y',
+//        'effectiveness_review_date' => 'date:d.m.Y',
+//        'response_date' => 'date:d.m.Y',
+//        'extension_due_date' => 'date:d.m.Y',
+//        'closed_date' => 'date:d.m.Y H:i:s',
+//    ];
+
+
+    // Auditable
+    protected $auditExclude = [
+        'id',
+        'flow_id',
+        'rule_section',
+        'rule_group',
+        'rule_reference',
+        'rule_title',
+        'rule_manual_reference',
+        'rule_chapter',
     ];
 
+    /**
+     * {@inheritdoc}
+     */
+    public function transformAudit(array $data): array
+    {
+        if (Arr::has($data, 'new_values.task_owner')) {
+            $data['old_values']['task_owner'] = (User::find($this->getOriginal('task_owner'))->name) ??  NULL;
+            $data['new_values']['task_owner'] = (User::find($this->getAttribute('task_owner'))->name) ??  NULL;
+        }
 
+        return $data;
+    }
+
+
+    /**
+     * Set Month / Quarter Date format
+     *
+     * @param $value
+     */
     public function setMonthQuarterAttribute($value)
     {
-        if(!empty($value)){
+        if (!empty($value)) {
             $dateMonthArray = explode('.', $value);
             $month = $dateMonthArray[0];
             $year = $dateMonthArray[1];
-            $this->attributes['month_quarter'] =  Carbon::createFromDate($year, $month)->endOfMonth()->toDateString();
+            $this->attributes['month_quarter'] = Carbon::createFromDate($year, $month)->endOfMonth()->toDateString();
         } else {
             $this->attributes['month_quarter'] = null;
         }
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getMonthQuarterAttribute($value)
+    {
+        return ($value)
+            ? Carbon::parse($value)->format('m.Y')
+            : $value;
+    }
+
+    /**
+     * @param $value
+     */
+    public function setDueDateAttribute($value)
+    {
+        ($value)
+            ? $this->attributes['due_date'] = Carbon::parse($value)->format('Y-m-d H:i:s')
+            : $this->attributes['due_date'] = $value;
+
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getDueDateAttribute($value)
+    {
+        return ($value)
+            ? Carbon::parse($value)->format('d.m.Y')
+            : $value;
+    }
+
+    /**
+     * @param $value
+     */
+    public function setEffectivenessReviewDateAttribute($value)
+    {
+        ($value)
+            ? $this->attributes['effectiveness_review_date'] = Carbon::parse($value)->format('Y-m-d H:i:s')
+            : $this->attributes['effectiveness_review_date'] = $value;
+
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getEffectivenessReviewDateAttribute($value)
+    {
+        return ($value)
+            ? Carbon::parse($value)->format('d.m.Y')
+            : $value;
+    }
+
+    /**
+     * @param $value
+     */
+    public function setResponseDateAttribute($value)
+    {
+        ($value)
+            ? $this->attributes['response_date'] = Carbon::parse($value)->format('Y-m-d H:i:s')
+            : $this->attributes['response_date'] = $value;
+
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getResponseDateAttribute($value)
+    {
+        return ($value)
+            ? Carbon::parse($value)->format('d.m.Y')
+            : $value;
+    }
+
+    /**
+     * @param $value
+     */
+    public function setExtensionDueDateAttribute($value)
+    {
+        ($value)
+            ? $this->attributes['extension_due_date'] = Carbon::parse($value)->format('Y-m-d H:i:s')
+            : $this->attributes['extension_due_date'] = $value;
+
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getExtensionDueDateAttribute($value)
+    {
+        return ($value)
+            ? Carbon::parse($value)->format('d.m.Y')
+            : $value;
+    }
+
+    /**
+     * @param $value
+     */
+    public function setClosedDateAttribute($value)
+    {
+        ($value)
+            ? $this->attributes['closed_date'] = Carbon::parse($value)->format('Y-m-d H:i:s')
+            : $this->attributes['closed_date'] = $value;
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getClosedDateAttribute($value)
+    {
+        return ($value)
+            ? Carbon::parse($value)->format('d.m.Y H:i:s')
+            : $value;
     }
 
 
@@ -149,6 +306,7 @@ class FlowsData extends Model
             $task->action_implemented_evidence = $request->action_implemented_evidence;
             $task->safety_level_after_action = $request->safety_level_after_action;
             $task->effectiveness_review_date = $request->effectiveness_review_date;
+            $task->response_date = $request->response_date;
             $task->task_owner = $request->task_owner;
             $task->task_status = $request->task_status;
         }
