@@ -139,6 +139,7 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth', 'role:' . RoleNam
      **/
     Route::namespace('Companies')->group(function() {
         Route::resource('/companies', 'CompanyController')->except(['create', 'show', 'destroy'])->names('admin.companies');
+        Route::post('/companies/fields/store', 'FieldController@store')->name('admin.companies.fields.store');
     });
 
     /**

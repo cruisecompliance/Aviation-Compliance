@@ -65,7 +65,7 @@
 
     </div>
 
-    <!-- modal -->
+    <!-- modal company create | edit -->
     <div class="modal fade" id="ajaxModel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -100,149 +100,264 @@
                 </div>
             </div>
         </div>
-        <!-- /modal -->
+    </div>
+    <!-- /modal company create | edit -->
 
-        @push('scripts')
-            <script type="text/javascript">
+    <!-- modal import company fields  -->
+    <div class="modal fade" id="ImportFieldsModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Company Fields</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="ImportFieldsForm" action="{{ route('admin.companies.fields.store') }}" name="ItemForm" class="form-horizontal" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="company_id" id="company_id">
+                        <div class="form-group">
+                            <label for="description" class="control-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" placeholder=""></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="control-label">.xlsx file*</label>
+                            <input type="file" class="form-control" name="user_file" placeholder="" value="" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="ImportFieldsSubmit">Import</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
 
-                $(function () {
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /modal import company fields -->
 
-                    // csrf token
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
 
-                    // dataTable list
-                    var table = $('#basic-datatable').DataTable({
-                        processing: true,
-                        serverSide: true,
-                        ajax: {
-                            url: "{{ route('admin.companies.index') }}",
-                            type: 'GET',
-                        },
-                        columns: [
-                            // {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                            {data: 'name', name: 'name'},
-                            {data: 'url', name: 'url'},
-                            {data: 'status',
-                                'render': function (data, type, row) {
-                                    return (data == true)
-                                        ? '<span class="badge badge-success">Active</span>'
-                                        : '<span class="badge badge-warning">Disabled';
-                                }
-                            },
-                            {data: 'action', name: 'action', orderable: false, searchable: false},
+    @push('scripts')
+        <script type="text/javascript">
 
-                        ],
-                        "language": {
-                            "paginate": {
-                                "previous": "<i class='mdi mdi-chevron-left'>",
-                                "next": "<i class='mdi mdi-chevron-right'>"
+            $(function () {
+
+                // csrf token
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                // dataTable list
+                var table = $('#basic-datatable').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('admin.companies.index') }}",
+                        type: 'GET',
+                    },
+                    columns: [
+                        // {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                        {data: 'name', name: 'name'},
+                        {data: 'url', name: 'url'},
+                        {
+                            data: 'status',
+                            'render': function (data, type, row) {
+                                return (data == true)
+                                    ? '<span class="badge badge-success">Active</span>'
+                                    : '<span class="badge badge-warning">Disabled';
                             }
                         },
-                        "drawCallback": function () {
-                            $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+                        {data: 'action', name: 'action', orderable: false, searchable: false},
+
+                    ],
+                    "language": {
+                        "paginate": {
+                            "previous": "<i class='mdi mdi-chevron-left'>",
+                            "next": "<i class='mdi mdi-chevron-right'>"
                         }
-                    });
+                    },
+                    "drawCallback": function () {
+                        $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+                    }
+                });
 
-                    // modal create
-                    $('#createNewItem').click(function () {
-                        var action = "{{ route('admin.companies.store') }}";
-                        var method = "POST";
+                // modal company create
+                $('#createNewItem').click(function () {
+                    var action = "{{ route('admin.companies.store') }}";
+                    var method = "POST";
 
-                        resetForm();
-                        $('#ItemForm').trigger("reset");
+                    resetCreateForm();
 
-                        $('#modelHeading').html("Create Company");
+                    // $('#ItemForm').trigger("reset");
+
+                    $('#modelHeading').html("Create Company");
+                    $('#ItemForm').attr('action', action); // form action
+                    $('#_method').val(method); // form method
+                    $('#saveBtn').html("Create"); // form button
+                    $('#name').val(''); //Add form data
+                    $('#URL').val(''); //Add form data
+                    $('#ajaxModel').modal('show');
+                });
+
+
+                // modal company edit
+                $('body').on('click', '.editItem', function () {
+
+                    var company_id = $(this).data('id');
+                    var action = "{{ route('admin.companies.index') }}" + '/' + company_id;
+                    var method = "PATCH";
+
+                    resetCreateForm();
+
+                    $.get("{{ route('admin.companies.index') }}" + '/' + company_id + '/edit', function (data) {
+                        $('#modelHeading').html("Edit Company - " + data.company.name); // modal header
                         $('#ItemForm').attr('action', action); // form action
                         $('#_method').val(method); // form method
-                        $('#saveBtn').html("Create"); // form button
-                        $('#name').val(''); //Add form data
-                        $('#URL').val(''); //Add form data
+                        $('#saveBtn').html("Update"); // form button
+                        $('#name').val(data.company.name); // form data
+                        $('#url').val(data.company.url); // form data
+                        $('#company_status option[value="' + data.company.status + '"]').prop('selected', true); // form data - selected user role
                         $('#ajaxModel').modal('show');
-                    });
+                    })
+                });
 
+                // ajax company create | save
+                $('body').on('click', '#saveBtn', function (e) {
+                    e.preventDefault();
 
-                    // modal edit
-                    $('body').on('click', '.editItem', function () {
+                    resetCreateForm();
 
-                        var company_id = $(this).data('id');
-                        var action = "{{ route('admin.companies.index') }}" + '/' + company_id;
-                        var method = "PATCH";
+                    var form = $('#ItemForm');
 
-                        resetForm();
-
-                        $.get("{{ route('admin.companies.index') }}" + '/' + company_id + '/edit', function (data) {
-                            $('#modelHeading').html("Edit Company - " + data.company.name); // modal header
-                            $('#ItemForm').attr('action', action); // form action
-                            $('#_method').val(method); // form method
-                            $('#saveBtn').html("Update"); // form button
-                            $('#name').val(data.company.name); // form data
-                            $('#url').val(data.company.url); // form data
-                            $('#company_status option[value="' + data.company.status + '"]').prop('selected', true); // form data - selected user role
-                            $('#ajaxModel').modal('show');
-                        })
-                    });
-
-                    // reset form alert
-                    var resetForm = function () {
-                        var form = $('#ItemForm');
-                        form.find("input").removeClass('is-invalid');
-                        form.find("select").removeClass('is-invalid');
-                        form.find("textarea").removeClass('is-invalid');
-                        $(".alert-success").remove();
-                        $(".text-danger").remove();
-                    };
-
-                    // ajax create | save
-                    $('body').on('click', '#saveBtn', function (e) {
-                        e.preventDefault();
-                        resetForm();
-                        var form = $('#ItemForm');
-                        $.ajax({
-                            url: form.attr('action'),
-                            type: form.attr('method'),
-                            data: form.serialize(),
-                            success: function (data) {
-                                // console.log(data);
-                                if (data.success) {
-                                    form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>');
-                                    table.draw();
-                                } else {
-                                    $.each(data.errors, function (input_name, input_error) {
-                                        form.find("input[name='" + input_name + "']").addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
-                                    });
-                                }
-                            },
-                            error: function (data) {
-                                console.log('Error:', data);
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: form.attr('method'),
+                        data: form.serialize(),
+                        success: function (data) {
+                            // console.log(data);
+                            if (data.success) {
+                                form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>');
+                                table.draw();
+                            } else {
+                                $.each(data.errors, function (input_name, input_error) {
+                                    form.find("input[name='" + input_name + "']").addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
+                                });
                             }
-                        });
+                        },
+                        error: function (data) {
+                            console.log('Error:', data);
+                        }
                     });
+                });
 
-                    {{--$('body').on('click', '.deleteItem', function () {--}}
+                // reset form alert
+                var resetCreateForm = function () {
 
-                    {{--    var Item_id = $(this).data("id");--}}
-                    {{--    confirm("Are You sure want to delete ?");--}}
-
-                    {{--    $.ajax({--}}
-                    {{--        type: "DELETE",--}}
-                    {{--        url: "{{ route('ajaxItems.store') }}"+'/'+Item_id,--}}
-                    {{--        success: function (data) {--}}
-                    {{--            table.draw();--}}
-                    {{--        },--}}
-                    {{--        error: function (data) {--}}
-                    {{--            console.log('Error:', data);--}}
-                    {{--        }--}}
-                    {{--    });--}}
-                    {{--});--}}
+                    var form = $('#ItemForm');
+                    form.find("input").removeClass('is-invalid');
+                    form.find("select").removeClass('is-invalid');
+                    form.find("textarea").removeClass('is-invalid');
+                    $(".alert-success").remove();
+                    $(".text-danger").remove();
+                };
 
 
-                });// end function
+            {{--$('body').on('click', '.deleteItem', function () {--}}
 
-            </script>
+                {{--    var Item_id = $(this).data("id");--}}
+                {{--    confirm("Are You sure want to delete ?");--}}
+
+                {{--    $.ajax({--}}
+                {{--        type: "DELETE",--}}
+                {{--        url: "{{ route('ajaxItems.store') }}"+'/'+Item_id,--}}
+                {{--        success: function (data) {--}}
+                {{--            table.draw();--}}
+                {{--        },--}}
+                {{--        error: function (data) {--}}
+                {{--            console.log('Error:', data);--}}
+                {{--        }--}}
+                {{--    });--}}
+                {{--});--}}
+
+                // modal company fields
+                $('body').on('click', '.companyFields', function () {
+
+                    // set var
+                    var company_id = $(this).data('id');
+                    var form = $('#ImportFieldsForm');
+
+                    // reset import form
+                    resetImportForm();
+
+                    // set form data
+                    form.find('input').val('');
+                    form.find('input[name=company_id]').val(company_id);
+
+                    // show modal form
+                    $('#ImportFieldsModal').modal('show');
+                });
+
+                // ajax store company fields
+                $('body').on('click', '#ImportFieldsSubmit', function (e) {
+                    e.preventDefault();
+
+                    // set form data
+                    var form = $('#ImportFieldsForm');
+                    var formData = new FormData(form[0]);
+
+                    // reset import form
+                    resetImportForm();
+
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: form.attr('method'),
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+
+                            // form errors
+                            if (data.success) {
+                                form.find('input[name=user_file]').val('');
+                                form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>');
+                            } else {
+                                $.each(data.errors, function (input_name, input_error) {
+                                    form.find("[name='" + input_name + "']").addClass('is-invalid').after('<span class="text-danger">' + input_error + '</span>');
+                                });
+                            }
+
+                            // file errors
+                            if (data.duplicate) {
+                                $.each(data.duplicate, function (id, rule_reference) {
+                                    // console.log(rule_reference);
+                                    form.before('<div class="alert alert-danger" role="alert">The ' + rule_reference + ' field is duplicated. </div>');
+                                });
+                            }
+
+                        },
+                        error: function (data) {
+                            console.log('Error:', data);
+                        }
+                    });
+                });
+
+                // reset form alert
+                var resetImportForm = function () {
+
+                    var form = $('#ImportFieldsForm');
+                    form.find("input").removeClass('is-invalid');
+                    form.find("select").removeClass('is-invalid');
+                    form.find("textarea").removeClass('is-invalid');
+                    $(".alert-success").remove();
+                    $(".alert-danger").remove();
+                    $(".text-danger").remove();
+                };
+
+
+            });// end function
+
+        </script>
     @endpush
 
 @endsection

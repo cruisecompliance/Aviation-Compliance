@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Admin\Flows;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Flows\FlowRequest;
 use App\Models\Company;
+use App\Models\CompanyField;
 use App\Models\Flow;
 use App\Models\Requirement;
 use App\Models\RequirementsData;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 
@@ -84,26 +83,53 @@ class FlowController extends Controller
             // set flow hash (for calendar feed)
             $flow->update(['hash' => md5($flow->id)]);
 
-            // get RequirementsData
+            // get RequirementsData (for flow)
             $requirementsData = RequirementsData::query()->where('version_id', $request->requirements)->get();
 
-            // save FlowData
+            // get last version of CompanyFields
+            $companyFields = CompanyField::where('company_id', $request->company)->latest()->first();
+
+            // get company fields data (for flow)
+            if ($companyFields) {
+                $companyFields = $companyFields->data;
+            }
+
+            $flowData = [];
+
+            // set requirements
             foreach ($requirementsData as $requirement) {
-                $flow->flowData()->create([
+
+                // get company fields for rule_reference
+                if ($companyFields) {
+                    $companyData = $companyFields->where('rule_reference', $requirement['rule_reference'])->first();
+                } else {
+                    $companyData = NULL;
+                }
+
+                // prepare FlowData
+                $flowData[] = [
                     'rule_section' => $requirement->rule_section,
                     'rule_group' => $requirement->rule_group,
                     'rule_reference' => $requirement->rule_reference,
                     'rule_title' => $requirement->rule_title,
                     'rule_manual_reference' => $requirement->rule_manual_reference,
                     'rule_chapter' => $requirement->rule_chapter,
-                ]);
+
+                    'company_manual' => ($companyData) ? $companyData->company_manual : NULL,
+                    'company_chapter' => ($companyData) ? $companyData->company_chapter : NULL,
+                ];
+
             }
 
+            // save flow data
+            $flow->flowData()->createMany($flowData);
+
+            // return JSON data
             return response()->json([
                 'success' => true,
                 'message' => "Flow {$flow->title} was created successfully.",
                 'resource' => $flow,
-            ]);
+            ], 200);
         });
     }
 

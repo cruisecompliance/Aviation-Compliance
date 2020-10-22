@@ -275,6 +275,7 @@
                                 // form errors
                                 if (data.success) {
                                     form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>');
+                                    form.find('input[name=user_file]').val('');
                                     table.draw();
                                 } else {
                                     $.each(data.errors, function (input_name, input_error) {
