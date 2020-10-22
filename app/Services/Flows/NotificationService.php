@@ -40,12 +40,12 @@ class NotificationService
         // send notification
         foreach ($tasks as $task) {
 
-            // get notification users
+            // get all active users of company (without role SME)
             $notificationUsers = $this->getNotificationUsers($task, $task->flow->company->id);
 
             // send email notification
             foreach ($notificationUsers as $user) {
-                $user->notify(new TaskReminderDueDateEmailNotification($task->rule_reference, $task->due_date->format('d.m.Y'), $user->name));
+                $user->notify(new TaskReminderDueDateEmailNotification($task->rule_reference, $task->due_date, $user->name));
             }
 
         }
@@ -62,10 +62,11 @@ class NotificationService
 
         foreach ($tasks as $task) {
 
+            // get all active users of company (without role SME)
             $notificationUsers = $this->getNotificationUsers($task, $task->flow->company->id);
 
             foreach ($notificationUsers as $user) {
-                $user->notify(new TaskReminderMonthEmailNotification($task->rule_reference, $task->month_quarter->format('d.m.Y'), $user->name));
+                $user->notify(new TaskReminderMonthEmailNotification($task->rule_reference, $task->month_quarter, $user->name));
             }
         }
     }
@@ -79,7 +80,7 @@ class NotificationService
      */
     public function sendEditTaskMailNotification(Flow $flow, FlowsData $task, User $user): void
     {
-        // get notification users
+        // get all active users of company (without role SME)
         $notificationUsers = $this->getNotificationUsers($task, $flow->company->id);
 
         // send notification to email
@@ -118,16 +119,7 @@ class NotificationService
     public function sendAddTaskCommentNotification(Flow $flow, FlowsData $task, Comment $comment, User $user): void
     {
         // get all active users of company (without role SME)
-        $notificationUsers = User::whereCompanyId($flow->company_id)
-            ->role([
-                RoleName::ACCOUNTABLE_MANAGER,
-                RoleName::COMPLIANCE_MONITORING_MANAGER,
-                RoleName::AUDITOR,
-                RoleName::AUDITEE,
-                RoleName::INVESTIGATOR,
-            ])
-            ->active()
-            ->get();
+        $notificationUsers = $this->getNotificationUsers($task, $flow->company->id);
 
         // send notification to email
         Notification::send($notificationUsers, new AddTaskCommentMailNotification($task->rule_reference, $user->name, $comment->message));
@@ -142,20 +134,17 @@ class NotificationService
      */
     private function getNotificationUsers(FlowsData $task, $company_id): object
     {
-        // get task owner
-        $notificationUsers[] = $task->owner;
-
-        // get AM and CMM active users of company
-        $users = User::whereCompanyId($company_id)
+        // get all active users of company (without role SME)
+        $notificationUsers = User::whereCompanyId($company_id)
             ->role([
                 RoleName::ACCOUNTABLE_MANAGER,
                 RoleName::COMPLIANCE_MONITORING_MANAGER,
+                RoleName::AUDITOR,
+                RoleName::AUDITEE,
+                RoleName::INVESTIGATOR,
             ])
             ->active()
             ->get();
-
-        // merge users list
-        $notificationUsers = collect($notificationUsers)->merge($users)->unique()->filter();
 
         // return users list
         return $notificationUsers;

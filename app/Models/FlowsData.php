@@ -39,6 +39,8 @@ class FlowsData extends Model implements AuditableContract
 //        'closed_date' => 'date:d.m.Y H:i:s',
 //    ];
 
+    protected $appends = ['short_month_quarter'];
+
 
     // Auditable
     protected $auditExclude = [
@@ -90,9 +92,24 @@ class FlowsData extends Model implements AuditableContract
     public function getMonthQuarterAttribute($value)
     {
         return ($value)
+            ? Carbon::parse($value)->format('d.m.Y')
+            : $value;
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getShortMonthQuarterAttribute()
+    {
+        $value = $this->month_quarter;
+        return ($value)
             ? Carbon::parse($value)->format('m.Y')
             : $value;
     }
+
+
+
 
     /**
      * @param $value

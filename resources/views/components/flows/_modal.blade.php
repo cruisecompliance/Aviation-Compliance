@@ -189,7 +189,7 @@
                         $('#company_chapter').val(data.resource.company_chapter);
 
                         $('#frequency').val(data.resource.frequency);
-                        $('#month_quarter').val(data.resource.month_quarter);
+                        $('#month_quarter').val(data.resource.short_month_quarter);
 
                         $('#questions').val(data.resource.questions);
                         $('#finding').val(data.resource.finding);
