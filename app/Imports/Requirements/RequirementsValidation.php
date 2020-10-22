@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Imports;
+namespace App\Imports\Requirements;
 
 
 use Illuminate\Support\Collection;

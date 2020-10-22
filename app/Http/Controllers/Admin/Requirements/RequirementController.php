@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin\Requirements;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Requirements\RequirementRequest;
-use App\Imports\RequirementsValidation;
+use App\Imports\Requirements\RequirementsValidation;
 use App\Models\Requirement;
 use App\Models\RequirementsData;
-use App\Imports\RequirementsImport;
+use App\Imports\Requirements\RequirementsImport;
 use App\Services\ColorDiff;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
