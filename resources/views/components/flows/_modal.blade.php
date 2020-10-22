@@ -360,7 +360,7 @@
                                     comment.user.name +
                                     '</h5>' +
                                     '<p class="mt-1 mb-0 text-muted">' +
-                                    comment.message +
+                                    comment.message.replace(/\r\n|\n|\r/g, '<br />')+
                                     '</p>' +
                                     '</div>' +
                                     '</div>' +
