@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Users;
 
-use App\Enums\RequrementStatus;
+use App\Enums\RequirementStatus;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;

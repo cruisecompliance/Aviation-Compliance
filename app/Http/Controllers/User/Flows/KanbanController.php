@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User\Flows;
 
-use App\Enums\RequrementStatus;
+use App\Enums\RequirementStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Filter;
 use App\Models\Flow;
@@ -28,7 +28,7 @@ class KanbanController extends Controller
         if (!empty($flow)) {
 
             $queryKanbanTasks = FlowsData::where('flow_id', $flow->id)
-                ->whereNotIn('task_status', [RequrementStatus::CMM_Backlog])
+                ->whereNotIn('task_status', [RequirementStatus::CMM_Backlog])
                 ->with('owner');
 
             if (!empty($request->rule_reference)) {

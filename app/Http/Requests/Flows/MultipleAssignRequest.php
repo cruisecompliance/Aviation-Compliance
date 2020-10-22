@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Flows;
 
-use App\Enums\RequrementStatus;
+use App\Enums\RequirementStatus;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -46,7 +46,7 @@ class MultipleAssignRequest extends FormRequest
     public function rules()
     {
         // task statuses (for validation)
-        $task_statuses = RequrementStatus::statusTransitions()->implode('status_name', ',');
+        $task_statuses = RequirementStatus::statusTransitions()->implode('status_name', ',');
 
         return [
             'tasks_id' => 'required|string',

@@ -7,7 +7,7 @@ use BenSampo\Enum\Enum;
 /**
  * @method static static CMM_Backlog()
  */
-final class RequrementStatus extends Enum
+final class RequirementStatus extends Enum
 {
 
     const CMM_Backlog = 'Backlog';

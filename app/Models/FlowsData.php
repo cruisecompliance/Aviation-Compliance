@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\RequrementStatus;
+use App\Enums\RequirementStatus;
 use App\Enums\RoleName;
 use App\Http\Requests\Flows\RequirementRequest;
 use App\Services\Flows\FileUploadService;
@@ -330,7 +330,7 @@ class FlowsData extends Model implements AuditableContract
         }
 
         // update closed_date (if status cmm_done)
-        if ($request->task_status == RequrementStatus::CMM_Done) {
+        if ($request->task_status == RequirementStatus::CMM_Done) {
             $task->closed_date = Carbon::now();
         } else {
             $task->closed_date = NULL;

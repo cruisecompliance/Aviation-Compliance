@@ -34,7 +34,7 @@
                 <div class="row flex-nowrap" id="load">
 
                     <!-- start block -->
-                    @foreach(RequrementStatus::kanbanStatuses() as $status)
+                    @foreach(RequirementStatus::kanbanStatuses() as $status)
                         <div class="col-3">
                             <div class="card-box">
                                 <h4 class="header-title mb-3">{{ $status }}</h4>

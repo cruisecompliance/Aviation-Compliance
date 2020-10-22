@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Components\Flows;
 
-use App\Enums\RequrementStatus;
+use App\Enums\RequirementStatus;
 use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Flows\FilterRequest;
@@ -47,8 +47,8 @@ class FilterController extends Controller
                 ->get();
 
             // get statuses (table and kanban view)
-            $tableStatuses = RequrementStatus::tableStatuses();
-            $kanbanStatuses = RequrementStatus::kanbanStatuses();
+            $tableStatuses = RequirementStatus::tableStatuses();
+            $kanbanStatuses = RequirementStatus::kanbanStatuses();
 
             // return json data
             return response()->json([

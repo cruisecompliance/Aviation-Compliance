@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Components\Flows;
 
-use App\Enums\RequrementStatus;
+use App\Enums\RequirementStatus;
 use App\Enums\RoleName;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Flows\MultipleAssignRequest;
@@ -35,14 +35,14 @@ class RequirementController extends Controller
             $flowData = FlowsData::whereFlowId($flow->id)->whereRuleReference($rule_reference)->first();
 
             // get status transition
-            $statusTransition = RequrementStatus::getStatusTransitions($flowData->task_status);
+            $statusTransition = RequirementStatus::getStatusTransitions($flowData->task_status);
 
             // if role SME statuses_permission true for other role need to check
             if (Auth::user()->roles()->first()->name == RoleName::SME) {
                 $statuses_permission = true;
             } else {
                 // get role status
-                $roleStatuses = RequrementStatus::getRoleStatuses(Auth::user()->roles()->first()->name);
+                $roleStatuses = RequirementStatus::getRoleStatuses(Auth::user()->roles()->first()->name);
 
                 // check if role has permission to change status and edit form data
                 $statuses_permission = in_array($flowData->task_status, $roleStatuses);
@@ -143,7 +143,7 @@ class RequirementController extends Controller
                 ->get();
 
             // get task statuses
-            $statuses = RequrementStatus::tableStatuses(); // all task statuses
+            $statuses = RequirementStatus::tableStatuses(); // all task statuses
 
             // return json data with success status
             return response()->json([

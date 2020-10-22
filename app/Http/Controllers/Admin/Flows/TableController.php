@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Flows;
 
-use App\Enums\RequrementStatus;
+use App\Enums\RequirementStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Filter;
 use App\Models\Flow;

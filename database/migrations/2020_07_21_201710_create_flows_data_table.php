@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\RequrementStatus;
+use App\Enums\RequirementStatus;
 
 class CreateFlowsDataTable extends Migration
 {
@@ -65,7 +65,7 @@ class CreateFlowsDataTable extends Migration
             $table->foreignId('task_owner')->nullable();
             $table->foreign('task_owner')->references('id')->on('users')->onDelete('set null');
 
-            $table->string('task_status')->default(RequrementStatus::CMM_Backlog);
+            $table->string('task_status')->default(RequirementStatus::CMM_Backlog);
             $table->timestamps();
         });
     }
