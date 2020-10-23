@@ -37,8 +37,8 @@ class CalendarController extends Controller
             $events[] = Event::create()
                 ->name("$item->rule_reference Response due date")
                 ->description(url('/user/flows/table#').rawurlencode($item->rule_reference))
-                ->startsAt($item->due_date)
-                ->endsAt($item->due_date)
+                ->startsAt(new Carbon($item->due_date))
+                ->endsAt(new Carbon($item->due_date))
 //                    ->transparent()
 //                    ->createdAt(Carbon::today())
 //                ->alert(Alert::date(
@@ -68,8 +68,8 @@ class CalendarController extends Controller
             $events[] = Event::create()
                 ->name("$item->rule_reference Performed due date")
                 ->description(url('/user/flows/table#').rawurlencode($item->rule_reference))
-                ->startsAt($item->month_quarter)
-                ->endsAt($item->month_quarter)
+                ->startsAt(new Carbon($item->month_quarter))
+                ->endsAt(new Carbon($item->month_quarter))
                 ->fullDay();
         }
 
