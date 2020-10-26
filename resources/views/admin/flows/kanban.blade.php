@@ -7,22 +7,14 @@
 
         <div class="container-fluid">
 
-            <!-- start page title -->
             <div class="row">
-                <div class="col-12">
-                    <div class="page-title-box">
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('admin.flows.index') }}">Flows</a></li>
-                                <li class="breadcrumb-item active">Kanban</li>
-                            </ol>
-                        </div>
-                    </div>
+                <div class="col-7">
+                    <h4 class="page-title mt-3">{{ $flow->title }}</h4>
+                    <div class="text-muted font-13">Requirements: <span class="font-weight-bold">version {{ $flow->requirement->id }}</span></div>
+                    <div class="text-muted font-13 mt-1">{{ $flow->description }}</div>
                 </div>
-            </div>
-            <!-- end page title -->
 
+            </div>
             <!-- page content -->
 
             <!-- toolbar -->

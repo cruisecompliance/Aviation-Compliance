@@ -7,25 +7,14 @@
 
         <div class="container-fluid">
 
-        @if(!empty($flow))
-
-            <!-- start page title -->
+            @if(!empty($flow))
                 <div class="row">
-                    <div class="col-12">
-                        <div class="page-title-box">
-                            <div class="page-title-right">
-                                <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="{{ route('user.flows.table.index') }}">Home</a></li>
-                                    <li class="breadcrumb-item active">Flow - Kanban View</li>
-                                </ol>
-                            </div>
-                        </div>
+                    <div class="col-7">
+                        <h4 class="page-title mt-3">{{ $flow->title }}</h4>
+                        <div class="text-muted font-13">Requirements: <span class="font-weight-bold">version {{ $flow->requirement->id }}</span></div>
+                        <div class="text-muted font-13 mt-1">{{ $flow->description }}</div>
                     </div>
-                </div>
-                <!-- end page title -->
-
-                <div class="row mb-2">
-                    <div class="col-5 offset-7 text-right">
+                    <div class="col-5 text-right">
                         <a href="{{ route('user.flows.table.index', ['rule_reference' => '', 'rule_section' => '', 'assignee' => Auth::user()->id, 'status' => '', 'finding' => '']) }}" class="btn btn-success btn-sm mr-1">Table View</a>
                     </div>
                 </div>
@@ -34,7 +23,7 @@
 
                 <!-- toolbar -->
                 @include('components.flows._toolbar')
-                <!-- /toolbar -->
+            <!-- /toolbar -->
 
                 <!-- kanban board -->
                 <div class="container-fluid overflow-auto">
