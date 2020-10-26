@@ -15,30 +15,6 @@
 
         </ul>
 
-        <!-- LOGO -->
-        <div class="logo-box">
-            <a href="{{ route('admin.dashboard') }}" class="logo logo-dark text-center">
-                <span class="logo-sm">
-                    <img src="{{ asset('images/logo-sm.png') }}" alt="" height="22">
-                    <!-- <span class="logo-lg-text-light">UBold</span> -->
-                </span>
-                <span class="logo-lg">
-                    <img src="{{ asset('images/logo-dark-2.png') }}" alt="" height="20">
-                    <!-- <span class="logo-lg-text-light">U</span> -->
-                </span>
-            </a>
-
-            <a href="{{ route('admin.dashboard') }}" class="logo logo-light text-center">
-                <span class="logo-sm">
-                    <img src="{{ asset('images/logo-sm.png') }}" alt="" height="22">
-                </span>
-                <span class="logo-lg">
-                    <img src="{{ asset('images/logo-light.png') }}" alt="" height="35">
-                </span>
-            </a>
-        </div>
-        <!-- /LOGO -->
-
         <!-- mobile -->
         <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
             <!-- hamburger menu -->

@@ -82405,7 +82405,8 @@ File: Layout
     var self = this;
     var layout = $.LayoutThemeApp.getConfig();
     var sidebar = $.extend({}, layout ? layout.sidebar : {});
-    var defaultSidebarSize = sidebar.size ? sidebar.size : 'default'; // resets everything
+    var defaultSidebarSize = sidebar.size ? sidebar.size : 'condensed'; // sidebar.size : default
+    // resets everything
 
     this._reset(); // Left menu collapse
 
@@ -82533,12 +82534,13 @@ File: Layout
    * Initilize the left sidebar size based on screen size
    */
   LeftSidebar.prototype.initLayout = function () {
-    // in case of small size, activate the small menu
-    if (this.window.width() >= 768 && this.window.width() <= 1028 || this.body.data('keep-enlarged')) {
-      this.changeSize('condensed');
-    } else {
-      this.changeSize('default');
-    }
+    // // in case of small size, activate the small menu
+    // if ((this.window.width() >= 768 && this.window.width() <= 1028) || this.body.data('keep-enlarged')) {
+    //     this.changeSize('condensed');
+    // } else {
+    //     this.changeSize('default');
+    // }
+    this.changeSize('condensed');
   },
   /**
    * Initilizes the menu
@@ -82876,7 +82878,7 @@ function ($) {
           this.body.attr('data-layout-width', 'fluid'); // automatically activating provided size
 
           var bodyConfig = JSON.parse(this.body.attr('data-layout') ? this.body.attr('data-layout') : '{}');
-          $.LeftSidebar.changeSize(bodyConfig && bodyConfig.sidebar ? bodyConfig.sidebar.size : "default");
+          $.LeftSidebar.changeSize(bodyConfig && bodyConfig.sidebar ? bodyConfig.sidebar.size : "condensed"); // bodyConfig.sidebar.size : default
 
           this._saveConfig({
             width: width

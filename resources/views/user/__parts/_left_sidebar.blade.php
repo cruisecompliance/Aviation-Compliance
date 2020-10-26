@@ -8,7 +8,7 @@
             <ul id="side-menu">
 
                 <!-- item -->
-                <li class="menu-title">Navigation</li>
+                <li class="menu-title">Compliance</li>
 
                 <li>
                     <a href="{{ route('user.flows.kanban.index', ['rule_reference' => '', 'rule_section' => '', 'assignee' => Auth::user()->id, 'status' => '', 'finding' => '']) }}">
