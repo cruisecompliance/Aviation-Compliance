@@ -219,6 +219,10 @@
                             $('#deviation_level').prop('readonly', false);
                         }
 
+                        if ($('#finding').prop('disabled')) {
+                            $('#deviation_level').prop('readonly', true);
+                        }
+
                         // statuses list (add select option)
                         if (data.transitions) {
                             // merge task status and status transitions
@@ -239,11 +243,11 @@
                         }
 
                         // check if role has permission to change/read task (flowData)
-                        if (!data.status_permission) {
+                        if (data.status_permission) {
+                            $('#statuses-wrapper').show();
+                        } else {
                             $('#statuses-wrapper').hide();
                             $("#ItemForm :input").attr("disabled", true);
-                        } else {
-                            $('#statuses-wrapper').show();
                         }
 
                         // task owner

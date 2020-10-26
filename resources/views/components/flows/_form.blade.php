@@ -63,7 +63,7 @@
     </div>
     <div class="form-group">
         <label for="finding" class="control-label">Finding / Observation</label>
-        <select name="finding" id="finding" class="form-control" @cannot(PermissionName::EDIT_FINDING) readonly @endcan>
+        <select name="finding" id="finding" class="form-control" @cannot(PermissionName::EDIT_FINDING) disabled @endcan>
             <option value="Finding">Finding</option>
             <option value="Observation">Observation</option>
             <option value="None" selected>None</option>
