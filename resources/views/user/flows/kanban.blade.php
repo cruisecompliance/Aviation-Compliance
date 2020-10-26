@@ -15,7 +15,7 @@
                         <div class="page-title-box">
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('user.flows.table.index') }}">Home</a></li>
                                     <li class="breadcrumb-item active">Flow - Kanban View</li>
                                 </ol>
                             </div>

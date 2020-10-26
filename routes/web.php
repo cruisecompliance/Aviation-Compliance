@@ -94,11 +94,6 @@ Route::namespace('Components')->middleware('auth')->group(function () {
 Route::namespace('User')->prefix('user')->middleware('auth', 'role:' . RoleName::ACCOUNTABLE_MANAGER . '|' . RoleName::COMPLIANCE_MONITORING_MANAGER . '|' . RoleName::AUDITOR . '|' . RoleName::AUDITEE . '|' . RoleName::INVESTIGATOR . '')->group(function () {
 
     /**
-     * User homepage
-     */
-    Route::get('/home', 'HomeController@index')->name('user.dashboard');
-
-    /**
      * Flows
      */
     Route::namespace('Flows')->group(function () {

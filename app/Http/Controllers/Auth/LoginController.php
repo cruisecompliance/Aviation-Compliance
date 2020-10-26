@@ -52,7 +52,7 @@ class LoginController extends Controller
         if (Auth::user()->hasRole(RoleName::SME)) {
             return route('admin.dashboard');
         } else {
-            return route('user.dashboard');
+            return route('user.flows.table.index');
         }
     }
 
@@ -80,7 +80,7 @@ class LoginController extends Controller
             if (Auth::user()->hasRole(RoleName::SME)) {
                 return redirect()->route('admin.dashboard');
             } else {
-                return redirect()->route('user.dashboard');
+                return redirect()->route('user.flows.table.index');
             }
 
         } else {
