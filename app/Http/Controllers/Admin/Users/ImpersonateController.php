@@ -25,7 +25,7 @@ class ImpersonateController extends Controller
         if (Auth::user()->hasRole(RoleName::SME)) {
             return redirect()->route('admin.dashboard');
         } else {
-            return redirect()->route('user.dashboard');
+            return redirect()->route('user.flows.table.index');
         }
 
     }
@@ -39,11 +39,7 @@ class ImpersonateController extends Controller
     {
         Auth::user()->leaveImpersonation();
 
-        if (Auth::user()->hasRole(RoleName::SME)) {
-            return redirect()->route('admin.dashboard');
-        } else {
-            return redirect()->route('user.dashboard');
-        }
+        return redirect()->route('admin.users.index');
 
     }
 
