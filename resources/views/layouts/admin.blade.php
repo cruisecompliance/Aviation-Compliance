@@ -46,7 +46,6 @@
             @endif
             <!-- /impersonate alert -->
 
-
             <!-- content -->
             @yield('content')
             <!-- /content -->
@@ -60,11 +59,6 @@
     </div>
     <!-- END wrapper -->
 
-    <!-- Right Sidebar -->
-    @include('admin.__parts._right_sidebar')
-    <!-- /Right-bar -->
-
-    <!-- App js -->
     <script src="{{ asset('js/app.js') }}"></script>
 
     @stack('scripts')

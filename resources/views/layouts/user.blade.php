@@ -59,10 +59,6 @@
     </div>
     <!-- END wrapper -->
 
-    <!-- Right Sidebar -->
-    @include('user.__parts._right_sidebar')
-    <!-- /Right-bar -->
-
     <!-- App js -->
     <script src="{{ asset('js/app.js') }}"></script>
 
