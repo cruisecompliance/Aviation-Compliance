@@ -75,8 +75,6 @@ class RolesAndPermissionsSeeder extends Seeder
             PermissionName::EDIT_RULE_MANUAL_REFERENCE,
             PermissionName::EDIT_RULE_CHAPTER,
 
-            PermissionName::EDIT_RESPONSE_DATE,
-
             // AM
             PermissionName::EDIT_EXTENSION_DUE_DATE,
 
