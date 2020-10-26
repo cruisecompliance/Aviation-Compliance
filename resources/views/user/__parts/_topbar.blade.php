@@ -2,14 +2,6 @@
     <div class="container-fluid">
         <ul class="list-unstyled topnav-menu float-right mb-0">
 
-            <!-- fullscreen -->
-            <li class="dropdown d-none d-lg-inline-block">
-                <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-toggle="fullscreen" href="#">
-                    <i class="fe-maximize noti-icon"></i>
-                </a>
-            </li>
-            <!-- /fullscreen -->
-
             <!-- profile -->
             <li class="dropdown notification-list topbar-dropdown">
                 <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
