@@ -58,8 +58,6 @@ class FlowRequest extends FormRequest
         return [
             'title' => $title,
             'description' => 'nullable|string|min:4|max:255',
-            'company' => 'required|numeric',
-            'requirements' => 'required|numeric',
         ];
     }
 }

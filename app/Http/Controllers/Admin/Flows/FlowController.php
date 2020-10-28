@@ -164,8 +164,6 @@ class FlowController extends Controller
         $flow->update([
             'title' => $request->title,
             'description' => $request->description,
-            'company_id' => $request->company,
-            'requirement_id' => $request->requirements,
         ]);
 
         // return json with susses status

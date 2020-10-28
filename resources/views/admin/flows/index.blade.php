@@ -134,10 +134,10 @@
                         }
                     });
 
-                    // console log dataTable row
-                    $('#basic-datatable tbody').on('click', 'tr', function () {
-                        console.log(table.row(this).data());
-                    });
+                    // // console log dataTable row
+                    // $('#basic-datatable tbody').on('click', 'tr', function () {
+                    //     console.log(table.row(this).data());
+                    // });
 
                     // modal create
                     $('#createNewItem').click(function () {
@@ -173,8 +173,10 @@
                             $('#saveBtn').html("Update"); // form button
                             $('#title').val(data.flow.title); // form data
                             $('#description').val(data.flow.description); // form data
-                            $('#company option[value=' + data.company.id + ']').prop('selected', true); // form data - selected user company
-                            $('#requirement option[value="' + data.requirement.id + '"]').prop('selected', true); // form data - selected user role
+                            $('#company option[value=' + data.company.id + ']').prop('selected', true);
+                            $('#company').prop('disabled', true);
+                            $('#requirement option[value="' + data.requirement.id + '"]').prop('selected', true).prop('disabled', true);
+                            $('#requirement').prop('disabled', true);
                             $('#ajaxModel').modal('show');
                         })
                     });
