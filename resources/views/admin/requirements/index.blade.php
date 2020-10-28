@@ -144,6 +144,25 @@
                             <label for="user_file">.xlsx file*</label>
                             <input type="file" id="user_file" class="form-control" name="user_file">
                         </div>
+                        <div class="form-group">
+                            <div class="card shadow-none border">
+                                <div class="p-2">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <div class="avatar-sm">
+                                                <span class="avatar-title bg-light text-secondary rounded">
+                                                    <i data-feather="file-text" class="icon-dual"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col pl-0">
+                                            <a href="{{ asset('sample/sample_requirements.xlsx') }}" class="text-muted font-weight-bold">sample_requirements.xlsx</a>
+                                        </div>
+                                    </div> <!-- end row -->
+                                </div> <!-- end .p-2-->
+                            </div> <!-- end col -->
+                        </div>
+
 
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" id="saveBtn">Save changes</button>
