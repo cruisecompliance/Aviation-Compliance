@@ -134,4 +134,25 @@ class FilterController extends Controller
 //        ], 200);
 //    }
 
+
+    public function destroy(string $filterName)
+    {
+        try {
+            // find and delete user filter
+            Filter::whereName($filterName)->whereUserId(Auth::user()->id)->delete();
+
+            // return JSON data
+            return response()->json([
+                'success' => true,
+            ], 200);
+
+        } catch (Exception $e) {
+            // return error
+            return response()->json([
+                'success' => true,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+
+    }
 }

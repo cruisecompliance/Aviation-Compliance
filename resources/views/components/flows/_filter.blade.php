@@ -67,6 +67,7 @@
         <div class="form-group p-1">
             <button type="submit" class="btn btn-primary" hidden></button>
             <button type="button" id="show-filter-modal" class="btn btn-primary"><i class="mdi mdi-content-save-outline"></i> Save</button>
+            <button type="button" id="delete-filter" class="btn btn-danger">Delete</button>
         </div>
     </div>
 
@@ -92,9 +93,9 @@
                         <input type="text" name="assignee" value="" hidden>
                         <input type="text" name="status" value="" hidden>
                         <input type="text" name="finding" value="" hidden>
-{{--                        @foreach(request()->query() as $query => $value)--}}
-{{--                            <input type="text" name="{{ $query }}" value="{{ $value }}" hidden>--}}
-{{--                        @endforeach--}}
+                        {{--                        @foreach(request()->query() as $query => $value)--}}
+                        {{--                            <input type="text" name="{{ $query }}" value="{{ $value }}" hidden>--}}
+                        {{--                        @endforeach--}}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -154,7 +155,7 @@
                 }
 
                 // finding F/O/N input
-                var finding_options = ['Finding','Observation','None'];
+                var finding_options = ['Finding', 'Observation', 'None'];
                 $.each(finding_options, function (key, finding_option) {
                     $('#filter_finding').append('<option value="' + finding_option + '">' + finding_option + '</option>');
                 });
@@ -222,13 +223,54 @@
                 var filterFormInputs = $('#filterForm').serializeArray();
 
                 // press data in form for save filter
-                $.each(filterFormInputs, function( key, value ) {
+                $.each(filterFormInputs, function (key, value) {
                     form.find('input[name=' + value.name + ']').val(value.value);
                 });
 
                 // var filterModalForm = $('#filter_name');
                 // filterModalForm.find('input[name=filter_name]').empty();
                 $('#filter-modal').modal('show');
+            });
+
+            // delete filter
+            $("#delete-filter").click(function () {
+
+                var filter_name = "{{ (request()->filter_name) ?? NULL }}";
+
+                if (filter_name) {
+
+                    confirm("Do you really want to delete filter - '" + filter_name + "'?");
+
+                    $.ajax({
+                        type: "DELETE",
+                        url: '{{ route('components.flows.filters.destroy', (request()->filter_name)) ?? NULL }}',
+                        success: function (data) {
+                            console.log(data);
+                            window.location.replace("{{ url()->current() }}");
+                        },
+                        error: function (data) {
+                            console.log('Error:', data);
+                        }
+                    });
+                }
+
+
+
+
+                {{--    var Item_id = $(this).data("id");--}}
+                {{--    confirm("Are You sure want to delete ?");--}}
+
+                {{--    $.ajax({--}}
+                {{--        type: "DELETE",--}}
+                {{--        url: "{{ route('ajaxItems.store') }}"+'/'+Item_id,--}}
+                {{--        success: function (data) {--}}
+                {{--            table.draw();--}}
+                {{--        },--}}
+                {{--        error: function (data) {--}}
+                {{--            console.log('Error:', data);--}}
+                {{--        }--}}
+                {{--    });--}}
+
             });
 
             // save filter
@@ -291,9 +333,9 @@
             var formInputs = form.serializeArray();
             var firstFormInput = formInputs.shift();
 
-            {{--var url = '/flows/' + {{ $flow->id }} +'/kanban/list';--}}
+                {{--var url = '/flows/' + {{ $flow->id }} +'/kanban/list';--}}
             var url = "{{ route('components.flows.kanban.list', $flow->id) }}";
-            var url_param =  url + '?' + firstFormInput.name + '=' + firstFormInput.value;
+            var url_param = url + '?' + firstFormInput.name + '=' + firstFormInput.value;
 
             $.each(formInputs, function (key, value) {
                 url_param = url_param + '&' + value.name + '=' + value.value;
@@ -304,7 +346,7 @@
 
             // container.addClass('loading'); // add loading class (optional)
 
-            request.done(function(data) { // success
+            request.done(function (data) { // success
                 container.html(data.html);
             });
             // request.always(function() {
