@@ -8,7 +8,7 @@
 
         @if(!empty($flow))
                 <!-- page content -->
-                <div class="row">
+                <div class="row mt-3">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
@@ -21,7 +21,7 @@
                                         <div class="text-muted font-13 mt-1">{{ $flow->description }}</div>
 
                                     </div>
-                                    <div class="col-5 text-right">
+                                    <div class="col-5 text-right pt-2">
                                         <a href="{{ route('user.flows.kanban.index', ['rule_reference' => '', 'rule_section' => '', 'assignee' => Auth::user()->id, 'status' => '', 'finding' => '']) }}" class="btn btn-success btn-sm mr-1">Kanban View</a>
                                     </div>
                                 </div>

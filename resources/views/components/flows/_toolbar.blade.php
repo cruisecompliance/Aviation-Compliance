@@ -1,4 +1,4 @@
-<div class="row mb-2">
+<div class="row">
     <div class="col-9">
         @include('components.flows._filter')
     </div>

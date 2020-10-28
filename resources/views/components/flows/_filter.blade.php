@@ -179,7 +179,8 @@
 
                 // draw dataTable
                 $('#basic-datatable').DataTable().draw();
-
+                // load kanban data
+                refreshKanban();
             });
 
             // select2
@@ -269,35 +270,46 @@
             form.find("textarea").removeClass('is-invalid');
         }
 
-        // // select submit (on change)
-        // function submit() {
-        //     $('#filterForm').submit();
-        // }
-
         function filterSearch() {
-
-            var form = $('#filterForm');
-
-            var formInputs = form.serializeArray();
-
-            var firstFormInput = formInputs.shift();
 
             // var rule_reference = $(this).val();
             var route = "{{ Route::currentRouteName() }}";
 
-            var url = "{{ request()->url() }}" + '?' + firstFormInput.name + '=' + firstFormInput.value;
-
-            $.each(formInputs, function( key, value ) {
-                url = url + '&' + value.name + '=' + value.value;
-            });
-
             // reload (kanban and table)
             if (route.indexOf('kanban') > -1) {
-                $('#load').load(encodeURI(url) + ' #load');
+                // $('#load').load(encodeURI(url) + ' #load');
+                refreshKanban();
             } else {
                 $('#basic-datatable').DataTable().draw();
             }
 
+        }
+
+        function refreshKanban() {
+
+            var form = $('#filterForm');
+            var formInputs = form.serializeArray();
+            var firstFormInput = formInputs.shift();
+
+            {{--var url = '/flows/' + {{ $flow->id }} +'/kanban/list';--}}
+            var url = "{{ route('components.flows.kanban.list', $flow->id) }}";
+            var url_param =  url + '?' + firstFormInput.name + '=' + firstFormInput.value;
+
+            $.each(formInputs, function (key, value) {
+                url_param = url_param + '&' + value.name + '=' + value.value;
+            });
+
+            var request = $.get(url_param); // make request
+            var container = $('#load');
+
+            // container.addClass('loading'); // add loading class (optional)
+
+            request.done(function(data) { // success
+                container.html(data.html);
+            });
+            // request.always(function() {
+            //     container.removeClass('loading');
+            // });
         }
 
         // throttle search

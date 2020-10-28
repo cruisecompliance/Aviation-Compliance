@@ -5,7 +5,7 @@
 
     <div class="content">
 
-        <div class="container-fluid">
+        <div class="container-fluid overflow-auto pl-1 pr-1">
 
             @if(!empty($flow))
                 <div class="row">
@@ -14,7 +14,7 @@
                         <div class="text-muted font-13">Requirements: <span class="font-weight-bold">version {{ $flow->requirement->id }}</span></div>
                         <div class="text-muted font-13 mt-1">{{ $flow->description }}</div>
                     </div>
-                    <div class="col-5 text-right">
+                    <div class="col-5 text-right pt-3">
                         <a href="{{ route('user.flows.table.index', ['rule_reference' => '', 'rule_section' => '', 'assignee' => Auth::user()->id, 'status' => '', 'finding' => '']) }}" class="btn btn-success btn-sm mr-1">Table View</a>
                     </div>
                 </div>
@@ -28,41 +28,9 @@
                 <!-- kanban board -->
                 <div class="container-fluid overflow-auto">
                     <div class="row flex-nowrap" id="load">
-
                         <!-- start block -->
-                        @foreach(RequirementStatus::kanbanStatuses() as $status)
-                            <div class="col-3">
-                                <div class="card-box">
-                                    <h4 class="header-title mb-3">{{ $status }}</h4>
-                                    <ul class="sortable-list tasklist list-unstyled" id="upcoming" data-list="{{ $status }}">
-
-                                        @if(!empty($kanbanData[$status]))
-                                            @foreach($kanbanData[$status] as $item)
-                                                <li id="task{{ $item->id }}" data-id="{{ $item->id }}">
-                                                    <h5 class="mt-0"><a href="#{{ $item->rule_reference }}" data-rule_reference="{{ $item->rule_reference }}" class="editItem text-dark">{{ $item->rule_reference }}</a></h5>
-                                                    <div class="clearfix"></div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ ($item->due_date) ? $item->due_date : '-' }}</p>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <div class="text-right">
-                                                                <a href="javascript: void(0);" class="text-muted">
-                                                                    <div> {{ ($item->owner->name) ?? '' }}</div>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            @endforeach
-                                        @endif
-
-                                    </ul>
-                                </div>
-                            </div>
-                    @endforeach
-                    <!-- /end block -->
-
+                        @include('components.flows._kanban_list')
+                        <!-- /end block -->
                     </div>
                 </div>
                 <!-- /kanban board -->
@@ -100,6 +68,9 @@
                 var KanbanBoard = function () {
                     this.$body = $("body")
                 };
+
+                // load kanban data
+                refreshKanban();
 
                 //initializing various charts and components
                 KanbanBoard.prototype.init = function () {

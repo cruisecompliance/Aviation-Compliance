@@ -21,41 +21,9 @@ class KanbanController extends Controller
      */
     public function index(Flow $flow, Request $request)
     {
-
-        //> filter
-        $queryKanbanTasks = FlowsData::where('flow_id', $flow->id)
-            ->whereNotIn('task_status', [RequirementStatus::CMM_Backlog])
-            ->with('owner');
-
-        if (!empty($request->rule_reference)) {
-//            $queryKanbanTasks->where('rule_reference', $request->rule_reference);
-             $queryKanbanTasks->where('rule_reference', 'like', "%{$request->rule_reference}%");
-        }
-
-        if (!empty($request->rule_section)) {
-            $queryKanbanTasks->where('rule_section', $request->rule_section);
-        }
-
-        if (!empty($request->assignee)) {
-            $queryKanbanTasks->where('task_owner', $request->assignee);
-        }
-
-        if (!empty($request->status)) {
-            $queryKanbanTasks->where('task_status', $request->status);
-        }
-
-        if (!empty($request->finding)) {
-            $queryKanbanTasks->where('finding', $request->finding);
-        }
-
-        $kanbanData = $queryKanbanTasks->get();
-        $kanbanData = collect($kanbanData)->groupBy('task_status');
-        //<
-
         // return requirements kanban view with data
         return view('admin.flows.kanban', [
             'flow' => $flow,
-            'kanbanData' => ($kanbanData) ?? NULL,
         ]);
 
     }

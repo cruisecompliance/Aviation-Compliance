@@ -139,7 +139,9 @@
                                 form.before('<div class="alert alert-success" role="alert">' + data.message + '</div>'); // add success massage
                                 form.find('textarea[name=comment]').val(''); // reset textarea message
                                 $('#basic-datatable').DataTable().draw(); // draw in datatable
-                                $('#load').load(location.href + ' #load'); // reload kanban board
+                                // $('#load').load(location.href + (' #load')); // reload kanban board
+                                refreshKanban();
+
                             } else {
                                 $.each(data.errors, function (input_name, input_error) {
                                     var errors = input_error.join('<br/>');
@@ -153,6 +155,31 @@
                     });
                 });
 
+                function refreshKanban() {
+
+                    var form = $('#filterForm');
+                    var formInputs = form.serializeArray();
+                    var firstFormInput = formInputs.shift();
+
+                    var url = '/flows/' + {{ $flow->id }} +'/kanban/list';
+                    var url_param =  url + '?' + firstFormInput.name + '=' + firstFormInput.value;
+
+                    $.each(formInputs, function (key, value) {
+                        url_param = url_param + '&' + value.name + '=' + value.value;
+                    });
+
+                    var request = $.get(url_param); // make request
+                    var container = $('#load');
+
+                    // container.addClass('loading'); // add loading class (optional)
+
+                    request.done(function(data) { // success
+                        container.html(data.html);
+                    });
+                    // request.always(function() {
+                    //     container.removeClass('loading');
+                    // });
+                }
 
                 // modal edit
                 function getModalData() {

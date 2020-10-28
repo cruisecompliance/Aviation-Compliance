@@ -84,6 +84,10 @@ Route::namespace('Components')->middleware('auth')->group(function () {
 
         // Flow History
         Route::get('flows/{rule_id}/history', 'HistoryController@show')->name('components.flows.history.show');
+
+        // Kanban List
+        Route::get('/flows/{flow}/kanban/list','KanbanController@getList')->name('components.flows.kanban.list');
+
     });
 });
 
