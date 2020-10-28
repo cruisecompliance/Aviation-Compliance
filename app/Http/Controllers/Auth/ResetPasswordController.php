@@ -40,7 +40,7 @@ class ResetPasswordController extends Controller
         if (Auth::user()->hasRole(RoleName::SME)) {
             return route('admin.dashboard');
         } else {
-            return route('user.flows.table.index');
+            return route('user.flows.table.index', ['rule_reference' => '', 'rule_section' => '', 'assignee' => Auth::user()->id, 'status' => '', 'finding' => '']);
         }
     }
 }

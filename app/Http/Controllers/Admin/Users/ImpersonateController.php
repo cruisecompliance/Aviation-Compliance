@@ -25,7 +25,7 @@ class ImpersonateController extends Controller
         if (Auth::user()->hasRole(RoleName::SME)) {
             return redirect()->route('admin.dashboard');
         } else {
-            return redirect()->route('user.flows.table.index');
+            return redirect()->route('user.flows.table.index', ['rule_reference' => '', 'rule_section' => '', 'assignee' => Auth::user()->id, 'status' => '', 'finding' => '']);
         }
 
     }
