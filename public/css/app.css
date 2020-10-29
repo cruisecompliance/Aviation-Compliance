@@ -34318,6 +34318,19 @@ body {
   overflow-x: hidden;
 }
 
+.disable-scrollbars {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
+}
+
+.disable-scrollbars::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+  /* Chrome/Safari/Webkit */
+}
+
 .hamburger-menu {
   background-color: #38414a;
   box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);

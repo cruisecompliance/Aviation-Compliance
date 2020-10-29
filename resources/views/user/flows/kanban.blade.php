@@ -26,7 +26,7 @@
             <!-- /toolbar -->
 
                 <!-- kanban board -->
-                <div class="container-fluid overflow-auto">
+                <div class="container-fluid overflow-auto pl-1 pr-1 disable-scrollbars">
                     <div class="row flex-nowrap" id="load">
                         <!-- start block -->
                         @include('components.flows._kanban_list')
