@@ -1,5 +1,19 @@
 <div class="left-side-menu">
 
+    <div class="hamburger-menu">
+        <!-- mobile -->
+        <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+            <!-- hamburger menu -->
+            <li>
+                <button class="button-menu-mobile waves-effect waves-light">
+                    <i class="fe-menu"></i>
+                </button>
+            </li>
+            <!-- /hamburger menu -->
+        </ul>
+        <!-- /mobile-->
+    </div>
+
     <div class="h-100" data-simplebar>
 
         <!-- Sidebar Start -->

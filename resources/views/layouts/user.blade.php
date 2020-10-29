@@ -26,7 +26,7 @@
     <div id="wrapper">
 
         <!-- Topbar Start -->
-        @include('user.__parts._topbar')
+{{--        @include('user.__parts._topbar')--}}
         <!-- Topbar End -->
 
         <!-- Left Sidebar Start-->

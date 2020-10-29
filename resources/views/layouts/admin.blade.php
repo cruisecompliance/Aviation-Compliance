@@ -26,7 +26,7 @@
     <div id="wrapper">
 
         <!-- Topbar Start -->
-        @include('admin.__parts._topbar')
+{{--        @include('admin.__parts._topbar')--}}
         <!-- Topbar End -->
 
         <!-- Left Sidebar Start-->
