@@ -67,7 +67,9 @@
         <div class="form-group p-1">
             <button type="submit" class="btn btn-primary" hidden></button>
             <button type="button" id="show-filter-modal" class="btn btn-primary"><i class="mdi mdi-content-save-outline"></i> Save</button>
+            @if(!empty(request()->filter_name))
             <button type="button" id="delete-filter" class="btn btn-danger">Delete</button>
+            @endif
         </div>
     </div>
 
