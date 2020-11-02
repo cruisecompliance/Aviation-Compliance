@@ -34594,6 +34594,12 @@ body[data-sidebar-size=condensed] .left-side-menu #sidebar-menu > ul > li > a sv
   margin-left: 6px;
 }
 
+body[data-sidebar-size=condensed] .left-side-menu #sidebar-menu > ul > li > a img {
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+}
+
 body[data-sidebar-size=condensed] .left-side-menu #sidebar-menu > ul > li > a span {
   display: none;
   padding-left: 25px;
@@ -35301,12 +35307,12 @@ body[data-sidebar-icon=twotones] #sidebar-menu > ul > li > a svg {
 }
 
 .nav-user {
-  padding: 0 12px !important;
+  padding: 0px !important;
 }
 
 .nav-user img {
-  height: 32px;
-  width: 32px;
+  height: 24px;
+  width: 24px;
 }
 
 .fullscreen-enable [data-toggle=fullscreen] .fe-maximize::before {
