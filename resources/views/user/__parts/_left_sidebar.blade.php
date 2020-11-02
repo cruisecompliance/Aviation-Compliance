@@ -33,6 +33,18 @@
 
                 <div class="dropdown-divider"></div>
                 <li>
+                    <a href="#">
+                        <div class="nav-link nav-user mr-0">
+                            {{--                        <img src="{{ asset('images/users/user-9.jpg') }}" alt="user-image" class="rounded-circle">--}}
+                            <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim(Auth::user()->email))) }}?s=20" alt="user" class="rounded-circle">
+                            <span class="pro-user-name ml-1">
+                            {{ Auth::user()->name }}
+                        </span>
+                        </div>
+                    </a>
+
+                </li>
+                <li>
                     <a href="{{ route('logout') }}" onclick="
                         event.preventDefault();
                         document.getElementById('logout-form').submit();">
