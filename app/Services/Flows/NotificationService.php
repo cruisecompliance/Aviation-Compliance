@@ -6,6 +6,7 @@ use App\Enums\RoleName;
 use App\Models\Comment;
 use App\Models\Flow;
 use App\Models\FlowsData;
+use App\Notifications\Flows\TaskOwnerNotification;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -107,6 +108,22 @@ class NotificationService
 
     }
 
+    /**
+     * Send Notification in Email - Changed Task Owner
+     *
+     * @param Flow $flow
+     * @param FlowsData $task
+     * @param User $user
+     */
+    public function sendTaskOwnerNotification(Flow $flow, FlowsData $task, User $user): void
+    {
+        // get all active users of company (without role SME)
+        $notificationUsers = $this->getNotificationUsers($task, $flow->company->id);
+
+        // send notification to email
+        Notification::send($notificationUsers, new TaskOwnerNotification($task->rule_reference, $task->owner->name, $user->name));
+
+    }
 
     /**
      * Send Notification in Email - Add New Comment

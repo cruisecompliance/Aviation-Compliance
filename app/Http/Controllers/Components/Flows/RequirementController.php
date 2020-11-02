@@ -91,6 +91,11 @@ class RequirementController extends Controller
             // update task (flowData)
             $task = FlowsData::store($flow, $request);
 
+            // send email notification (if task owner was changed)
+            if($task->wasChanged('task_owner')){
+               app(NotificationService::class)->sendTaskOwnerNotification($flow, $task, Auth::user());
+            }
+
             // send email notification
             app(NotificationService::class)->sendEditTaskMailNotification($flow, $task, Auth::user());
 
