@@ -26,6 +26,16 @@ class TeamController extends Controller
         return view('auth.teams.end');
     }
 
+    public function silent_start()
+    {
+        return view('auth.teams.silent_start');
+    }
+
+    public function silent_end()
+    {
+        return view('auth.teams.silent_end');
+    }
+
     /**
      *
      * @param string $azure_email
@@ -47,14 +57,14 @@ class TeamController extends Controller
                 'message' => "Auth user - {$user->email}.",
                 'role' => Auth::user()->roles->first(),
                 'sme' => RoleName::SME,
-            ]);
+            ], 200);
 
         } else {
             return response()->json([
                 'success' => false,
                 'message' => "Error",
                 'resource' => NULL,
-            ]);
+            ], 500);
         }
     }
 }
