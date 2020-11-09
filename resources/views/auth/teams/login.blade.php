@@ -169,7 +169,7 @@
                 if (data.role.name == data.sme) {
                     window.location.href = window.location.origin + "/admin/home";
                 } else {
-                    window.location.href = window.location.origin + "/user/home";
+                    window.location.href = window.location.origin + "/user/flows/table?rule_reference=&rule_section=&assignee=" + data.user.id + "&status=&finding=";
                 }
             }
         });

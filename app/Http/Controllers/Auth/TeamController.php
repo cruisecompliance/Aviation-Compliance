@@ -55,6 +55,7 @@ class TeamController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => "Auth user - {$user->email}.",
+                'user' => $user,
                 'role' => Auth::user()->roles->first(),
                 'sme' => RoleName::SME,
             ], 200);
