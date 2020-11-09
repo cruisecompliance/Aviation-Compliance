@@ -155,11 +155,16 @@
     // }
 
     function loginUser(idToken) {
+        // decode profile data
         var profile = parseJwt(idToken);
-        console.log(profile);
 
-        $.get('/login/teams/profile/' + profile.email + '/name/' + profile.name, function (data) {
-            console.log(data);
+        // set user data
+        var name = profile.name;
+        var email = profile.email ?? profile.upn;
+
+        // auth user
+        $.get('/login/teams/profile/' + email + '/name/' + name, function (data) {
+            // console.log(data);
             if (data.success) {
                 if (data.role.name == data.sme) {
                     window.location.href = window.location.origin + "/admin/home";
