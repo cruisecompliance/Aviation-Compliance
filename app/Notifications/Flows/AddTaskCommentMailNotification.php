@@ -14,6 +14,7 @@ class AddTaskCommentMailNotification extends Notification implements ShouldQueue
     private $rule_reference;
     private $comment_author;
     private $message;
+    private $link;
 
     /**
      * Create a new notification instance.
@@ -21,8 +22,9 @@ class AddTaskCommentMailNotification extends Notification implements ShouldQueue
      * @param string $rule_reference
      * @param string $comment_author
      * @param string $message
+     * @param string $link
      */
-    public function __construct(string $rule_reference, string $comment_author, string $message)
+    public function __construct(string $rule_reference, string $comment_author, string $message, string $link)
     {
 //        $this->delay = now()->addSeconds(2);
         $this->queue = 'mail';
@@ -30,6 +32,7 @@ class AddTaskCommentMailNotification extends Notification implements ShouldQueue
         $this->rule_reference = $rule_reference;
         $this->comment_author = $comment_author;
         $this->message = $message;
+        $this->link = $link;
     }
 
     /**
@@ -55,8 +58,8 @@ class AddTaskCommentMailNotification extends Notification implements ShouldQueue
             ->subject("New comment: $this->rule_reference")
             ->greeting("New comment: $this->rule_reference")
             ->line("$this->comment_author added comments.")
-            ->line("$this->message")
-            ->action('View', url("/user/flows/table#$this->rule_reference"))
+            ->line($this->message)
+            ->action('View', $this->link)
             ->line('Thank you for using our application!');
     }
 

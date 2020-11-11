@@ -14,6 +14,7 @@ class TaskReminderDueDateEmailNotification extends Notification implements Shoul
     private $rule_reference;
     private $due_date;
     private $user_name;
+    private $link;
 
     /**
      * Create a new notification instance.
@@ -21,8 +22,9 @@ class TaskReminderDueDateEmailNotification extends Notification implements Shoul
      * @param string $rule_reference
      * @param string $due_date
      * @param string $user_name
+     * @param string $link
      */
-    public function __construct(string $rule_reference, string $due_date, string $user_name)
+    public function __construct(string $rule_reference, string $due_date, string $user_name, string $link)
     {
 //        $this->delay = now()->addSeconds(2);
         $this->queue = 'mail';
@@ -30,6 +32,7 @@ class TaskReminderDueDateEmailNotification extends Notification implements Shoul
         $this->rule_reference = $rule_reference;
         $this->due_date = $due_date;
         $this->user_name = $user_name;
+        $this->link = $link;
     }
 
     /**
@@ -55,7 +58,7 @@ class TaskReminderDueDateEmailNotification extends Notification implements Shoul
             ->subject('Task Reminder Notification')
             ->greeting("Hi, $this->user_name")
             ->line("The due-date for $this->rule_reference expires on $this->due_date")
-            ->action('View', url("/user/flows/table#$this->rule_reference"))
+            ->action('View', $this->link)
             ->line('Thank you for using our application!');
     }
 

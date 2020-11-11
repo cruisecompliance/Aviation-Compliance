@@ -23,12 +23,6 @@ use App\Notifications\Flows\AddTaskCommentMailNotification;
 class NotificationService
 {
 
-    // https://teams.microsoft.com/l/entity/<appId>/<entityId>?webUrl=<entityWebUrl>&label=<entityLabel>&context=<context>
-
-    // https://teams.microsoft.com/l/entity/<321b4548-03f7-43d2-b123-ddf6af5f43a1>/<tabID>?webUrl=<https://compliance.maketry.xyz/admin/flows/1/kanban#ORO.GEN.005>&label=<flows/1>&context=<context>
-    // appid = 321b4548-03f7-43d2-b123-ddf6af5f43a1
-    // entityId = tabID
-
     /**
      * Send Email Notification  - Task Reminder Due Date
      *
@@ -44,9 +38,14 @@ class NotificationService
             // get all active users of company (without role SME)
             $notificationUsers = $this->getNotificationUsers($task, $task->flow->company->id);
 
-            // send email notification
+            // send notification to email
             foreach ($notificationUsers as $user) {
-                $user->notify(new TaskReminderDueDateEmailNotification($task->rule_reference, $task->due_date, $user->name));
+
+                // generate URL for user (link or deeplink for MS Teams)
+                $link = $this->generateTaskUrl($task->rule_reference, $user);
+
+                // send notification to user mail
+                $user->notify(new TaskReminderDueDateEmailNotification($task->rule_reference, $task->due_date, $user->name, $link));
             }
 
         }
@@ -66,8 +65,14 @@ class NotificationService
             // get all active users of company (without role SME)
             $notificationUsers = $this->getNotificationUsers($task, $task->flow->company->id);
 
+            // send notification to email
             foreach ($notificationUsers as $user) {
-                $user->notify(new TaskReminderMonthEmailNotification($task->rule_reference, $task->month_quarter, $user->name));
+
+                // generate URL for user (link or deeplink for MS Teams)
+                $link = $this->generateTaskUrl($task->rule_reference, $user);
+
+                // send notification to user mail
+                $user->notify(new TaskReminderMonthEmailNotification($task->rule_reference, $task->month_quarter, $user->name, $link));
             }
         }
     }
@@ -77,51 +82,64 @@ class NotificationService
      *
      * @param Flow $flow
      * @param FlowsData $task
-     * @param User $user (who change task)
+     * @param User $editor (who change task)
      */
-    public function sendEditTaskMailNotification(Flow $flow, FlowsData $task, User $user): void
+    public function sendEditTaskMailNotification(Flow $flow, FlowsData $task, User $editor): void
     {
         // get all active users of company (without role SME)
         $notificationUsers = $this->getNotificationUsers($task, $flow->company->id);
 
         // send notification to email
-        Notification::send($notificationUsers, new EditTaskMailNotification($task->rule_reference, $user->name));
+        foreach ($notificationUsers as $user) {
 
+            // generate URL for user (link or deeplink for MS Teams)
+            $link = $this->generateTaskUrl($task->rule_reference, $user);
+
+            // send notification to user mail
+            $user->notify(new EditTaskMailNotification($task->rule_reference, $editor->name, $link));
+        }
     }
 
 
-    /**
-     * Send Notification in MS Teams - Edit Task
-     *
-     * @param Flow $flow
-     * @param FlowsData $task
-     * @param User $user
-     */
-    public function sendEditTaskTeamsNotification(Flow $flow, FlowsData $task, User $user): void
-    {
-
-//        $mentionUsers[] = ($task->auditor->azure_name) ? "@" . $task->auditor->azure_name : NULL;
-//        $mentionUsers[] = ($task->auditee->name) ? "@" . $task->auditee->name : NULL;
-//        $mentionUsers[] = ($task->investigator->name) ? "@" . $task->investigator->name : NULL;
-
-        Notification::send(Auth::user(), new EditTaskTeamsNotification($task->rule_reference, $user->name));
-
-    }
+//    /**
+//     * Send Notification in MS Teams - Edit Task
+//     *
+//     * @param Flow $flow
+//     * @param FlowsData $task
+//     * @param User $user
+//     */
+//    public function sendEditTaskTeamsNotification(Flow $flow, FlowsData $task, User $user): void
+//    {
+//
+////        $mentionUsers[] = ($task->auditor->azure_name) ? "@" . $task->auditor->azure_name : NULL;
+////        $mentionUsers[] = ($task->auditee->name) ? "@" . $task->auditee->name : NULL;
+////        $mentionUsers[] = ($task->investigator->name) ? "@" . $task->investigator->name : NULL;
+//
+//        Notification::send(Auth::user(), new EditTaskTeamsNotification($task->rule_reference, $user->name));
+//
+//    }
 
     /**
      * Send Notification in Email - Changed Task Owner
      *
      * @param Flow $flow
      * @param FlowsData $task
-     * @param User $user
+     * @param User $editor
      */
-    public function sendTaskOwnerNotification(Flow $flow, FlowsData $task, User $user): void
+    public function sendTaskOwnerNotification(Flow $flow, FlowsData $task, User $editor): void
     {
         // get all active users of company (without role SME)
         $notificationUsers = $this->getNotificationUsers($task, $flow->company->id);
 
         // send notification to email
-        Notification::send($notificationUsers, new TaskOwnerNotification($task->rule_reference, $task->owner->name, $user->name));
+        foreach ($notificationUsers as $user) {
+
+            // generate URL for user (link or deeplink for MS Teams)
+            $link = $this->generateTaskUrl($task->rule_reference, $user);
+
+            // send notification to user mail
+            $user->notify(new TaskOwnerNotification($task->rule_reference, $task->owner->name, $editor->name, $link));
+        }
 
     }
 
@@ -131,15 +149,22 @@ class NotificationService
      * @param Flow $flow
      * @param FlowsData $task
      * @param Comment $comment
-     * @param User $user
+     * @param User $comment_author
      */
-    public function sendAddTaskCommentNotification(Flow $flow, FlowsData $task, Comment $comment, User $user): void
+    public function sendAddTaskCommentNotification(Flow $flow, FlowsData $task, Comment $comment, User $comment_author): void
     {
         // get all active users of company (without role SME)
         $notificationUsers = $this->getNotificationUsers($task, $flow->company->id);
 
         // send notification to email
-        Notification::send($notificationUsers, new AddTaskCommentMailNotification($task->rule_reference, $user->name, $comment->message));
+        foreach ($notificationUsers as $user) {
+
+            // generate URL for user (link or deeplink for MS Teams)
+            $link = $this->generateTaskUrl($task->rule_reference, $user);
+
+            // send notification to user mail
+            $user->notify(new AddTaskCommentMailNotification($task->rule_reference, $comment_author->name, $comment->message, $link));
+        }
     }
 
     /**
@@ -165,6 +190,37 @@ class NotificationService
 
         // return users list
         return $notificationUsers;
+    }
+
+
+    /**
+     * Generating link for email notification (link or deeplink)
+     *
+     * https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/deep-links#generating-a-deep-link-to-your-tab
+     *
+     * @param string $rule_reference
+     * @param User $user
+     * @return string
+     */
+    private function generateTaskUrl(string $rule_reference, User $user): string
+    {
+        if(!empty($user->azure_name)) {
+            // generate deeplink for MS Teams
+            $encodedWebUrl = urlencode(url('/user/flows/table'));
+            // $encodedWebUrl = urlencode('https://compliance.maketry.xyz/user/flows/table'); // for stage test
+            $encodedContext = urlencode('{"subEntityId": "' . $rule_reference . '"}');
+            $taskUrl = 'https://teams.microsoft.com/l/entity/' . env('MS_TEAMS_APP_ID') . '/tabID?webUrl=' . $encodedWebUrl . '&context=' .$encodedContext;
+
+            return $taskUrl;
+
+        } else {
+            // generate link for web page
+            $encodedRuleReference = rawurlencode($rule_reference);
+            $taskUrl = url("/user/flows/table#$encodedRuleReference");
+
+            return $taskUrl;
+        }
+
     }
 
 

@@ -14,6 +14,7 @@ class TaskOwnerNotification extends Notification implements ShouldQueue
     private $rule_reference;
     private $task_owner;
     private $editor_name;
+    private $link;
 
 
     /**
@@ -22,14 +23,16 @@ class TaskOwnerNotification extends Notification implements ShouldQueue
      * @param string $rule_reference
      * @param string $task_owner
      * @param string $editor_name
+     * @param string $link
      */
-    public function __construct(string $rule_reference, string $task_owner, string $editor_name)
+    public function __construct(string $rule_reference, string $task_owner, string $editor_name, string $link)
     {
         $this->queue = 'mail';
 
         $this->rule_reference = $rule_reference;
         $this->task_owner = $task_owner;
         $this->editor_name = $editor_name;
+        $this->link = $link;
     }
 
     /**
@@ -55,7 +58,7 @@ class TaskOwnerNotification extends Notification implements ShouldQueue
             ->subject("$this->editor_name assigned $this->rule_reference to $this->task_owner")
 //            ->greeting("$this->editor_name assigned $this->rule_reference $this->task_owner")
             ->line("$this->editor_name assigned $this->rule_reference to $this->task_owner")
-            ->action('View', url("/user/flows/table#$this->rule_reference"))
+            ->action('View', $this->link)
             ->line('Thank you for using our application!');
     }
 
