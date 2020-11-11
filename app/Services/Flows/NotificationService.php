@@ -208,7 +208,7 @@ class NotificationService
             // generate deeplink for MS Teams
             $encodedWebUrl = urlencode(url('/user/flows/table'));
             // $encodedWebUrl = urlencode('https://compliance.maketry.xyz/user/flows/table'); // for stage test
-            $encodedContext = urlencode('{"subEntityId": "' . $rule_reference . '"}');
+            $encodedContext = rawurlencode('{"subEntityId": "' . $rule_reference . '"}');
             $taskUrl = 'https://teams.microsoft.com/l/entity/' . env('MS_TEAMS_APP_ID') . '/tabID?webUrl=' . $encodedWebUrl . '&context=' .$encodedContext;
 
             return $taskUrl;
