@@ -36,7 +36,7 @@ class NotificationService
         foreach ($tasks as $task) {
 
             // get all active users of company (without role SME)
-            $notificationUsers = $this->getNotificationUsers($task, $task->flow->company->id);
+            $notificationUsers = $this->getNotificationUsers($task->flow->company->id);
 
             // send notification to email
             foreach ($notificationUsers as $user) {
@@ -63,7 +63,7 @@ class NotificationService
         foreach ($tasks as $task) {
 
             // get all active users of company (without role SME)
-            $notificationUsers = $this->getNotificationUsers($task, $task->flow->company->id);
+            $notificationUsers = $this->getNotificationUsers($task->flow->company->id);
 
             // send notification to email
             foreach ($notificationUsers as $user) {
@@ -87,7 +87,7 @@ class NotificationService
     public function sendEditTaskMailNotification(Flow $flow, FlowsData $task, User $editor): void
     {
         // get all active users of company (without role SME)
-        $notificationUsers = $this->getNotificationUsers($task, $flow->company->id);
+        $notificationUsers = $this->getNotificationUsers($flow->company->id);
 
         // send notification to email
         foreach ($notificationUsers as $user) {
@@ -129,7 +129,7 @@ class NotificationService
     public function sendTaskOwnerNotification(Flow $flow, FlowsData $task, User $editor): void
     {
         // get all active users of company (without role SME)
-        $notificationUsers = $this->getNotificationUsers($task, $flow->company->id);
+        $notificationUsers = $this->getNotificationUsers($flow->company->id);
 
         // send notification to email
         foreach ($notificationUsers as $user) {
@@ -154,7 +154,7 @@ class NotificationService
     public function sendAddTaskCommentNotification(Flow $flow, FlowsData $task, Comment $comment, User $comment_author): void
     {
         // get all active users of company (without role SME)
-        $notificationUsers = $this->getNotificationUsers($task, $flow->company->id);
+        $notificationUsers = $this->getNotificationUsers($flow->company->id);
 
         // send notification to email
         foreach ($notificationUsers as $user) {
@@ -170,11 +170,10 @@ class NotificationService
     /**
      * Get company user for EditFormNotification
      *
-     * @param FlowsData $task
-     * @param $company_id
+     * @param int $company_id
      * @return object
      */
-    private function getNotificationUsers(FlowsData $task, $company_id): object
+    private function getNotificationUsers(int $company_id): object
     {
         // get all active users of company (without role SME)
         $notificationUsers = User::whereCompanyId($company_id)
