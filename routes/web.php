@@ -30,13 +30,9 @@ Route::get('/login/azure/callback', 'Auth\LoginController@handleProviderCallback
  * MS TEAMS
  */
 Route::get('/login/teams', 'Auth\TeamController@login')->name('auth.login.teams');
-Route::get('/login/teams-start', 'Auth\TeamController@start')->name('auth.login.teams_start');
-Route::get('/login/teams-end', 'Auth\TeamController@end')->name('auth.login.teams_end');
-Route::get('/login/teams/profile/{email}/name/{displayName?}', 'Auth\TeamController@profile')->name('auth.login.profile');
-
-// Silent Auth
 Route::get('/login/teams-silent-start', 'Auth\TeamController@silent_start')->name('auth.login.teams_silent_start');
 Route::get('/login/teams-silent-end', 'Auth\TeamController@silent_end')->name('auth.login.teams_silent_end');
+Route::get('/login/teams/profile/{email}/name/{displayName?}', 'Auth\TeamController@profile')->name('auth.login.profile');
 
 /**
  * Pages

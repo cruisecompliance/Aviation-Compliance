@@ -15,17 +15,6 @@ class TeamController extends Controller
         return view('auth.teams.login');
     }
 
-
-    public function start()
-    {
-        return view('auth.teams.start');
-    }
-
-    public function end()
-    {
-        return view('auth.teams.end');
-    }
-
     public function silent_start()
     {
         return view('auth.teams.silent_start');
