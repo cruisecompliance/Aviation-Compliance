@@ -162,6 +162,12 @@
         var name = profile.name;
         var email = profile.email ?? profile.upn;
 
+        // get rule_reference (deeplink)
+        let subEntityId = undefined;
+        microsoftTeams.getContext(function (context) {
+            subEntityId = context.subEntityId;
+        });
+
         // auth user
         $.get('/login/teams/profile/' + email + '/name/' + name, function (data) {
             // console.log(data);
@@ -169,7 +175,7 @@
                 if (data.role.name == data.sme) {
                     window.location.href = window.location.origin + "/admin/home";
                 } else {
-                    window.location.href = window.location.origin + "/user/flows/table?rule_reference=&rule_section=&assignee=" + data.user.id + "&status=&finding=";
+                    window.location.href = window.location.origin + "/user/flows/table?rule_reference=&rule_section=&assignee=" + data.user.id + "&status=&finding=#" + encodeURIComponent(subEntityId);
                 }
             }
         });
