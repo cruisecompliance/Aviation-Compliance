@@ -9,6 +9,7 @@ use App\Models\Requirement;
 use App\Models\RequirementsData;
 use App\Imports\Requirements\RequirementsImport;
 use App\Services\ColorDiff;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -77,7 +78,7 @@ class RequirementController extends Controller
         $history = RequirementsData::where('rule_reference', $rule_reference)->latest()->get();
 
         // check if exist history
-        if($history->isEmpty()){
+        if ($history->isEmpty()) {
             abort(404);
         }
 
@@ -98,64 +99,71 @@ class RequirementController extends Controller
      */
     public function store(RequirementRequest $request)
     {
-        //> file data fields validation
-        $sheets = (new RequirementsImport)->toArray($request->file('user_file'));
+        try {
+            //> file data fields validation
+            $sheets = (new RequirementsImport)->toArray($request->file('user_file'));
 
-        // prepare file data
-        $requirements = (new RequirementsValidation())->prepare($sheets[1]);
+            // prepare file data
+            $requirements = (new RequirementsValidation())->prepare($sheets[1]);
 
-        // get empty rule_reference
-        $empty_requirements = (new RequirementsValidation())->empty($requirements);
+            // get empty rule_reference
+            $empty_requirements = (new RequirementsValidation())->empty($requirements);
 
-        // get rule_reference duplicates
-        $duplicates_requirements = (new RequirementsValidation())->duplicate($requirements);
+            // get rule_reference duplicates
+            $duplicates_requirements = (new RequirementsValidation())->duplicate($requirements);
 
-        // check if isset errors in file fields
-        if ($empty_requirements->isNotEmpty() || $duplicates_requirements->isNotEmpty()) {
-            return response()->json([
-                'empty' => $empty_requirements,
-                'duplicate' => $duplicates_requirements,
-            ]);
-        }
-
-        //> upload file
-        $file = $request->file('user_file');
-        $file_name = 'import_' . date('d.m.Y_H:s') . '.' . $file->getClientOriginalExtension();
-        $file_path = $request->file('user_file')->storeAs('public', $file_name);
-
-        //
-        $version = DB::transaction(function () use ($request, $file_name, $requirements) {
-            //> store file info data
-            $version = Requirement::create([
-                'title' => $request->title,
-                'description' => $request->description,
-                'file_name' => $file_name,
-            ]);
-
-            // save file data
-            foreach ($requirements as $item) {
-
-                RequirementsData::create([
-                    'rule_section' => $item['rule_section'],
-                    'rule_group' => $item['rule_group'],
-                    'rule_reference' => $item['rule_reference'],
-                    'rule_title' => $item['rule_title'],
-                    'rule_manual_reference' => $item['rule_manual_reference'],
-                    'rule_chapter' => $item['rule_chapter'],
-                    'version_id' => $version->id
+            // check if isset errors in file fields
+            if ($empty_requirements->isNotEmpty() || $duplicates_requirements->isNotEmpty()) {
+                return response()->json([
+                    'empty' => $empty_requirements,
+                    'duplicate' => $duplicates_requirements,
                 ]);
-
             }
 
-            return $version;
-        });
+            //> upload file
+            $file = $request->file('user_file');
+            $file_name = 'import_' . date('d.m.Y_H:s') . '.' . $file->getClientOriginalExtension();
+            $file_path = $request->file('user_file')->storeAs('public', $file_name);
 
-        return response()->json([
-            'success' => true,
-            'message' => "File {$file->getClientOriginalName()} imported successfully.",
-            'resource' => $version,
-        ]);
+            //
+            $version = DB::transaction(function () use ($request, $file_name, $requirements) {
+                //> store file info data
+                $version = Requirement::create([
+                    'title' => $request->title,
+                    'description' => $request->description,
+                    'file_name' => $file_name,
+                ]);
 
+                // save file data
+                foreach ($requirements as $item) {
+
+                    RequirementsData::create([
+                        'rule_section' => $item['rule_section'],
+                        'rule_group' => $item['rule_group'],
+                        'rule_reference' => $item['rule_reference'],
+                        'rule_title' => $item['rule_title'],
+                        'rule_manual_reference' => $item['rule_manual_reference'],
+                        'rule_chapter' => $item['rule_chapter'],
+                        'version_id' => $version->id
+                    ]);
+
+                }
+
+                return $version;
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => "File {$file->getClientOriginalName()} imported successfully.",
+                'resource' => $version,
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => true,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
