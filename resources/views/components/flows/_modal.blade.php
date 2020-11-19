@@ -239,17 +239,6 @@
                         $('#extension_due_date').val(data.resource.extension_due_date);
                         $('#closed_date').val(data.resource.closed_date);
 
-                        // Finding / Observation - Field Dependence
-                        if (data.resource.finding === 'None') {
-                            $('#deviation_level').prop('readonly', true);
-                        } else {
-                            $('#deviation_level').prop('readonly', false);
-                        }
-
-                        if ($('#finding').prop('disabled')) {
-                            $('#deviation_level').prop('readonly', true);
-                        }
-
                         // statuses list (add select option)
                         if (data.transitions) {
                             // merge task status and status transitions
@@ -275,6 +264,17 @@
                         } else {
                             $('#statuses-wrapper').hide();
                             $("#ItemForm :input").attr("disabled", true);
+                        }
+
+                        // Finding / Observation - Field Dependence
+                        if (data.resource.finding === 'None') {
+                            $('#deviation_level').prop('disabled', true);
+                        } else {
+                            $('#deviation_level').prop('disabled', false);
+                        }
+
+                        if ($('#finding').prop('disabled')) {
+                            $('#deviation_level').prop('disabled', true);
                         }
 
                         // task owner
