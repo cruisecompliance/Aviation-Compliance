@@ -45,7 +45,7 @@
     <h2>Audit Structure</h2>
     <div class="form-group">
         <label for="frequency" class="control-label">Frequency</label>
-        <select name="frequency" id="frequency" class="form-control" @cannot(PermissionName::EDIT_FREQUENCY) readonly @endcan>
+        <select name="frequency" id="frequency" class="form-control" @cannot(PermissionName::EDIT_FREQUENCY) disabled @endcan>
             <option value="">...</option>
             <option value="Annual">Annual</option>
             <option value="Performance">Performance</option>
