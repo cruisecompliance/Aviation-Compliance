@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Flows;
 
-use App\Enums\RequirementStatus;
 use App\Http\Controllers\Controller;
-use App\Models\Filter;
+use Illuminate\Http\Request;
 use App\Models\Flow;
 use App\Models\FlowsData;
-use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TableController extends Controller
 {

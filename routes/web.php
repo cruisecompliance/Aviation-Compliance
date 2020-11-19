@@ -89,6 +89,9 @@ Route::namespace('Components')->middleware('auth')->group(function () {
         // Kanban List
         Route::get('/flows/{flow}/kanban/list','KanbanController@getList')->name('components.flows.kanban.list');
 
+        // Flow Data Export
+        Route::get('/flows/{flow}/export', 'ExportController@export')->name('components.flows.export');
+
     });
 });
 

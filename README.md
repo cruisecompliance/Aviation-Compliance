@@ -36,6 +36,15 @@ $ chmod -R 755 bootstrap/cache
 php artisan storage:link
 ```
 
+**Create index.html for Storage Folders**
+*** ***
+```bash
+touch storage/app/public/index.html
+touch storage/app/public/auditor/index.html
+touch storage/app/public/investigator/index.html
+touch storage/app/public/companies/index.html
+```
+
 **Create database and write parameters in .env file**  
 
     DB_DATABASE=  

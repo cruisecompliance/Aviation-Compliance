@@ -86,6 +86,10 @@
                                 </div>
                                 <!-- /datatable -->
 
+                                <!-- export -->
+                                @include('components.flows._export')
+                                <!-- /export -->
+
                             </div> <!-- end card body-->
                         </div> <!-- end card -->
                     </div><!-- end col-->

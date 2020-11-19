@@ -31,8 +31,8 @@
                                 <div class="col-12">
 
                                     <!-- assign  -->
-                                @include('components.flows._assign')
-                                <!-- /assign  -->
+                                    @include('components.flows._assign')
+                                    <!-- /assign  -->
 
                                     <table id="basic-datatable" class="table nowrap w-100">
                                         <thead>
@@ -76,6 +76,10 @@
                                 </div>
                             </div>
                             <!-- /datatable -->
+
+                            <!-- export -->
+                            @include('components.flows._export')
+                            <!-- /export -->
 
                         </div> <!-- end card body-->
                     </div> <!-- end card -->
