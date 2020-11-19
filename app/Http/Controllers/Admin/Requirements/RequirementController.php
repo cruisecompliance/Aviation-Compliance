@@ -104,7 +104,7 @@ class RequirementController extends Controller
             $sheets = (new RequirementsImport)->toArray($request->file('user_file'));
 
             // prepare file data
-            $requirements = (new RequirementsValidation())->prepare($sheets[1]);
+            $requirements = (new RequirementsValidation())->prepare($sheets[0]);
 
             // get empty rule_reference
             $empty_requirements = (new RequirementsValidation())->empty($requirements);
